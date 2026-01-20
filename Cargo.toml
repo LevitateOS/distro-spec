@@ -1,0 +1,12 @@
+[package]
+name = "distro-spec"
+version = "0.1.0"
+edition = "2021"
+description = "Installation specifications for LevitateOS and AcornOS"
+license = "MIT"
+
+[features]
+default = ["std"]
+std = []
+
+[dependencies]
