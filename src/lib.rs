@@ -3,6 +3,13 @@
 //! Single source of truth for installation constants, paths, and configuration.
 //! Supports multiple distro variants: LevitateOS and AcornOS.
 //!
+//! # STOP. READ. THEN ACT.
+//!
+//! This is the source of truth for installation specs. Before modifying:
+//! 1. Read existing modules (levitate/, acorn/, shared/)
+//! 2. Understand what's already defined
+//! 3. Changes here affect multiple crates
+//!
 //! # Usage
 //!
 //! ```rust
