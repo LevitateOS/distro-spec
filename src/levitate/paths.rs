@@ -5,11 +5,21 @@
 //!
 //! LevitateOS: Rocky Linux base, systemd, glibc, GNU coreutils
 
-/// Name of the base system tarball.
+/// Name of the base system tarball (legacy, still used by some tests).
 ///
 /// This is the "stage3" tarball containing the complete base system.
 /// Located on the ISO at the root or in a media mount.
 pub const TARBALL_NAME: &str = "levitateos-base.tar.xz";
+
+/// Name of the squashfs image (preferred for installation).
+///
+/// Faster than tarball extraction - uses unsquashfs directly.
+/// Located at /live/filesystem.squashfs on the ISO.
+pub const SQUASHFS_NAME: &str = "filesystem.squashfs";
+
+/// Path to squashfs on mounted CDROM.
+/// The tiny initramfs mounts ISO at /media/cdrom before switch_root.
+pub const SQUASHFS_CDROM_PATH: &str = "/media/cdrom/live/filesystem.squashfs";
 
 /// Kernel filename in /boot after installation.
 pub const KERNEL_FILENAME: &str = "vmlinuz";
