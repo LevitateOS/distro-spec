@@ -1,72 +1,31 @@
 # distro-spec
 
-Installation specifications for LevitateOS and AcornOS. Single source of truth for installation constants, paths, partition layouts, and user configuration.
+Shared constants for LevitateOS installation. Partition layouts, user specs, boot configuration, chroot bind mounts.
 
 ## Status
 
-| Metric | Value |
-|--------|-------|
-| Stage | Beta |
-| Target | x86_64 Linux (no_std compatible) |
-| Last verified | 2026-01-23 |
+**Beta.** Used by leviso, recstrap, install-tests.
 
-### Works
-
-- LevitateOS spec (Rocky/systemd/glibc)
-- AcornOS spec (Alpine/OpenRC/musl)
-- Shared partition layouts, user specs, chroot binds
-- Boot entry and loader config types
-
-### Known Issues
-
-- See parent repo issues
-
----
-
-## Author
-
-<!-- HUMAN WRITTEN - DO NOT MODIFY -->
-
-[Waiting for human input]
-
-<!-- END HUMAN WRITTEN -->
-
----
-
-## Overview
-
-This crate defines the canonical specs consumed by:
-- **leviso** - ISO builder
-- **recstrap** - Installer
-- **install-tests** - E2E verification
-
-If something is defined here, it MUST be produced by the builder, tested by install-tests, and documented. Any mismatch is a bug.
-
-## Installation
-
-```toml
-[dependencies]
-distro-spec = { path = "../distro-spec" }
-
-# For no_std environments
-distro-spec = { path = "../distro-spec", default-features = false }
-```
+| Implemented | Stubbed |
+|-------------|---------|
+| LevitateOS specs (Rocky/systemd) | AcornOS specs (Alpine/OpenRC) |
+| Partition layouts | |
+| User specs | |
+| Boot entry types | |
+| Chroot bind mounts | |
 
 ## Usage
 
 ```rust
-// LevitateOS spec
 use distro_spec::levitate;
+
+// Default user spec
 let user = levitate::default_user("alice");
-println!("Shell: {}", levitate::DEFAULT_SHELL);
 
-// AcornOS spec
-use distro_spec::acorn;
-let user = acorn::default_user("bob");
-println!("Shell: {}", acorn::DEFAULT_SHELL);
+// Boot entry
+let entry = levitate::default_boot_entry();
 
-// Shared types
-use distro_spec::shared::{PartitionLayout, UserSpec};
+// Constants
 use distro_spec::{CHROOT_BIND_MOUNTS, EFI_PARTITION_SIZE_MB};
 ```
 
@@ -74,36 +33,48 @@ use distro_spec::{CHROOT_BIND_MOUNTS, EFI_PARTITION_SIZE_MB};
 
 ### `levitate`
 
-LevitateOS specifications: Rocky Linux base, systemd, glibc, GNU coreutils.
+LevitateOS specs: Rocky Linux packages, systemd, glibc.
 
 ### `acorn`
 
-AcornOS specifications: Alpine Linux base, OpenRC, musl, busybox.
+AcornOS specs: Alpine packages, OpenRC, musl. **Stubbed, not implemented.**
 
 ### `shared`
 
-Common types and constants used by both variants:
-
 | Module | Contents |
 |--------|----------|
-| `shared::partitions` | `PartitionLayout`, `PartitionSpec`, `EFI_PARTITION_SIZE_MB` |
-| `shared::users` | `UserSpec`, `MIN_UID`, `MIN_GID`, `SUDOERS_WHEEL_LINE` |
-| `shared::chroot` | `BindMount`, `CHROOT_BIND_MOUNTS`, mount ordering functions |
+| `partitions` | `PartitionLayout`, `EFI_PARTITION_SIZE_MB` |
+| `users` | `UserSpec`, `MIN_UID`, `SUDOERS_WHEEL_LINE` |
+| `chroot` | `BindMount`, `CHROOT_BIND_MOUNTS` |
+| `boot` | `BootEntry`, `LoaderConfig` |
 
-## Features
+## no_std Support
 
-| Feature | Default | Description |
-|---------|---------|-------------|
-| `std` | Yes | Standard library support |
+```toml
+[dependencies]
+distro-spec = { path = "../distro-spec", default-features = false }
+```
 
-Disable default features for `no_std` environments (embedded installers, bootloaders).
+Disable `std` feature for embedded/bootloader contexts.
 
-## Philosophy
+## Consumers
 
-1. **Single source of truth** - All installation constants live here
-2. **Testable** - Every spec can be verified by install-tests
-3. **Portable** - `no_std` support for constrained environments
-4. **Multi-distro** - Same patterns, different defaults per variant
+- `leviso` - Uses paths, boot config
+- `recstrap` - Uses squashfs paths
+- `install-tests` - Uses all specs for verification
+
+## Known Limitations
+
+- AcornOS module exists but is not implemented
+- No runtime validation of specs
+- Changes here require updates to all consumers
+
+## Building
+
+```bash
+cargo build
+cargo test
+```
 
 ## License
 
