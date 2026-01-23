@@ -111,6 +111,51 @@ pub const DEFAULT_USER_GROUPS: &[&str] = &[
     "input",  // input device access
 ];
 
+// =============================================================================
+// ISO Output
+// =============================================================================
+
+/// ISO output filename
+pub const ISO_FILENAME: &str = "levitateos.iso";
+
+// =============================================================================
+// QEMU Testing Defaults
+// =============================================================================
+
+/// QEMU memory allocation (GB) - LevitateOS needs more for glibc + systemd
+pub const QEMU_MEMORY_GB: u32 = 4;
+
+/// QEMU virtual disk size (GB)
+pub const QEMU_DISK_GB: u32 = 20;
+
+// =============================================================================
+// Initramfs Build
+// =============================================================================
+
+/// Busybox binary URL (default, can be overridden via BUSYBOX_URL env)
+pub const BUSYBOX_URL: &str =
+    "https://busybox.net/downloads/binaries/1.35.0-x86_64-linux-musl/busybox";
+
+/// Environment variable name for busybox URL override
+pub const BUSYBOX_URL_ENV: &str = "BUSYBOX_URL";
+
+/// Initramfs build directory name
+pub const INITRAMFS_BUILD_DIR: &str = "initramfs-tiny-root";
+
+/// Initramfs output filename
+pub const INITRAMFS_OUTPUT: &str = "initramfs-tiny.cpio.gz";
+
+// =============================================================================
+// Live System
+// =============================================================================
+
+/// /etc/issue message for live boot
+pub const LIVE_ISSUE_MESSAGE: &str = "\nLevitateOS Live - \\l\n\n";
+
+// =============================================================================
+// Helper Functions
+// =============================================================================
+
 /// Create a UserSpec with LevitateOS defaults.
 pub fn default_user(username: impl Into<String>) -> crate::shared::UserSpec {
     crate::shared::UserSpec::new(username, DEFAULT_SHELL, DEFAULT_USER_GROUPS)
