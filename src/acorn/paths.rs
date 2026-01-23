@@ -5,8 +5,47 @@
 //!
 //! AcornOS: Alpine Linux base, openrc, musl, busybox
 
+// =============================================================================
+// ISO Constants
+// =============================================================================
+
+/// ISO volume label - used for boot device detection (root=LABEL=X in kernel params).
+///
+/// This MUST match what xorriso uses with the -V flag when creating the ISO.
+/// The initramfs uses this label to find and mount the boot device.
+pub const ISO_LABEL: &str = "ACORNOS";
+
+// =============================================================================
+// Squashfs Build Constants
+// =============================================================================
+
+/// Squashfs compression algorithm for mksquashfs -comp flag.
+///
+/// Using gzip for universal kernel compatibility.
+/// Alpine kernels typically support both gzip and zstd.
+pub const SQUASHFS_COMPRESSION: &str = "gzip";
+
+/// Squashfs block size for mksquashfs -b flag.
+///
+/// 1MB blocks provide good compression ratio for the base system.
+pub const SQUASHFS_BLOCK_SIZE: &str = "1M";
+
+// =============================================================================
+// File Names
+// =============================================================================
+
 /// Name of the base system tarball.
 pub const TARBALL_NAME: &str = "acornos-base.tar.xz";
+
+/// Name of the squashfs image (preferred for installation).
+///
+/// Faster than tarball extraction - uses unsquashfs directly.
+/// Located at /live/filesystem.squashfs on the ISO.
+pub const SQUASHFS_NAME: &str = "filesystem.squashfs";
+
+/// Path to squashfs on mounted CDROM.
+/// The tiny initramfs mounts ISO at /media/cdrom before switch_root.
+pub const SQUASHFS_CDROM_PATH: &str = "/media/cdrom/live/filesystem.squashfs";
 
 /// Kernel filename in /boot after installation.
 pub const KERNEL_FILENAME: &str = "vmlinuz";

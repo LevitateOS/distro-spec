@@ -2,6 +2,8 @@
 //!
 //! Defines which services should be enabled by default on a fresh installation.
 
+use crate::shared::services::ServiceManager;
+
 /// Services that must be enabled during installation.
 ///
 /// These are enabled via `systemctl enable <service>` in the chroot.
@@ -44,10 +46,35 @@ impl ServiceSpec {
     pub fn unit_name(&self) -> String {
         format!("{}.service", self.name)
     }
+}
 
-    /// Generate the systemctl enable command.
-    pub fn enable_command(&self) -> String {
+impl ServiceManager for ServiceSpec {
+    fn name(&self) -> &str {
+        self.name
+    }
+
+    fn description(&self) -> &str {
+        self.description
+    }
+
+    fn required(&self) -> bool {
+        self.required
+    }
+
+    fn enable_command(&self) -> String {
         format!("systemctl enable {}", self.name)
+    }
+
+    fn disable_command(&self) -> String {
+        format!("systemctl disable {}", self.name)
+    }
+
+    fn start_command(&self) -> String {
+        format!("systemctl start {}", self.name)
+    }
+
+    fn stop_command(&self) -> String {
+        format!("systemctl stop {}", self.name)
     }
 }
 

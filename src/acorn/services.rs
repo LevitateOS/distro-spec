@@ -2,6 +2,8 @@
 //!
 //! Defines which services should be enabled by default on a fresh AcornOS installation.
 
+use crate::shared::services::ServiceManager;
+
 /// Services that must be enabled during installation.
 ///
 /// These are enabled via `rc-update add <service> <runlevel>` in the chroot.
@@ -39,15 +41,33 @@ pub struct ServiceSpec {
     pub required: bool,
 }
 
-impl ServiceSpec {
-    /// Generate the rc-update add command.
-    pub fn enable_command(&self) -> String {
+impl ServiceManager for ServiceSpec {
+    fn name(&self) -> &str {
+        self.name
+    }
+
+    fn description(&self) -> &str {
+        self.description
+    }
+
+    fn required(&self) -> bool {
+        self.required
+    }
+
+    fn enable_command(&self) -> String {
         format!("rc-update add {} {}", self.name, self.runlevel)
     }
 
-    /// Generate the rc-update del command.
-    pub fn disable_command(&self) -> String {
+    fn disable_command(&self) -> String {
         format!("rc-update del {} {}", self.name, self.runlevel)
+    }
+
+    fn start_command(&self) -> String {
+        format!("rc-service {} start", self.name)
+    }
+
+    fn stop_command(&self) -> String {
+        format!("rc-service {} stop", self.name)
     }
 }
 

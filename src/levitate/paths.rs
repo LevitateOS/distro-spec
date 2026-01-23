@@ -5,10 +5,39 @@
 //!
 //! LevitateOS: Rocky Linux base, systemd, glibc, GNU coreutils
 
-/// Name of the base system tarball (legacy, still used by some tests).
+// =============================================================================
+// ISO Constants
+// =============================================================================
+
+/// ISO volume label - used for boot device detection (root=LABEL=X in kernel params).
 ///
-/// This is the "stage3" tarball containing the complete base system.
-/// Located on the ISO at the root or in a media mount.
+/// This MUST match what xorriso uses with the -V flag when creating the ISO.
+/// The initramfs uses this label to find and mount the boot device.
+pub const ISO_LABEL: &str = "LEVITATEOS";
+
+// =============================================================================
+// Squashfs Build Constants
+// =============================================================================
+
+/// Squashfs compression algorithm for mksquashfs -comp flag.
+///
+/// Using gzip for universal kernel compatibility.
+/// (zstd requires CONFIG_SQUASHFS_ZSTD=y which not all kernels have)
+pub const SQUASHFS_COMPRESSION: &str = "gzip";
+
+/// Squashfs block size for mksquashfs -b flag.
+///
+/// 1MB blocks provide good compression ratio for the base system.
+pub const SQUASHFS_BLOCK_SIZE: &str = "1M";
+
+// =============================================================================
+// File Names
+// =============================================================================
+
+/// Name of the base system tarball.
+///
+/// Used by rootfs-tests for container-based testing.
+/// Not used for installation (recstrap uses squashfs).
 pub const TARBALL_NAME: &str = "levitateos-base.tar.xz";
 
 /// Name of the squashfs image (preferred for installation).
@@ -47,18 +76,11 @@ pub const OS_NAME: &str = "LevitateOS";
 pub const OS_ID: &str = "levitateos";
 pub const OS_VERSION: &str = "1.0";
 
-/// Possible locations where the tarball might be found during installation.
-///
-/// install-tests and installers should check these in order.
+/// Possible locations where the tarball might be found.
 pub const TARBALL_SEARCH_PATHS: &[&str] = &[
-    // Direct path (copied to live system)
     "/levitateos-base.tar.xz",
-    // Mounted ISO/USB
     "/run/media/levitateos-base.tar.xz",
     "/mnt/cdrom/levitateos-base.tar.xz",
-    // Legacy/alternative names for compatibility
-    "/stage3.tar.xz",
-    "/mnt/cdrom/stage3.tar.xz",
 ];
 
 /// Find the tarball path from the search paths.
