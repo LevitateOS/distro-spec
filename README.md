@@ -2,6 +2,37 @@
 
 Installation specifications for LevitateOS and AcornOS. Single source of truth for installation constants, paths, partition layouts, and user configuration.
 
+## Status
+
+| Metric | Value |
+|--------|-------|
+| Stage | Beta |
+| Target | x86_64 Linux (no_std compatible) |
+| Last verified | 2026-01-23 |
+
+### Works
+
+- LevitateOS spec (Rocky/systemd/glibc)
+- AcornOS spec (Alpine/OpenRC/musl)
+- Shared partition layouts, user specs, chroot binds
+- Boot entry and loader config types
+
+### Known Issues
+
+- See parent repo issues
+
+---
+
+## Author
+
+<!-- HUMAN WRITTEN - DO NOT MODIFY -->
+
+[Waiting for human input]
+
+<!-- END HUMAN WRITTEN -->
+
+---
+
 ## Overview
 
 This crate defines the canonical specs consumed by:
