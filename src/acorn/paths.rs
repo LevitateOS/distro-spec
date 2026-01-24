@@ -147,9 +147,10 @@ pub const ALPINE_EXTENDED_ISO_SHA256_URL: &str =
 /// Alpine Extended ISO filename (for downloads directory).
 pub const ALPINE_EXTENDED_ISO_FILENAME: &str = "alpine-extended-3.21.3-x86_64.iso";
 
-/// Expected size of the Alpine Extended ISO in bytes (~1GB).
-/// Used for download progress calculation.
-pub const ALPINE_EXTENDED_ISO_SIZE: u64 = 1_000_000_000;
+/// Expected size of the Alpine Extended ISO in bytes (~994MB).
+/// Used for download progress calculation and verification.
+/// alpine-extended-3.21.3-x86_64.iso = 1042284544 bytes
+pub const ALPINE_EXTENDED_ISO_SIZE: u64 = 1_042_284_544;
 
 /// apk-tools-static URL for package management without Alpine host.
 ///

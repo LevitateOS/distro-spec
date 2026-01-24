@@ -21,25 +21,43 @@ pub use crate::shared::boot::{
 /// Alpine kernel modules use gzip compression (.ko.gz).
 /// Paths are relative to `/lib/modules/<kernel-version>/`.
 ///
+/// **ORDER MATTERS**: Dependencies must be listed before modules that use them.
+///
 /// These enable:
 /// - CDROM/SCSI: mounting the ISO (`cdrom`, `sr_mod`, `isofs`)
 /// - Storage: real hardware support (`sd_mod`, `nvme`, `ahci`)
 /// - Virtio: QEMU virtual devices (`virtio_scsi`, `virtio_blk`, `virtio_pci`)
 /// - Squashfs boot: mounting the root filesystem (`loop`, `squashfs`, `overlay`)
 pub const BOOT_MODULES: &[&str] = &[
-    // CDROM/SCSI support (for mounting the ISO)
+    // === Virtio core (must be loaded first, other modules depend on these) ===
+    "kernel/drivers/virtio/virtio.ko.gz",             // Base virtio bus
+    "kernel/drivers/virtio/virtio_ring.ko.gz",        // Virtqueue implementation
+    "kernel/drivers/virtio/virtio_pci_modern_dev.ko.gz", // Modern PCI helper
+    "kernel/drivers/virtio/virtio_pci_legacy_dev.ko.gz", // Legacy PCI helper
+    "kernel/drivers/virtio/virtio_pci.ko.gz",         // PCI transport (needs above)
+
+    // === SCSI core (needed by sr_mod, sd_mod, virtio_scsi) ===
+    "kernel/drivers/scsi/scsi_common.ko.gz",          // SCSI common utilities
+    "kernel/drivers/scsi/scsi_mod.ko.gz",             // SCSI core (needs scsi_common)
+
+    // === CDROM/SCSI support ===
     "kernel/drivers/cdrom/cdrom.ko.gz",
-    "kernel/drivers/scsi/sr_mod.ko.gz",
-    "kernel/drivers/scsi/sd_mod.ko.gz",       // Generic SCSI disk support
-    "kernel/drivers/scsi/virtio_scsi.ko.gz",
+    "kernel/drivers/scsi/sr_mod.ko.gz",               // Needs scsi_mod
+    "kernel/drivers/scsi/sd_mod.ko.gz",               // Needs scsi_mod
+    "kernel/drivers/scsi/virtio_scsi.ko.gz",          // Needs virtio_pci, scsi_mod
     "kernel/fs/isofs/isofs.ko.gz",
-    // Storage drivers (for real hardware)
-    "kernel/drivers/nvme/host/nvme.ko.gz",    // NVMe support for modern SSDs
-    "kernel/drivers/ata/ahci.ko.gz",          // SATA support
-    // Virtio block device (QEMU -drive if=virtio -> /dev/vda)
-    "kernel/drivers/block/virtio_blk.ko.gz",
-    "kernel/drivers/virtio/virtio_pci.ko.gz", // Required for virtio devices
-    // Loop device and filesystems for squashfs+overlay boot
+
+    // === Storage drivers (for real hardware) ===
+    "kernel/drivers/nvme/host/nvme-core.ko.gz",       // NVMe core (dependency)
+    "kernel/drivers/nvme/host/nvme.ko.gz",            // NVMe for modern SSDs
+    "kernel/drivers/ata/libata.ko.gz",                // ATA core
+    "kernel/drivers/ata/libahci.ko.gz",               // AHCI library
+    "kernel/drivers/ata/ahci.ko.gz",                  // SATA support (needs libata, libahci)
+
+    // === Virtio block device ===
+    "kernel/drivers/block/virtio_blk.ko.gz",          // QEMU -drive if=virtio
+
+    // === Loop device and filesystems for squashfs+overlay boot ===
     "kernel/drivers/block/loop.ko.gz",
     "kernel/fs/squashfs/squashfs.ko.gz",
     "kernel/fs/overlayfs/overlay.ko.gz",
