@@ -117,11 +117,12 @@ pub const ISO_FILENAME: &str = "acornos.iso";
 // QEMU Testing Defaults
 // =============================================================================
 
-/// QEMU memory allocation (GB) - Alpine is lighter
-pub const QEMU_MEMORY_GB: u32 = 2;
+/// QEMU memory allocation (GB)
+/// AcornOS is a daily driver desktop, not a minimal system.
+pub const QEMU_MEMORY_GB: u32 = 4;
 
 /// QEMU virtual disk size (GB)
-pub const QEMU_DISK_GB: u32 = 10;
+pub const QEMU_DISK_GB: u32 = 20;
 
 // =============================================================================
 // Initramfs Build

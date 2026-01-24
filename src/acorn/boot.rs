@@ -18,19 +18,27 @@ pub use crate::shared::boot::{
 
 /// Kernel modules required in the initramfs for boot.
 ///
-/// Alpine kernel modules may differ from Rocky. These paths are relative
-/// to `/lib/modules/<kernel-version>/`.
+/// Alpine kernel modules use gzip compression (.ko.gz).
+/// Paths are relative to `/lib/modules/<kernel-version>/`.
 ///
-/// TODO: Verify Alpine-specific module paths and names.
+/// These enable:
+/// - CDROM/SCSI: mounting the ISO (`cdrom`, `sr_mod`, `isofs`)
+/// - Storage: real hardware support (`sd_mod`, `nvme`, `ahci`)
+/// - Virtio: QEMU virtual devices (`virtio_scsi`, `virtio_blk`, `virtio_pci`)
+/// - Squashfs boot: mounting the root filesystem (`loop`, `squashfs`, `overlay`)
 pub const BOOT_MODULES: &[&str] = &[
     // CDROM/SCSI support (for mounting the ISO)
-    // Note: Alpine may use different compression (.ko.gz vs .ko.xz)
     "kernel/drivers/cdrom/cdrom.ko.gz",
     "kernel/drivers/scsi/sr_mod.ko.gz",
+    "kernel/drivers/scsi/sd_mod.ko.gz",       // Generic SCSI disk support
     "kernel/drivers/scsi/virtio_scsi.ko.gz",
     "kernel/fs/isofs/isofs.ko.gz",
-    // Virtio block device
+    // Storage drivers (for real hardware)
+    "kernel/drivers/nvme/host/nvme.ko.gz",    // NVMe support for modern SSDs
+    "kernel/drivers/ata/ahci.ko.gz",          // SATA support
+    // Virtio block device (QEMU -drive if=virtio -> /dev/vda)
     "kernel/drivers/block/virtio_blk.ko.gz",
+    "kernel/drivers/virtio/virtio_pci.ko.gz", // Required for virtio devices
     // Loop device and filesystems for squashfs+overlay boot
     "kernel/drivers/block/loop.ko.gz",
     "kernel/fs/squashfs/squashfs.ko.gz",

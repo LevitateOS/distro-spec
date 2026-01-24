@@ -29,16 +29,21 @@ pub use crate::shared::boot::{
 /// Paths are relative to `/lib/modules/<kernel-version>/`.
 pub const BOOT_MODULES: &[&str] = &[
     // CDROM/SCSI support (for mounting the ISO)
-    "kernel/drivers/cdrom/cdrom.ko.xz",
-    "kernel/drivers/scsi/sr_mod.ko.xz",
-    "kernel/drivers/scsi/virtio_scsi.ko.xz",
-    "kernel/fs/isofs/isofs.ko.xz",
+    "kernel/drivers/cdrom/cdrom",
+    "kernel/drivers/scsi/sr_mod",
+    "kernel/drivers/scsi/sd_mod",       // Added: generic SCSI disk support
+    "kernel/drivers/scsi/virtio_scsi",
+    "kernel/fs/isofs/isofs",
+    // Storage Drivers
+    "kernel/drivers/nvme/host/nvme",    // Added: NVMe support for modern SSDs
+    "kernel/drivers/ata/ahci",         // Added: SATA support
     // Virtio block device (QEMU -drive if=virtio -> /dev/vda)
-    "kernel/drivers/block/virtio_blk.ko.xz",
+    "kernel/drivers/block/virtio_blk",
+    "kernel/drivers/virtio/virtio_pci", // Added: Required for virtio devices
     // Loop device and filesystems for squashfs+overlay boot
-    "kernel/drivers/block/loop.ko.xz",
-    "kernel/fs/squashfs/squashfs.ko.xz",
-    "kernel/fs/overlayfs/overlay.ko.xz",
+    "kernel/drivers/block/loop",
+    "kernel/fs/squashfs/squashfs",
+    "kernel/fs/overlayfs/overlay",
 ];
 
 // =============================================================================
