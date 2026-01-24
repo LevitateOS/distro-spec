@@ -125,6 +125,46 @@ pub const QEMU_MEMORY_GB: u32 = 4;
 pub const QEMU_DISK_GB: u32 = 20;
 
 // =============================================================================
+// Alpine Extended ISO Download
+// =============================================================================
+// Alpine Extended ISO is like Rocky DVD - includes microcode + ~200 packages.
+// This allows offline installation with hardware microcode updates.
+
+/// Alpine Linux version for package downloads.
+pub const ALPINE_VERSION: &str = "3.21";
+
+/// Alpine Extended ISO URL (includes microcode + ~200 packages).
+///
+/// Extended ISO is the Alpine equivalent of Rocky DVD - has offline packages.
+/// Size: ~1GB (includes apks/ folder with local package repository).
+pub const ALPINE_EXTENDED_ISO_URL: &str =
+    "https://dl-cdn.alpinelinux.org/alpine/v3.21/releases/x86_64/alpine-extended-3.21.3-x86_64.iso";
+
+/// SHA256 checksum URL for Alpine Extended ISO.
+pub const ALPINE_EXTENDED_ISO_SHA256_URL: &str =
+    "https://dl-cdn.alpinelinux.org/alpine/v3.21/releases/x86_64/alpine-extended-3.21.3-x86_64.iso.sha256";
+
+/// Alpine Extended ISO filename (for downloads directory).
+pub const ALPINE_EXTENDED_ISO_FILENAME: &str = "alpine-extended-3.21.3-x86_64.iso";
+
+/// Expected size of the Alpine Extended ISO in bytes (~1GB).
+/// Used for download progress calculation.
+pub const ALPINE_EXTENDED_ISO_SIZE: u64 = 1_000_000_000;
+
+/// apk-tools-static URL for package management without Alpine host.
+///
+/// This allows running `apk` to install packages without needing an Alpine system.
+/// The static binary can bootstrap an Alpine rootfs from any Linux host.
+pub const APK_TOOLS_STATIC_URL: &str =
+    "https://dl-cdn.alpinelinux.org/alpine/v3.21/main/x86_64/apk-tools-static-2.14.6-r3.apk";
+
+/// apk-tools-static filename.
+pub const APK_TOOLS_STATIC_FILENAME: &str = "apk-tools-static-2.14.6-r3.apk";
+
+/// Environment variable to override Alpine ISO path.
+pub const ALPINE_ISO_PATH_ENV: &str = "ALPINE_ISO_PATH";
+
+// =============================================================================
 // Initramfs Build
 // =============================================================================
 
@@ -136,10 +176,10 @@ pub const BUSYBOX_URL: &str =
 pub const BUSYBOX_URL_ENV: &str = "BUSYBOX_URL";
 
 /// Initramfs build directory name
-pub const INITRAMFS_BUILD_DIR: &str = "initramfs-tiny-root";
+pub const INITRAMFS_BUILD_DIR: &str = "initramfs-live-root";
 
-/// Initramfs output filename
-pub const INITRAMFS_OUTPUT: &str = "initramfs-tiny.cpio.gz";
+/// Live initramfs output filename (tiny - mounts squashfs for live environment)
+pub const INITRAMFS_LIVE_OUTPUT: &str = "initramfs-live.cpio.gz";
 
 // =============================================================================
 // Live System
