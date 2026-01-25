@@ -19,34 +19,17 @@ pub use boot::{
 };
 pub use paths::{
     // Helper functions
-    alpine_community_repo, alpine_iso_filename, alpine_iso_sha256_url, alpine_iso_url,
-    apk_tools_static_filename, apk_tools_static_url, default_user,
+    alpine_community_repo, alpine_main_repo, default_user,
     // Alpine Version Constants
-    ALPINE_PATCH_VERSION,
     ALPINE_VERSION,
-    APK_TOOLS_VERSION,
     TARGET_ARCH,
-    // Alpine Extended ISO Download
-    ALPINE_EXTENDED_ISO_FILENAME,
-    ALPINE_EXTENDED_ISO_SHA256_URL,
-    ALPINE_EXTENDED_ISO_SIZE,
-    ALPINE_EXTENDED_ISO_URL,
-    ALPINE_ISO_PATH_ENV,
-    APK_TOOLS_PATH_ENV,
-    APK_TOOLS_STATIC_FILENAME,
-    APK_TOOLS_STATIC_SHA256,
-    APK_TOOLS_STATIC_URL,
     // File names
     BOOT_ENTRY_FILENAME,
-    // Initramfs Build
-    BUSYBOX_SHA256,
-    BUSYBOX_URL,
-    BUSYBOX_URL_ENV,
-    BUSYBOX_VERSION,
     DEFAULT_HOSTNAME,
     // User defaults
     DEFAULT_SHELL,
     DEFAULT_USER_GROUPS,
+    // Initramfs Build
     INITRAMFS_BUILD_DIR,
     INITRAMFS_FILENAME,
     INITRAMFS_LIVE_OUTPUT,
