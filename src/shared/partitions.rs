@@ -3,7 +3,8 @@
 //! Defines the standard partition scheme for LevitateOS installations.
 
 /// Size of the EFI System Partition in megabytes.
-pub const EFI_PARTITION_SIZE_MB: u32 = 512;
+/// 1GB allows room for multiple kernels (current, fallback, LTS).
+pub const EFI_PARTITION_SIZE_MB: u32 = 1024;
 
 /// EFI partition label.
 pub const EFI_PARTITION_LABEL: &str = "EFI";
