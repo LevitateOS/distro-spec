@@ -19,8 +19,9 @@ pub const SQUASHFS_ISO_PATH: &str = "live/filesystem.squashfs";
 /// Path to kernel inside ISO (relative to ISO root)
 pub const KERNEL_ISO_PATH: &str = "boot/vmlinuz";
 
-/// Path to initramfs inside ISO (relative to ISO root)
-pub const INITRAMFS_ISO_PATH: &str = "boot/initramfs.img";
+/// Path to live initramfs inside ISO (relative to ISO root)
+/// This is the tiny initramfs that mounts squashfs for the live environment.
+pub const INITRAMFS_LIVE_ISO_PATH: &str = "boot/initramfs-live.img";
 
 /// Path to live overlay inside ISO (relative to ISO root)
 pub const LIVE_OVERLAY_ISO_PATH: &str = "live/overlay";

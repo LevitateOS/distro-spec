@@ -7,20 +7,16 @@ use crate::shared::services::ServiceManager;
 /// Services that must be enabled during installation.
 ///
 /// These are enabled via `systemctl enable <service>` in the chroot.
+/// Note: Rocky 10 uses NetworkManager (not systemd-networkd) and chronyd (not timesyncd).
 pub const ENABLED_SERVICES: &[ServiceSpec] = &[
     ServiceSpec {
-        name: "systemd-networkd",
+        name: "NetworkManager",
         description: "Network configuration",
         required: true,
     },
     ServiceSpec {
-        name: "systemd-resolved",
-        description: "DNS resolution",
-        required: true,
-    },
-    ServiceSpec {
-        name: "systemd-timesyncd",
-        description: "Time synchronization",
+        name: "chronyd",
+        description: "Time synchronization (NTP)",
         required: true,
     },
     ServiceSpec {

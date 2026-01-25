@@ -140,10 +140,16 @@ pub const BUSYBOX_URL: &str =
 pub const BUSYBOX_URL_ENV: &str = "BUSYBOX_URL";
 
 /// Initramfs build directory name
-pub const INITRAMFS_BUILD_DIR: &str = "initramfs-tiny-root";
+pub const INITRAMFS_BUILD_DIR: &str = "initramfs-live-root";
 
-/// Initramfs output filename
-pub const INITRAMFS_OUTPUT: &str = "initramfs-tiny.cpio.gz";
+/// Live initramfs output filename (tiny - mounts squashfs for live environment)
+pub const INITRAMFS_LIVE_OUTPUT: &str = "initramfs-live.cpio.gz";
+
+/// Installed initramfs output filename (full dracut - boots the daily driver OS)
+pub const INITRAMFS_INSTALLED_OUTPUT: &str = "initramfs-installed.img";
+
+/// Installed initramfs path on ISO (copied to /boot/initramfs.img during installation)
+pub const INITRAMFS_INSTALLED_ISO_PATH: &str = "boot/initramfs-installed.img";
 
 // =============================================================================
 // Live System
