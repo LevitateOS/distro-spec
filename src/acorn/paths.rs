@@ -117,12 +117,11 @@ pub const ISO_FILENAME: &str = "acornos.iso";
 // QEMU Testing Defaults
 // =============================================================================
 
-/// QEMU memory allocation (GB)
-/// AcornOS is a daily driver desktop, not a minimal system.
-pub const QEMU_MEMORY_GB: u32 = 4;
+/// QEMU memory allocation (GB) - Match real desktop hardware
+pub const QEMU_MEMORY_GB: u32 = 8;
 
-/// QEMU virtual disk size (GB)
-pub const QEMU_DISK_GB: u32 = 20;
+/// QEMU virtual disk size (GB) - Room for packages and user data
+pub const QEMU_DISK_GB: u32 = 256;
 
 // =============================================================================
 // Alpine Extended ISO Download
