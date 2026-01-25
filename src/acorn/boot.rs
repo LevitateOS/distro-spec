@@ -27,6 +27,7 @@ pub use crate::shared::boot::{
 /// - CDROM/SCSI: mounting the ISO (`cdrom`, `sr_mod`, `isofs`)
 /// - Storage: real hardware support (`sd_mod`, `nvme`, `ahci`)
 /// - Virtio: QEMU virtual devices (`virtio_scsi`, `virtio_blk`, `virtio_pci`)
+/// - USB: USB boot media and keyboards (`usb-storage`, `usbhid`, `xhci-hcd`)
 /// - Squashfs boot: mounting the root filesystem (`loop`, `squashfs`, `overlay`)
 pub const BOOT_MODULES: &[&str] = &[
     // === Virtio core (must be loaded first, other modules depend on these) ===
@@ -36,7 +37,7 @@ pub const BOOT_MODULES: &[&str] = &[
     "kernel/drivers/virtio/virtio_pci_legacy_dev.ko.gz", // Legacy PCI helper
     "kernel/drivers/virtio/virtio_pci.ko.gz",         // PCI transport (needs above)
 
-    // === SCSI core (needed by sr_mod, sd_mod, virtio_scsi) ===
+    // === SCSI core (needed by sr_mod, sd_mod, virtio_scsi, usb-storage) ===
     "kernel/drivers/scsi/scsi_common.ko.gz",          // SCSI common utilities
     "kernel/drivers/scsi/scsi_mod.ko.gz",             // SCSI core (needs scsi_common)
 
@@ -53,6 +54,24 @@ pub const BOOT_MODULES: &[&str] = &[
     "kernel/drivers/ata/libata.ko.gz",                // ATA core
     "kernel/drivers/ata/libahci.ko.gz",               // AHCI library
     "kernel/drivers/ata/ahci.ko.gz",                  // SATA support (needs libata, libahci)
+
+    // === USB core (needed by USB storage and HID) ===
+    "kernel/drivers/usb/common/usb-common.ko.gz",     // USB common utilities
+    "kernel/drivers/usb/core/usbcore.ko.gz",          // USB core
+
+    // === USB host controllers ===
+    "kernel/drivers/usb/host/xhci-hcd.ko.gz",         // USB 3.0 host controller
+    "kernel/drivers/usb/host/xhci-pci.ko.gz",         // xHCI PCI driver
+    "kernel/drivers/usb/host/ehci-hcd.ko.gz",         // USB 2.0 host controller
+    "kernel/drivers/usb/host/ehci-pci.ko.gz",         // EHCI PCI driver
+
+    // === USB storage (for USB boot media) ===
+    "kernel/drivers/usb/storage/usb-storage.ko.gz",   // USB mass storage
+
+    // === HID (Human Interface Devices - keyboards, mice) ===
+    "kernel/drivers/hid/hid.ko.gz",                   // HID core
+    "kernel/drivers/hid/hid-generic.ko.gz",           // Generic HID driver
+    "kernel/drivers/hid/usbhid/usbhid.ko.gz",         // USB HID (keyboards)
 
     // === Virtio block device ===
     "kernel/drivers/block/virtio_blk.ko.gz",          // QEMU -drive if=virtio
