@@ -18,52 +18,14 @@ pub use crate::shared::boot::{
 
 /// Kernel modules required in the initramfs for boot.
 ///
-/// The Rocky kernel has these as modules (not built-in). The initramfs builder
-/// must copy these from the rootfs to enable ISO boot.
+/// LevitateOS uses the core boot modules (no USB support in initramfs).
+/// USB devices work after the full system boots.
 ///
-/// **ORDER MATTERS**: Dependencies must be listed before modules that use them.
-/// The initramfs uses `insmod` which requires dependencies to be loaded first
-/// (unlike `modprobe` which resolves them automatically).
-///
-/// These enable:
-/// - CDROM/SCSI: mounting the ISO (`cdrom`, `sr_mod`, `isofs`)
-/// - Storage: real hardware support (`sd_mod`, `nvme`, `ahci`)
-/// - Virtio: QEMU virtual devices (`virtio_scsi`, `virtio_blk`, `virtio_pci`)
-/// - Squashfs boot: mounting the root filesystem (`loop`, `squashfs`, `overlay`)
+/// See `shared::boot_modules` for module group definitions and documentation.
 ///
 /// Paths are relative to `/lib/modules/<kernel-version>/`.
 /// Rocky kernel uses uncompressed `.ko` files (unlike Alpine's `.ko.gz`).
-pub const BOOT_MODULES: &[&str] = &[
-    // === Virtio core (must be loaded first, other modules depend on these) ===
-    "kernel/drivers/virtio/virtio",           // Base virtio bus
-    "kernel/drivers/virtio/virtio_ring",      // Virtqueue implementation
-    "kernel/drivers/virtio/virtio_pci",       // PCI transport (needs virtio + virtio_ring)
-
-    // === SCSI core (needed by sr_mod, sd_mod, virtio_scsi) ===
-    "kernel/drivers/scsi/scsi_mod",           // SCSI core
-
-    // === CDROM/SCSI support ===
-    "kernel/drivers/cdrom/cdrom",
-    "kernel/drivers/scsi/sr_mod",             // Needs scsi_mod
-    "kernel/drivers/scsi/sd_mod",             // Needs scsi_mod
-    "kernel/drivers/scsi/virtio_scsi",        // Needs virtio_pci, scsi_mod
-    "kernel/fs/isofs/isofs",
-
-    // === Storage drivers (for real hardware) ===
-    "kernel/drivers/nvme/host/nvme-core",     // NVMe core (dependency)
-    "kernel/drivers/nvme/host/nvme",          // NVMe for modern SSDs
-    "kernel/drivers/ata/libata",              // ATA core
-    "kernel/drivers/ata/libahci",             // AHCI library
-    "kernel/drivers/ata/ahci",                // SATA support (needs libata, libahci)
-
-    // === Virtio block device ===
-    "kernel/drivers/block/virtio_blk",        // QEMU -drive if=virtio -> /dev/vda
-
-    // === Loop device and filesystems for squashfs+overlay boot ===
-    "kernel/drivers/block/loop",
-    "kernel/fs/squashfs/squashfs",
-    "kernel/fs/overlayfs/overlay",
-];
+pub use crate::shared::boot_modules::CORE_BOOT_MODULES as BOOT_MODULES;
 
 // =============================================================================
 // LevitateOS-Specific Constructors

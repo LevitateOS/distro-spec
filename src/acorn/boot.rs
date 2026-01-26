@@ -12,74 +12,72 @@ pub use crate::shared::boot::{
     bootctl_install_command,
 };
 
+// Re-export shared boot module constants for direct access
+pub use crate::shared::boot_modules::{CORE_BOOT_MODULES, USB_BOOT_MODULES};
+
 // =============================================================================
 // Initramfs Kernel Modules
 // =============================================================================
 
 /// Kernel modules required in the initramfs for boot.
 ///
-/// Alpine kernel modules use gzip compression (.ko.gz).
+/// AcornOS includes both core modules AND USB modules for:
+/// - USB boot media support (boot from USB drives)
+/// - USB keyboard support during early boot (disk encryption prompts)
+///
+/// This combines `CORE_BOOT_MODULES` + `USB_BOOT_MODULES` from shared.
+/// See `shared::boot_modules` for module group definitions.
+///
 /// Paths are relative to `/lib/modules/<kernel-version>/`.
-///
-/// **ORDER MATTERS**: Dependencies must be listed before modules that use them.
-///
-/// These enable:
-/// - CDROM/SCSI: mounting the ISO (`cdrom`, `sr_mod`, `isofs`)
-/// - Storage: real hardware support (`sd_mod`, `nvme`, `ahci`)
-/// - Virtio: QEMU virtual devices (`virtio_scsi`, `virtio_blk`, `virtio_pci`)
-/// - USB: USB boot media and keyboards (`usb-storage`, `usbhid`, `xhci-hcd`)
-/// - Squashfs boot: mounting the root filesystem (`loop`, `squashfs`, `overlay`)
+/// Extensions are omitted - the initramfs builder will find the correct
+/// compressed version (.ko.zst for custom-built, .ko.gz for Alpine packages).
 pub const BOOT_MODULES: &[&str] = &[
-    // === Virtio core (must be loaded first, other modules depend on these) ===
-    "kernel/drivers/virtio/virtio.ko.gz",             // Base virtio bus
-    "kernel/drivers/virtio/virtio_ring.ko.gz",        // Virtqueue implementation
-    "kernel/drivers/virtio/virtio_pci_modern_dev.ko.gz", // Modern PCI helper
-    "kernel/drivers/virtio/virtio_pci_legacy_dev.ko.gz", // Legacy PCI helper
-    "kernel/drivers/virtio/virtio_pci.ko.gz",         // PCI transport (needs above)
+    // =========================================================================
+    // CORE_BOOT_MODULES (from shared::boot_modules)
+    // =========================================================================
+    // Virtio core
+    "kernel/drivers/virtio/virtio",
+    "kernel/drivers/virtio/virtio_ring",
+    "kernel/drivers/virtio/virtio_pci",
+    // SCSI core
+    "kernel/drivers/scsi/scsi_mod",
+    // CDROM/SCSI
+    "kernel/drivers/cdrom/cdrom",
+    "kernel/drivers/scsi/sr_mod",
+    "kernel/drivers/scsi/sd_mod",
+    "kernel/drivers/scsi/virtio_scsi",
+    "kernel/fs/isofs/isofs",
+    // NVMe
+    "kernel/drivers/nvme/host/nvme-core",
+    "kernel/drivers/nvme/host/nvme",
+    // SATA
+    "kernel/drivers/ata/libata",
+    "kernel/drivers/ata/libahci",
+    "kernel/drivers/ata/ahci",
+    // Virtio block
+    "kernel/drivers/block/virtio_blk",
+    // Squashfs/overlay
+    "kernel/drivers/block/loop",
+    "kernel/fs/squashfs/squashfs",
+    "kernel/fs/overlayfs/overlay",
 
-    // === SCSI core (needed by sr_mod, sd_mod, virtio_scsi, usb-storage) ===
-    "kernel/drivers/scsi/scsi_common.ko.gz",          // SCSI common utilities
-    "kernel/drivers/scsi/scsi_mod.ko.gz",             // SCSI core (needs scsi_common)
-
-    // === CDROM/SCSI support ===
-    "kernel/drivers/cdrom/cdrom.ko.gz",
-    "kernel/drivers/scsi/sr_mod.ko.gz",               // Needs scsi_mod
-    "kernel/drivers/scsi/sd_mod.ko.gz",               // Needs scsi_mod
-    "kernel/drivers/scsi/virtio_scsi.ko.gz",          // Needs virtio_pci, scsi_mod
-    "kernel/fs/isofs/isofs.ko.gz",
-
-    // === Storage drivers (for real hardware) ===
-    "kernel/drivers/nvme/host/nvme-core.ko.gz",       // NVMe core (dependency)
-    "kernel/drivers/nvme/host/nvme.ko.gz",            // NVMe for modern SSDs
-    "kernel/drivers/ata/libata.ko.gz",                // ATA core
-    "kernel/drivers/ata/libahci.ko.gz",               // AHCI library
-    "kernel/drivers/ata/ahci.ko.gz",                  // SATA support (needs libata, libahci)
-
-    // === USB core (needed by USB storage and HID) ===
-    "kernel/drivers/usb/common/usb-common.ko.gz",     // USB common utilities
-    "kernel/drivers/usb/core/usbcore.ko.gz",          // USB core
-
-    // === USB host controllers ===
-    "kernel/drivers/usb/host/xhci-hcd.ko.gz",         // USB 3.0 host controller
-    "kernel/drivers/usb/host/xhci-pci.ko.gz",         // xHCI PCI driver
-    "kernel/drivers/usb/host/ehci-hcd.ko.gz",         // USB 2.0 host controller
-    "kernel/drivers/usb/host/ehci-pci.ko.gz",         // EHCI PCI driver
-
-    // === USB storage (for USB boot media) ===
-    "kernel/drivers/usb/storage/usb-storage.ko.gz",   // USB mass storage
-
-    // === HID (Human Interface Devices - keyboards, mice) ===
-    "kernel/drivers/hid/hid.ko.gz",                   // HID core
-    "kernel/drivers/hid/hid-generic.ko.gz",           // Generic HID driver
-    "kernel/drivers/hid/usbhid/usbhid.ko.gz",         // USB HID (keyboards)
-
-    // === Virtio block device ===
-    "kernel/drivers/block/virtio_blk.ko.gz",          // QEMU -drive if=virtio
-
-    // === Loop device and filesystems for squashfs+overlay boot ===
-    "kernel/drivers/block/loop.ko.gz",
-    "kernel/fs/squashfs/squashfs.ko.gz",
-    "kernel/fs/overlayfs/overlay.ko.gz",
+    // =========================================================================
+    // USB_BOOT_MODULES (from shared::boot_modules)
+    // =========================================================================
+    // USB core
+    "kernel/drivers/usb/common/usb-common",
+    "kernel/drivers/usb/core/usbcore",
+    // Host controllers
+    "kernel/drivers/usb/host/xhci-hcd",
+    "kernel/drivers/usb/host/xhci-pci",
+    "kernel/drivers/usb/host/ehci-hcd",
+    "kernel/drivers/usb/host/ehci-pci",
+    // Storage
+    "kernel/drivers/usb/storage/usb-storage",
+    // HID
+    "kernel/drivers/hid/hid",
+    "kernel/drivers/hid/hid-generic",
+    "kernel/drivers/hid/usbhid/usbhid",
 ];
 
 // =============================================================================

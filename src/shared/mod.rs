@@ -3,14 +3,17 @@
 //! These modules contain specifications that are common across all distro variants.
 
 pub mod boot;
+pub mod boot_modules;
 pub mod chroot;
 pub mod devices;
 pub mod initramfs;
 pub mod iso;
 pub mod partitions;
+pub mod paths;
 pub mod qemu;
 pub mod requirements;
 pub mod services;
+pub mod squashfs;
 pub mod users;
 
 pub use boot::{
@@ -30,7 +33,14 @@ pub use iso::{
     VGA_CONSOLE, XORRISO_FS_FLAGS, XORRISO_PARTITION_OFFSET,
 };
 pub use partitions::{PartitionLayout, PartitionSpec, EFI_PARTITION_SIZE_MB};
-pub use qemu::{QEMU_CPU_MODE, QEMU_DISK_FILENAME, QEMU_SERIAL_LOG};
+pub use qemu::{QEMU_CPU_MODE, QEMU_DISK_FILENAME, QEMU_DISK_GB, QEMU_MEMORY_GB, QEMU_SERIAL_LOG};
+pub use squashfs::{SQUASHFS_BLOCK_SIZE, SQUASHFS_CDROM_PATH, SQUASHFS_COMPRESSION, SQUASHFS_NAME};
+pub use boot_modules::{CORE_BOOT_MODULES, USB_BOOT_MODULES};
+pub use paths::{
+    AMD_UCODE_FILENAME, DEFAULT_USER_GROUPS, INITRAMFS_BUILD_DIR, INITRAMFS_FILENAME,
+    INITRAMFS_LIVE_OUTPUT, INTEL_UCODE_FILENAME, KERNEL_FILENAME, LOADER_CONF_FILENAME,
+    OS_VERSION,
+};
 pub use requirements::{SystemRequirements, ACORN_REQUIREMENTS, LEVITATE_REQUIREMENTS};
 pub use services::ServiceManager;
 pub use users::{UserSpec, MIN_GID, MIN_UID, SUDOERS_WHEEL_LINE};

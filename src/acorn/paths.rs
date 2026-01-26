@@ -5,6 +5,18 @@
 //!
 //! AcornOS: Alpine Linux base, openrc, musl, busybox
 
+// Re-export shared constants that are identical across distros
+pub use crate::shared::{
+    // Paths
+    AMD_UCODE_FILENAME, DEFAULT_USER_GROUPS, INITRAMFS_BUILD_DIR, INITRAMFS_FILENAME,
+    INITRAMFS_LIVE_OUTPUT, INTEL_UCODE_FILENAME, KERNEL_FILENAME, LOADER_CONF_FILENAME,
+    OS_VERSION,
+    // QEMU
+    QEMU_DISK_GB, QEMU_MEMORY_GB,
+    // Squashfs
+    SQUASHFS_BLOCK_SIZE, SQUASHFS_CDROM_PATH, SQUASHFS_COMPRESSION, SQUASHFS_NAME,
+};
+
 // =============================================================================
 // ISO Constants
 // =============================================================================
@@ -16,54 +28,20 @@
 pub const ISO_LABEL: &str = "ACORNOS";
 
 // =============================================================================
-// Squashfs Build Constants
-// =============================================================================
-
-/// Squashfs compression algorithm for mksquashfs -comp flag.
-///
-/// Using gzip for universal kernel compatibility.
-/// Alpine kernels typically support both gzip and zstd.
-pub const SQUASHFS_COMPRESSION: &str = "gzip";
-
-/// Squashfs block size for mksquashfs -b flag.
-///
-/// 1MB blocks provide good compression ratio for the base system.
-pub const SQUASHFS_BLOCK_SIZE: &str = "1M";
-
-// =============================================================================
 // File Names
 // =============================================================================
 
 /// Name of the base system tarball.
 pub const TARBALL_NAME: &str = "acornos-base.tar.xz";
 
-/// Name of the squashfs image (preferred for installation).
+/// Module installation path.
 ///
-/// Faster than tarball extraction - uses unsquashfs directly.
-/// Located at /live/filesystem.squashfs on the ISO.
-pub const SQUASHFS_NAME: &str = "filesystem.squashfs";
-
-/// Path to squashfs on mounted CDROM.
-/// The tiny initramfs mounts ISO at /media/cdrom before switch_root.
-pub const SQUASHFS_CDROM_PATH: &str = "/media/cdrom/live/filesystem.squashfs";
-
-/// Kernel filename in /boot after installation.
-pub const KERNEL_FILENAME: &str = "vmlinuz";
-
-/// Initramfs filename in /boot after installation.
-pub const INITRAMFS_FILENAME: &str = "initramfs.img";
-
-/// Intel microcode filename (optional).
-pub const INTEL_UCODE_FILENAME: &str = "intel-ucode.img";
-
-/// AMD microcode filename (optional).
-pub const AMD_UCODE_FILENAME: &str = "amd-ucode.img";
+/// Alpine/AcornOS uses /lib/modules (traditional FHS).
+/// This is where `make modules_install INSTALL_MOD_PATH=...` should place modules.
+pub const MODULE_INSTALL_PATH: &str = "/lib/modules";
 
 /// Boot entry configuration filename.
 pub const BOOT_ENTRY_FILENAME: &str = "acornos.conf";
-
-/// Loader configuration filename.
-pub const LOADER_CONF_FILENAME: &str = "loader.conf";
 
 /// Default hostname for fresh installations.
 pub const DEFAULT_HOSTNAME: &str = "acornos";
@@ -71,7 +49,6 @@ pub const DEFAULT_HOSTNAME: &str = "acornos";
 /// OS identification.
 pub const OS_NAME: &str = "AcornOS";
 pub const OS_ID: &str = "acornos";
-pub const OS_VERSION: &str = "1.0";
 
 /// Possible locations where the tarball might be found during installation.
 pub const TARBALL_SEARCH_PATHS: &[&str] = &[
@@ -98,30 +75,12 @@ pub const DEFAULT_SHELL: &str = "/bin/ash";
 /// Root shell (busybox ash).
 pub const ROOT_SHELL: &str = "/bin/ash";
 
-/// Groups that new users should be added to by default.
-pub const DEFAULT_USER_GROUPS: &[&str] = &[
-    "wheel", // sudo/doas access
-    "audio", // audio device access
-    "video", // video device access
-    "input", // input device access
-];
-
 // =============================================================================
 // ISO Output
 // =============================================================================
 
 /// ISO output filename
 pub const ISO_FILENAME: &str = "acornos.iso";
-
-// =============================================================================
-// QEMU Testing Defaults
-// =============================================================================
-
-/// QEMU memory allocation (GB) - Match real desktop hardware
-pub const QEMU_MEMORY_GB: u32 = 8;
-
-/// QEMU virtual disk size (GB) - Room for packages and user data
-pub const QEMU_DISK_GB: u32 = 256;
 
 // =============================================================================
 // Alpine Version Constants
@@ -135,16 +94,6 @@ pub const ALPINE_VERSION: &str = "3.23";
 
 /// Target architecture.
 pub const TARGET_ARCH: &str = "x86_64";
-
-// =============================================================================
-// Initramfs Build
-// =============================================================================
-
-/// Initramfs build directory name
-pub const INITRAMFS_BUILD_DIR: &str = "initramfs-live-root";
-
-/// Live initramfs output filename (tiny - mounts squashfs for live environment)
-pub const INITRAMFS_LIVE_OUTPUT: &str = "initramfs-live.cpio.gz";
 
 // =============================================================================
 // Live System

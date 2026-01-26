@@ -38,6 +38,8 @@ pub use paths::{
     // ISO constants
     ISO_LABEL,
     KERNEL_FILENAME,
+    // Module installation
+    MODULE_INSTALL_PATH,
     // Live System
     LIVE_ISSUE_MESSAGE,
     LOADER_CONF_FILENAME,

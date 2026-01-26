@@ -5,6 +5,18 @@
 //!
 //! LevitateOS: Rocky Linux base, systemd, glibc, GNU coreutils
 
+// Re-export shared constants that are identical across distros
+pub use crate::shared::{
+    // Paths
+    AMD_UCODE_FILENAME, DEFAULT_USER_GROUPS, INITRAMFS_BUILD_DIR, INITRAMFS_FILENAME,
+    INITRAMFS_LIVE_OUTPUT, INTEL_UCODE_FILENAME, KERNEL_FILENAME, LOADER_CONF_FILENAME,
+    OS_VERSION,
+    // QEMU
+    QEMU_DISK_GB, QEMU_MEMORY_GB,
+    // Squashfs
+    SQUASHFS_BLOCK_SIZE, SQUASHFS_CDROM_PATH, SQUASHFS_COMPRESSION, SQUASHFS_NAME,
+};
+
 // =============================================================================
 // ISO Constants
 // =============================================================================
@@ -16,21 +28,6 @@
 pub const ISO_LABEL: &str = "LEVITATEOS";
 
 // =============================================================================
-// Squashfs Build Constants
-// =============================================================================
-
-/// Squashfs compression algorithm for mksquashfs -comp flag.
-///
-/// Using gzip for universal kernel compatibility.
-/// (zstd requires CONFIG_SQUASHFS_ZSTD=y which not all kernels have)
-pub const SQUASHFS_COMPRESSION: &str = "gzip";
-
-/// Squashfs block size for mksquashfs -b flag.
-///
-/// 1MB blocks provide good compression ratio for the base system.
-pub const SQUASHFS_BLOCK_SIZE: &str = "1M";
-
-// =============================================================================
 // File Names
 // =============================================================================
 
@@ -40,33 +37,14 @@ pub const SQUASHFS_BLOCK_SIZE: &str = "1M";
 /// Not used for installation (recstrap uses squashfs).
 pub const TARBALL_NAME: &str = "levitateos-base.tar.xz";
 
-/// Name of the squashfs image (preferred for installation).
+/// Module installation path (UsrMerge compliant).
 ///
-/// Faster than tarball extraction - uses unsquashfs directly.
-/// Located at /live/filesystem.squashfs on the ISO.
-pub const SQUASHFS_NAME: &str = "filesystem.squashfs";
-
-/// Path to squashfs on mounted CDROM.
-/// The tiny initramfs mounts ISO at /media/cdrom before switch_root.
-pub const SQUASHFS_CDROM_PATH: &str = "/media/cdrom/live/filesystem.squashfs";
-
-/// Kernel filename in /boot after installation.
-pub const KERNEL_FILENAME: &str = "vmlinuz";
-
-/// Initramfs filename in /boot after installation.
-pub const INITRAMFS_FILENAME: &str = "initramfs.img";
-
-/// Intel microcode filename (optional).
-pub const INTEL_UCODE_FILENAME: &str = "intel-ucode.img";
-
-/// AMD microcode filename (optional).
-pub const AMD_UCODE_FILENAME: &str = "amd-ucode.img";
+/// LevitateOS uses /usr/lib/modules per UsrMerge.
+/// This is where `make modules_install INSTALL_MOD_PATH=...` should place modules.
+pub const MODULE_INSTALL_PATH: &str = "/usr/lib/modules";
 
 /// Boot entry configuration filename.
 pub const BOOT_ENTRY_FILENAME: &str = "levitateos.conf";
-
-/// Loader configuration filename.
-pub const LOADER_CONF_FILENAME: &str = "loader.conf";
 
 /// Default hostname for fresh installations.
 pub const DEFAULT_HOSTNAME: &str = "levitateos";
@@ -74,7 +52,6 @@ pub const DEFAULT_HOSTNAME: &str = "levitateos";
 /// OS identification.
 pub const OS_NAME: &str = "LevitateOS";
 pub const OS_ID: &str = "levitateos";
-pub const OS_VERSION: &str = "1.0";
 
 /// Possible locations where the tarball might be found.
 pub const TARBALL_SEARCH_PATHS: &[&str] = &[
@@ -103,30 +80,12 @@ pub const DEFAULT_SHELL: &str = "/bin/bash";
 /// Root shell (GNU bash).
 pub const ROOT_SHELL: &str = "/bin/bash";
 
-/// Groups that new users should be added to by default.
-pub const DEFAULT_USER_GROUPS: &[&str] = &[
-    "wheel",  // sudo access
-    "audio",  // audio device access
-    "video",  // video device access
-    "input",  // input device access
-];
-
 // =============================================================================
 // ISO Output
 // =============================================================================
 
 /// ISO output filename
 pub const ISO_FILENAME: &str = "levitateos.iso";
-
-// =============================================================================
-// QEMU Testing Defaults
-// =============================================================================
-
-/// QEMU memory allocation (GB) - Match real desktop hardware
-pub const QEMU_MEMORY_GB: u32 = 8;
-
-/// QEMU virtual disk size (GB) - Room for packages and user data
-pub const QEMU_DISK_GB: u32 = 256;
 
 // =============================================================================
 // Initramfs Build
@@ -138,12 +97,6 @@ pub const BUSYBOX_URL: &str =
 
 /// Environment variable name for busybox URL override
 pub const BUSYBOX_URL_ENV: &str = "BUSYBOX_URL";
-
-/// Initramfs build directory name
-pub const INITRAMFS_BUILD_DIR: &str = "initramfs-live-root";
-
-/// Live initramfs output filename (tiny - mounts squashfs for live environment)
-pub const INITRAMFS_LIVE_OUTPUT: &str = "initramfs-live.cpio.gz";
 
 /// Installed initramfs output filename (full dracut - boots the daily driver OS)
 pub const INITRAMFS_INSTALLED_OUTPUT: &str = "initramfs-installed.img";
