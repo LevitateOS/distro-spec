@@ -13,7 +13,10 @@ pub use crate::shared::{
     OS_VERSION,
     // QEMU
     QEMU_DISK_GB, QEMU_MEMORY_GB,
-    // Squashfs
+    // Rootfs (EROFS primary)
+    EROFS_CDROM_PATH, EROFS_CHUNK_SIZE, EROFS_COMPRESSION, EROFS_COMPRESSION_LEVEL, EROFS_NAME,
+    ROOTFS_CDROM_PATH, ROOTFS_NAME, ROOTFS_TYPE,
+    // Squashfs (legacy)
     SQUASHFS_BLOCK_SIZE, SQUASHFS_CDROM_PATH, SQUASHFS_COMPRESSION, SQUASHFS_NAME,
 };
 
@@ -103,6 +106,20 @@ pub const INITRAMFS_INSTALLED_OUTPUT: &str = "initramfs-installed.img";
 
 /// Installed initramfs path on ISO (copied to /boot/initramfs.img during installation)
 pub const INITRAMFS_INSTALLED_ISO_PATH: &str = "boot/initramfs-installed.img";
+
+// =============================================================================
+// Installed UKIs (for installed systems)
+// =============================================================================
+
+/// Directory on ISO containing pre-built UKIs for installed systems.
+/// Users copy these to /boot/EFI/Linux/ during installation.
+pub const UKI_INSTALLED_ISO_DIR: &str = "boot/uki";
+
+/// Installed UKI path on ISO (normal boot).
+pub const UKI_INSTALLED_ISO_PATH: &str = "boot/uki/levitateos.efi";
+
+/// Installed UKI path on ISO (recovery mode).
+pub const UKI_INSTALLED_RECOVERY_ISO_PATH: &str = "boot/uki/levitateos-recovery.efi";
 
 // =============================================================================
 // Live System

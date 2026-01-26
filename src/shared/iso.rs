@@ -13,7 +13,15 @@ pub const ISO_LIVE_DIR: &str = "live";
 /// EFI boot directory on ISO
 pub const ISO_EFI_DIR: &str = "EFI/BOOT";
 
-/// Path to squashfs inside ISO (relative to ISO root)
+/// Path to rootfs image inside ISO (relative to ISO root)
+///
+/// This is the EROFS filesystem image that contains the complete system.
+/// Legacy squashfs format used "live/filesystem.squashfs".
+pub const ROOTFS_ISO_PATH: &str = "live/filesystem.erofs";
+
+/// Path to squashfs inside ISO (relative to ISO root) - LEGACY
+///
+/// Kept for backward compatibility. New builds use ROOTFS_ISO_PATH.
 pub const SQUASHFS_ISO_PATH: &str = "live/filesystem.squashfs";
 
 /// Path to kernel inside ISO (relative to ISO root)
@@ -33,8 +41,11 @@ pub const LIVE_OVERLAY_ISO_PATH: &str = "live/overlay";
 /// EFI boot image filename
 pub const EFIBOOT_FILENAME: &str = "efiboot.img";
 
-/// EFI boot image size in MB (FAT16 minimum is 16MB)
-pub const EFIBOOT_SIZE_MB: u32 = 16;
+/// EFI boot image size in MB.
+///
+/// UKIs require ~50MB each (kernel + initramfs + cmdline).
+/// With 3 UKIs + systemd-boot + loader.conf, we need ~200MB.
+pub const EFIBOOT_SIZE_MB: u32 = 200;
 
 /// Primary EFI bootloader filename
 pub const EFI_BOOTLOADER: &str = "BOOTX64.EFI";
