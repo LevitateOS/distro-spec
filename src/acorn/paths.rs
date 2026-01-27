@@ -13,12 +13,41 @@ pub use crate::shared::{
     OS_VERSION,
     // QEMU
     QEMU_DISK_GB, QEMU_MEMORY_GB,
-    // Rootfs (EROFS primary)
-    EROFS_CDROM_PATH, EROFS_CHUNK_SIZE, EROFS_COMPRESSION, EROFS_COMPRESSION_LEVEL, EROFS_NAME,
-    ROOTFS_CDROM_PATH, ROOTFS_NAME, ROOTFS_TYPE,
-    // Squashfs (legacy)
-    SQUASHFS_BLOCK_SIZE, SQUASHFS_CDROM_PATH, SQUASHFS_COMPRESSION, SQUASHFS_NAME,
 };
+
+// =============================================================================
+// EROFS Constants (AcornOS-specific compression)
+// =============================================================================
+
+/// Filesystem type for the rootfs image.
+pub const ROOTFS_TYPE: &str = "erofs";
+
+/// Name of the EROFS rootfs image file.
+pub const EROFS_NAME: &str = "filesystem.erofs";
+
+/// Path to EROFS rootfs on mounted CDROM at runtime.
+pub const EROFS_CDROM_PATH: &str = "/media/cdrom/live/filesystem.erofs";
+
+/// Compression algorithm for mkfs.erofs.
+///
+/// AcornOS uses lz4hc for faster decompression and wider compatibility.
+/// (LevitateOS uses zstd which requires erofs-utils 1.8+)
+pub const EROFS_COMPRESSION: &str = "lz4hc";
+
+/// Compression level for lz4hc (1-12, default 9).
+pub const EROFS_COMPRESSION_LEVEL: u8 = 9;
+
+/// Chunk size for mkfs.erofs (1MB).
+pub const EROFS_CHUNK_SIZE: u32 = 1048576;
+
+/// Unified rootfs name (currently EROFS).
+pub const ROOTFS_NAME: &str = EROFS_NAME;
+
+/// Unified rootfs CDROM path (currently EROFS).
+pub const ROOTFS_CDROM_PATH: &str = EROFS_CDROM_PATH;
+
+// NOTE: No squashfs constants exported. AcornOS uses EROFS only.
+// Squashfs is only for reading Alpine's modloop, handled by shared::rootfs.
 
 // =============================================================================
 // ISO Constants
