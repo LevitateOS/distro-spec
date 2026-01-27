@@ -56,9 +56,10 @@ pub const BOOT_MODULES: &[&str] = &[
     "kernel/drivers/ata/ahci",
     // Virtio block
     "kernel/drivers/block/virtio_blk",
-    // Squashfs/overlay
+    // Rootfs filesystems
     "kernel/drivers/block/loop",
-    "kernel/fs/squashfs/squashfs",
+    "kernel/fs/erofs/erofs",         // EROFS for live boot rootfs
+    "kernel/fs/squashfs/squashfs",   // Keep for mounting Alpine modloop
     "kernel/fs/overlayfs/overlay",
 
     // =========================================================================

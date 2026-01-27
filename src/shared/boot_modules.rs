@@ -146,3 +146,70 @@ pub const USB_BOOT_MODULES: &[&str] = &[
     "kernel/drivers/hid/hid-generic",
     "kernel/drivers/hid/usbhid/usbhid",
 ];
+
+// =============================================================================
+// Install Boot Modules (for installed systems)
+// =============================================================================
+
+/// Modules for installed system boot - includes ALL common storage/fs drivers.
+///
+/// This is the "universal" set that boots on any hardware. Unlike the live ISO
+/// which only needs CDROM modules, installed systems need modules for:
+/// - NVMe, SATA, USB storage
+/// - ext4, xfs, btrfs, vfat filesystems
+/// - Device mapper (for future LUKS/LVM support)
+/// - HID (keyboards for LUKS prompts)
+///
+/// **ORDER MATTERS**: Dependencies must be listed before modules that use them.
+pub const INSTALL_BOOT_MODULES: &[&str] = &[
+    // === Virtio core (must be first for QEMU) ===
+    "kernel/drivers/virtio/virtio",
+    "kernel/drivers/virtio/virtio_ring",
+    "kernel/drivers/virtio/virtio_pci",
+
+    // === SCSI core (needed by sd_mod, virtio_scsi, usb-storage) ===
+    "kernel/drivers/scsi/scsi_mod",
+    "kernel/drivers/scsi/sd_mod",
+    "kernel/drivers/scsi/virtio_scsi",
+
+    // === NVMe (modern SSDs) ===
+    "kernel/drivers/nvme/host/nvme-core",
+    "kernel/drivers/nvme/host/nvme",
+
+    // === SATA/AHCI ===
+    "kernel/drivers/ata/libata",
+    "kernel/drivers/ata/libahci",
+    "kernel/drivers/ata/ahci",
+    "kernel/drivers/ata/ata_piix",
+
+    // === Virtio block (QEMU virtual disks) ===
+    "kernel/drivers/block/virtio_blk",
+
+    // === USB Storage ===
+    "kernel/drivers/usb/common/usb-common",
+    "kernel/drivers/usb/core/usbcore",
+    "kernel/drivers/usb/host/xhci-hcd",
+    "kernel/drivers/usb/host/xhci-pci",
+    "kernel/drivers/usb/host/ehci-hcd",
+    "kernel/drivers/usb/host/ehci-pci",
+    "kernel/drivers/usb/storage/usb-storage",
+
+    // === HID (keyboards for LUKS prompts) ===
+    "kernel/drivers/hid/hid",
+    "kernel/drivers/hid/hid-generic",
+    "kernel/drivers/hid/usbhid/usbhid",
+
+    // === Filesystems ===
+    "kernel/fs/ext4/ext4",
+    "kernel/fs/xfs/xfs",
+    "kernel/fs/btrfs/btrfs",
+    "kernel/fs/fat/fat",
+    "kernel/fs/vfat/vfat",
+    "kernel/fs/nls/nls_cp437",
+    "kernel/fs/nls/nls_iso8859-1",
+    "kernel/fs/nls/nls_utf8",
+
+    // === Device Mapper (for future LUKS/LVM) ===
+    "kernel/drivers/md/dm-mod",
+    "kernel/drivers/md/dm-crypt",
+];
