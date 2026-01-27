@@ -12,7 +12,7 @@ pub const INITRAMFS_DIRS: &[&str] = &[
     "sys",
     "tmp",
     "mnt",
-    "squashfs",
+    "rootfs",
     "overlay",
     "newroot",
     "live-overlay",
@@ -22,8 +22,8 @@ pub const INITRAMFS_DIRS: &[&str] = &[
 // Mount Points (used by init script)
 // =============================================================================
 
-/// Squashfs mount point in initramfs
-pub const MOUNT_SQUASHFS: &str = "/squashfs";
+/// Rootfs mount point in initramfs (EROFS or squashfs depending on distro)
+pub const MOUNT_SQUASHFS: &str = "/rootfs";
 
 /// Overlay lower dir mount point
 pub const MOUNT_OVERLAY: &str = "/overlay";

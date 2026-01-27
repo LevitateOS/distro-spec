@@ -13,11 +13,9 @@ pub use crate::shared::{
     OS_VERSION,
     // QEMU
     QEMU_DISK_GB, QEMU_MEMORY_GB,
-    // Rootfs (EROFS primary)
+    // Rootfs (EROFS)
     EROFS_CDROM_PATH, EROFS_CHUNK_SIZE, EROFS_COMPRESSION, EROFS_COMPRESSION_LEVEL, EROFS_NAME,
     ROOTFS_CDROM_PATH, ROOTFS_NAME, ROOTFS_TYPE,
-    // Squashfs (legacy)
-    SQUASHFS_BLOCK_SIZE, SQUASHFS_CDROM_PATH, SQUASHFS_COMPRESSION, SQUASHFS_NAME,
 };
 
 // =============================================================================

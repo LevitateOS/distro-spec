@@ -52,7 +52,7 @@ pub use paths::{
     QEMU_DISK_GB,
     QEMU_MEMORY_GB,
     ROOT_SHELL,
-    // Rootfs constants (EROFS primary)
+    // Rootfs constants (EROFS)
     EROFS_CDROM_PATH,
     EROFS_CHUNK_SIZE,
     EROFS_COMPRESSION,
@@ -61,11 +61,6 @@ pub use paths::{
     ROOTFS_CDROM_PATH,
     ROOTFS_NAME,
     ROOTFS_TYPE,
-    // Squashfs constants (legacy)
-    SQUASHFS_BLOCK_SIZE,
-    SQUASHFS_CDROM_PATH,
-    SQUASHFS_COMPRESSION,
-    SQUASHFS_NAME,
     TARBALL_NAME,
     // Installed UKI paths on ISO
     UKI_INSTALLED_ISO_DIR,
