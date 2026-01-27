@@ -27,7 +27,7 @@ pub const UKI_DEBUG_FILENAME: &str = "levitateos-debug.efi";
 // Installed System UKIs
 // =============================================================================
 // These UKIs are for installed systems (daily driver boot).
-// They use the full dracut initramfs and root=LABEL=root cmdline.
+// They use the full initramfs and root=LABEL=root cmdline.
 
 /// UKI filename for installed system normal boot.
 pub const UKI_INSTALLED_FILENAME: &str = "levitateos.efi";

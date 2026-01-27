@@ -3,7 +3,7 @@
 //! Defines UKI entries for both live ISO and installed systems.
 //!
 //! Live UKIs use the tiny initramfs and mount the ISO's EROFS rootfs.
-//! Installed UKIs use the full dracut initramfs and boot from disk.
+//! Installed UKIs use the full initramfs and boot from disk.
 
 pub use crate::shared::uki::*;
 

@@ -99,7 +99,7 @@ pub const BUSYBOX_URL: &str =
 /// Environment variable name for busybox URL override
 pub const BUSYBOX_URL_ENV: &str = "BUSYBOX_URL";
 
-/// Installed initramfs output filename (full dracut - boots the daily driver OS)
+/// Installed initramfs output filename (full - boots the daily driver OS)
 pub const INITRAMFS_INSTALLED_OUTPUT: &str = "initramfs-installed.img";
 
 /// Installed initramfs path on ISO (copied to /boot/initramfs.img during installation)
