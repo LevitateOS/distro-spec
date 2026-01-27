@@ -73,6 +73,12 @@ pub const SERIAL_BAUD_RATE: u32 = 115200;
 /// SELinux disable parameter (Rocky/RHEL based need this for live boot)
 pub const SELINUX_DISABLE: &str = "selinux=0";
 
+/// EFI debug parameter for verbose EFI stub output
+///
+/// Helps diagnose UKI boot issues by showing what the EFI stub is doing.
+/// Shows initrd loading via LINUX_EFI_INITRD_MEDIA_GUID protocol.
+pub const EFI_DEBUG: &str = "efi=debug";
+
 // =============================================================================
 // Checksum
 // =============================================================================
