@@ -72,6 +72,31 @@ pub const DEFAULT_USER_GROUPS: &[&str] = &[
 ];
 
 // =============================================================================
+// Protected Paths
+// =============================================================================
+
+/// Protected system paths that should never be extraction/chroot targets.
+///
+/// These are critical system directories that would be destroyed if used
+/// as installation targets. Tools like recstrap and recchroot use this list
+/// to prevent catastrophic user errors.
+pub const PROTECTED_PATHS: &[&str] = &[
+    "/", "/bin", "/boot", "/dev", "/etc", "/home", "/lib", "/lib64", "/opt",
+    "/proc", "/root", "/run", "/sbin", "/srv", "/sys", "/tmp", "/usr", "/var",
+];
+
+/// Check if a path is a protected system path.
+///
+/// Returns true if the path exactly matches one of the protected paths.
+/// Does not check parent directories - `/mnt/usr` is NOT protected even
+/// though `/usr` is.
+pub fn is_protected_path(path: &std::path::Path) -> bool {
+    PROTECTED_PATHS
+        .iter()
+        .any(|protected| path == std::path::Path::new(protected))
+}
+
+// =============================================================================
 // Version
 // =============================================================================
 
