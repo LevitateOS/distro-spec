@@ -6,11 +6,13 @@
 //! - musl (C library)
 //! - busybox (coreutils)
 //! - systemd-boot (bootloader, despite using OpenRC)
+//! - UKI boot (kernel+initramfs+cmdline in single PE binary)
 
 pub mod boot;
 pub mod packages;
 pub mod paths;
 pub mod services;
+pub mod uki;
 
 pub use boot::{
     boot_entry_with_label, boot_entry_with_partuuid, boot_entry_with_root, bootctl_install_command,
@@ -61,12 +63,23 @@ pub use paths::{
     ROOTFS_NAME,
     ROOTFS_TYPE,
     TARBALL_NAME,
+    // UKI constants
+    LOADER_ENTRIES_DIR,
+    SYSTEMD_BOOT_EFI,
+    SYSTEMD_BOOT_STUB,
+    UKI_DEBUG_FILENAME,
+    UKI_EFI_DIR,
+    UKI_EMERGENCY_FILENAME,
+    UKI_INSTALLED_FILENAME,
+    UKI_INSTALLED_RECOVERY_FILENAME,
+    UKI_LIVE_FILENAME,
 };
 pub use services::{optional_services, required_services, ServiceSpec, ENABLED_SERVICES};
 pub use packages::{
     all_live_packages, bootable_packages, core_packages, daily_driver_packages,
     ALPINE_KEYS, BOOTABLE_PACKAGES, CORE_PACKAGES, DAILY_DRIVER_PACKAGES, LIVE_ISO_PACKAGES,
 };
+pub use uki::{UkiEntry, UKI_ENTRIES, UKI_INSTALLED_ENTRIES};
 
 // Re-export shared constants (no squashfs - EROFS only)
 pub use crate::shared::{

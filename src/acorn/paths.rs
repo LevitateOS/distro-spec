@@ -30,12 +30,13 @@ pub const EROFS_CDROM_PATH: &str = "/media/cdrom/live/filesystem.erofs";
 
 /// Compression algorithm for mkfs.erofs.
 ///
-/// AcornOS uses lz4hc for faster decompression and wider compatibility.
-/// (LevitateOS uses zstd which requires erofs-utils 1.8+)
-pub const EROFS_COMPRESSION: &str = "lz4hc";
+/// AcornOS uses zstd for best compression ratio.
+/// The kernel must have CONFIG_EROFS_FS_ZIP_ZSTD=y to decompress.
+pub const EROFS_COMPRESSION: &str = "zstd";
 
-/// Compression level for lz4hc (1-12, default 9).
-pub const EROFS_COMPRESSION_LEVEL: u8 = 9;
+/// Compression level for zstd (1-22, higher = better compression, slower).
+/// Level 3 is a good balance for live ISO usage.
+pub const EROFS_COMPRESSION_LEVEL: u8 = 3;
 
 /// Chunk size for mkfs.erofs (1MB).
 pub const EROFS_CHUNK_SIZE: u32 = 1048576;
@@ -48,6 +49,43 @@ pub const ROOTFS_CDROM_PATH: &str = EROFS_CDROM_PATH;
 
 // NOTE: No squashfs constants exported. AcornOS uses EROFS only.
 // Squashfs is only for reading Alpine's modloop, handled by shared::rootfs.
+
+// =============================================================================
+// UKI (Unified Kernel Image) Constants
+// =============================================================================
+
+/// Directory for UKIs on the EFI system partition.
+pub const UKI_EFI_DIR: &str = "EFI/Linux";
+
+/// Default UKI filename for live boot.
+pub const UKI_LIVE_FILENAME: &str = "acornos-live.efi";
+
+/// UKI filename for emergency shell.
+pub const UKI_EMERGENCY_FILENAME: &str = "acornos-emergency.efi";
+
+/// UKI filename for debug mode.
+pub const UKI_DEBUG_FILENAME: &str = "acornos-debug.efi";
+
+/// UKI filename for installed system normal boot.
+pub const UKI_INSTALLED_FILENAME: &str = "acornos.efi";
+
+/// UKI filename for installed system recovery mode.
+pub const UKI_INSTALLED_RECOVERY_FILENAME: &str = "acornos-recovery.efi";
+
+/// loader.conf directory on EFI system partition.
+pub const LOADER_ENTRIES_DIR: &str = "loader";
+
+/// systemd-boot EFI stub path.
+///
+/// This is the PE stub that UKIs are built from. Available from:
+/// - systemd-boot package (Fedora: /usr/lib/systemd/boot/efi/linuxx64.efi.stub)
+/// - systemd-efistub package (Alpine 3.22+: same path)
+pub const SYSTEMD_BOOT_STUB: &str = "/usr/lib/systemd/boot/efi/linuxx64.efi.stub";
+
+/// systemd-boot binary path.
+///
+/// This is copied to EFI/BOOT/BOOTX64.EFI to serve as the bootloader.
+pub const SYSTEMD_BOOT_EFI: &str = "/usr/lib/systemd/boot/efi/systemd-bootx64.efi";
 
 // =============================================================================
 // ISO Constants
