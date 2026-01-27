@@ -49,7 +49,7 @@ pub const INITRAMFS_BUILD_DIR: &str = "initramfs-live-root";
 
 /// Live initramfs output filename.
 ///
-/// This is the tiny initramfs that mounts the squashfs for the live environment.
+/// This is the tiny initramfs that mounts the EROFS rootfs for the live environment.
 /// Compressed with gzip for universal bootloader compatibility.
 pub const INITRAMFS_LIVE_OUTPUT: &str = "initramfs-live.cpio.gz";
 

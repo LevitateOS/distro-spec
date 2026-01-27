@@ -11,3 +11,4 @@ std = []
 
 [dependencies]
 libc = "0.2"
+smallvec = "1.11"

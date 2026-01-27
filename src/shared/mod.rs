@@ -5,10 +5,13 @@
 pub mod boot;
 pub mod boot_modules;
 pub mod chroot;
+pub mod components;
 pub mod devices;
 pub mod error;
 pub mod initramfs;
 pub mod iso;
+pub mod licenses;
+pub mod modules;
 pub mod partitions;
 pub mod paths;
 pub mod qemu;
@@ -28,7 +31,7 @@ pub use devices::BOOT_DEVICE_PROBE_ORDER;
 pub use error::{ToolError, ToolErrorCode};
 pub use initramfs::{
     CPIO_GZIP_LEVEL, INITRAMFS_DIRS, MOUNT_LIVE_OVERLAY, MOUNT_NEWROOT, MOUNT_OVERLAY,
-    MOUNT_SQUASHFS,
+    MOUNT_ROOTFS,
 };
 pub use iso::{
     EFI_DEBUG, EFIBOOT_FILENAME, EFIBOOT_SIZE_MB, EFI_BOOTLOADER, EFI_GRUB, INITRAMFS_LIVE_ISO_PATH, ISO_BOOT_DIR,
@@ -54,6 +57,10 @@ pub use uki::{
     UKI_INSTALLED_FILENAME, UKI_INSTALLED_RECOVERY_FILENAME,
 };
 pub use boot_modules::{CORE_BOOT_MODULES, INSTALL_BOOT_MODULES, USB_BOOT_MODULES};
+pub use modules::{
+    module_path, INSTALL_MODULES, INSTALL_MODULES_BUILTIN, LIVE_MODULES, LIVE_MODULES_BUILTIN,
+    MODULE_PATHS,
+};
 pub use paths::{
     is_protected_path, AMD_UCODE_FILENAME, DEFAULT_USER_GROUPS, INITRAMFS_BUILD_DIR,
     INITRAMFS_FILENAME, INITRAMFS_LIVE_OUTPUT, INTEL_UCODE_FILENAME, KERNEL_FILENAME,
@@ -63,3 +70,28 @@ pub use requirements::{SystemRequirements, ACORN_REQUIREMENTS, LEVITATE_REQUIREM
 pub use services::ServiceManager;
 pub use system::{is_mount_point, is_root};
 pub use users::{UserSpec, MIN_GID, MIN_UID, SUDOERS_WHEEL_LINE};
+pub use components::{
+    // Filesystem hierarchy
+    FHS_DIRS, FHS_SYMLINKS,
+    // Binaries - /usr/bin
+    BIN_UTILS, AUTH_BIN, SSH_BIN, NM_BIN,
+    // Binaries - /usr/sbin
+    SBIN_UTILS, AUTH_SBIN, SHADOW_SBIN, NM_SBIN, WPA_SBIN, SSH_SBIN,
+    BLUETOOTH_SBIN, PIPEWIRE_SBIN, POLKIT_SBIN, UDISKS_SBIN, UPOWER_SBIN,
+    SYSTEMD_BINARIES,
+    // Systemd units
+    ESSENTIAL_UNITS, NM_UNITS, WPA_UNITS, SSH_UNITS, DBUS_ACTIVATION_SYMLINKS,
+    BLUETOOTH_UNITS, PIPEWIRE_UNITS, POLKIT_UNITS, UDISKS_UNITS, UPOWER_UNITS,
+    // Udev
+    UDEV_HELPERS,
+    // Sudo
+    SUDO_LIBS,
+    // PAM
+    PAM_MODULES, PAM_CONFIGS, SECURITY_FILES,
+    // /etc files
+    ETC_FILES,
+    // Libraries
+    CRITICAL_LIBS,
+    // Users/groups
+    SYSTEM_USERS, SYSTEM_GROUPS,
+};

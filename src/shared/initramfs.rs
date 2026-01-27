@@ -22,8 +22,8 @@ pub const INITRAMFS_DIRS: &[&str] = &[
 // Mount Points (used by init script)
 // =============================================================================
 
-/// Rootfs mount point in initramfs (EROFS or squashfs depending on distro)
-pub const MOUNT_SQUASHFS: &str = "/rootfs";
+/// Rootfs mount point in initramfs (EROFS for LevitateOS)
+pub const MOUNT_ROOTFS: &str = "/rootfs";
 
 /// Overlay lower dir mount point
 pub const MOUNT_OVERLAY: &str = "/overlay";

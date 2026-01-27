@@ -28,8 +28,9 @@ pub const SQUASHFS_ISO_PATH: &str = "live/filesystem.squashfs";
 pub const KERNEL_ISO_PATH: &str = "boot/vmlinuz";
 
 /// Path to live initramfs inside ISO (relative to ISO root)
-/// This is the tiny initramfs that mounts squashfs for the live environment.
-pub const INITRAMFS_LIVE_ISO_PATH: &str = "boot/initramfs-live.img";
+/// This is the tiny initramfs that mounts the EROFS rootfs for the live environment.
+/// Note: reciso copies the initramfs to this fixed path.
+pub const INITRAMFS_LIVE_ISO_PATH: &str = "boot/initramfs.img";
 
 /// Path to live overlay inside ISO (relative to ISO root)
 pub const LIVE_OVERLAY_ISO_PATH: &str = "live/overlay";
