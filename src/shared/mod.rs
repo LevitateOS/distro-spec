@@ -6,6 +6,7 @@ pub mod boot;
 pub mod boot_modules;
 pub mod chroot;
 pub mod devices;
+pub mod error;
 pub mod initramfs;
 pub mod iso;
 pub mod partitions;
@@ -14,6 +15,7 @@ pub mod qemu;
 pub mod requirements;
 pub mod services;
 pub mod rootfs;
+pub mod system;
 pub mod uki;
 pub mod users;
 
@@ -23,6 +25,7 @@ pub use boot::{
 };
 pub use chroot::{BindMount, CHROOT_BIND_MOUNTS};
 pub use devices::BOOT_DEVICE_PROBE_ORDER;
+pub use error::{ToolError, ToolErrorCode};
 pub use initramfs::{
     CPIO_GZIP_LEVEL, INITRAMFS_DIRS, MOUNT_LIVE_OVERLAY, MOUNT_NEWROOT, MOUNT_OVERLAY,
     MOUNT_SQUASHFS,
@@ -37,10 +40,12 @@ pub use partitions::{PartitionLayout, PartitionSpec, EFI_PARTITION_SIZE_MB};
 pub use qemu::{QEMU_CPU_MODE, QEMU_DISK_FILENAME, QEMU_DISK_GB, QEMU_MEMORY_GB, QEMU_SERIAL_LOG};
 pub use rootfs::{
     // EROFS (primary)
-    EROFS_CDROM_PATH, EROFS_CHUNK_SIZE, EROFS_COMPRESSION, EROFS_COMPRESSION_LEVEL, EROFS_NAME,
-    ROOTFS_CDROM_PATH, ROOTFS_NAME, ROOTFS_TYPE,
+    EROFS_CDROM_PATH, EROFS_CHUNK_SIZE, EROFS_COMPRESSION, EROFS_COMPRESSION_LEVEL,
+    EROFS_MAGIC, EROFS_MAGIC_OFFSET, EROFS_NAME, ROOTFS_CDROM_PATH, ROOTFS_NAME, ROOTFS_TYPE,
     // Squashfs (legacy)
-    SQUASHFS_BLOCK_SIZE, SQUASHFS_CDROM_PATH, SQUASHFS_COMPRESSION, SQUASHFS_NAME,
+    SQUASHFS_BLOCK_SIZE, SQUASHFS_CDROM_PATH, SQUASHFS_COMPRESSION, SQUASHFS_MAGIC, SQUASHFS_NAME,
+    // Installer constants
+    ESSENTIAL_DIRS, MIN_REQUIRED_BYTES, ROOTFS_SEARCH_PATHS,
 };
 pub use uki::{
     LOADER_ENTRIES_DIR, SYSTEMD_BOOT_EFI, SYSTEMD_BOOT_STUB, UKI_DEBUG_FILENAME,
@@ -56,4 +61,5 @@ pub use paths::{
 };
 pub use requirements::{SystemRequirements, ACORN_REQUIREMENTS, LEVITATE_REQUIREMENTS};
 pub use services::ServiceManager;
+pub use system::{is_mount_point, is_root};
 pub use users::{UserSpec, MIN_GID, MIN_UID, SUDOERS_WHEEL_LINE};
