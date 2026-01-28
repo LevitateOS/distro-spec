@@ -8,9 +8,9 @@
 ///
 /// # The Problem
 ///
-/// Standard `serial-getty@ttyS0.service` uses:
-/// ```
-/// ExecStart=-/sbin/agetty -o '-p -- \\u' 115200,57600,38400,9600 ttyS0 $TERM
+/// Standard `serial-getty@ttyS0.service` uses this ExecStart line:
+/// ```text
+/// ExecStart=-/sbin/agetty -o '-p -- \u' 115200,57600,38400,9600 ttyS0 $TERM
 /// ```
 ///
 /// QEMU's emulated serial port doesn't generate proper modem signals (CD - Carrier Detect).
@@ -19,8 +19,8 @@
 /// # The Solution
 ///
 /// The `-L` flag tells agetty to ignore modem signals and treat the line as always active:
-/// ```
-/// ExecStart=-/sbin/agetty -L -o '-p -- \\u' 115200,57600,38400,9600 ttyS0 $TERM
+/// ```text
+/// ExecStart=-/sbin/agetty -L -o '-p -- \u' 115200,57600,38400,9600 ttyS0 $TERM
 /// ```
 ///
 /// # Implementation
@@ -28,10 +28,7 @@
 /// In `leviso/src/component/definitions.rs`, when defining `serial-getty` component:
 /// 1. Import standard serial-getty from systemd
 /// 2. Create override directory
-/// 3. Replace the `-` placeholder with `-L` in the baud rate string:
-///    ```
-///    "serial-getty@.service" -> "-L"
-///    ```
+/// 3. Replace the `-` placeholder with `-L` in the baud rate string
 ///
 /// # References
 ///

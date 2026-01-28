@@ -59,7 +59,7 @@
 //! ## 5. OverlayFS for Live ISO
 //!
 //! Live ISO uses three-layer OverlayFS mount:
-//! ```
+//! ```text
 //! Layer 3 (top):    tmpfs /overlay/upper           [read-write, ephemeral]
 //! Layer 2 (middle): /live/overlay from ISO          [read-only, live configs]
 //! Layer 1 (bottom): EROFS /rootfs                   [read-only, base system]
@@ -123,7 +123,7 @@
 //! ## 1. YESCRYPT Password Hashing
 //!
 //! Modern memory-hard algorithm resistant to GPU attacks. Configured in PAM as:
-//! ```
+//! ```text
 //! password sufficient pam_unix.so yescrypt shadow use_authtok
 //! ```
 //!
