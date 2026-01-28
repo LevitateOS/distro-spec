@@ -117,14 +117,12 @@ pub const PAM_CONFIGS: &[&str] = &[
 /// Security configuration files in /etc/security/.
 ///
 /// These files configure PAM policies, resource limits, and access control.
+/// Only includes files actually created by create_security_config().
 pub const SECURITY_FILES: &[&str] = &[
     "etc/security/limits.conf",       // Resource limits (ulimit)
     "etc/security/pam_env.conf",      // PAM environment variables
-    "etc/security/faillock.conf",     // Account lockout configuration
     "etc/security/access.conf",       // Access control by user/group/host
-    "etc/security/group.conf",        // Group-based access control
     "etc/security/namespace.conf",    // Namespace/polyinstantiation
-    "etc/security/time.conf",         // Time-based access control
     "etc/security/pwquality.conf",    // Password quality requirements
 ];
 
