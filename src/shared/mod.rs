@@ -2,6 +2,7 @@
 //!
 //! These modules contain specifications that are common across all distro variants.
 
+pub mod auth;
 pub mod boot;
 pub mod boot_modules;
 pub mod chroot;
@@ -19,6 +20,7 @@ pub mod requirements;
 pub mod services;
 pub mod rootfs;
 pub mod system;
+pub mod udev;
 pub mod uki;
 pub mod users;
 
@@ -40,7 +42,7 @@ pub use iso::{
     SQUASHFS_ISO_PATH, VGA_CONSOLE, XORRISO_FS_FLAGS, XORRISO_PARTITION_OFFSET,
 };
 pub use partitions::{PartitionLayout, PartitionSpec, EFI_PARTITION_SIZE_MB};
-pub use qemu::{QEMU_CPU_MODE, QEMU_DISK_FILENAME, QEMU_DISK_GB, QEMU_MEMORY_GB, QEMU_SERIAL_LOG};
+pub use qemu::{QEMU_CPU_MODE, QEMU_DISK_FILENAME, QEMU_DISK_GB, QEMU_MEMORY_GB, QEMU_SERIAL_LOG, QCOW2_IMAGE_FILENAME, RAW_DISK_FILENAME};
 pub use rootfs::{
     // EROFS (primary)
     EROFS_CDROM_PATH, EROFS_CHUNK_SIZE, EROFS_COMPRESSION, EROFS_COMPRESSION_LEVEL,
@@ -70,6 +72,13 @@ pub use requirements::{SystemRequirements, ACORN_REQUIREMENTS, LEVITATE_REQUIREM
 pub use services::ServiceManager;
 pub use system::{is_mount_point, is_root};
 pub use users::{UserSpec, MIN_GID, MIN_UID, SUDOERS_WHEEL_LINE};
+pub use auth::{
+    // Authentication components
+    components as auth_components,
+    // Auth module re-exports for convenience
+    AUTH_BIN as AUTH_BIN_FROM_SUBSYSTEM,
+    AUTH_SBIN as AUTH_SBIN_FROM_SUBSYSTEM,
+};
 pub use components::{
     // Filesystem hierarchy
     FHS_DIRS, FHS_SYMLINKS,
@@ -82,7 +91,7 @@ pub use components::{
     // Systemd units
     ESSENTIAL_UNITS, NM_UNITS, WPA_UNITS, SSH_UNITS, DBUS_ACTIVATION_SYMLINKS,
     BLUETOOTH_UNITS, PIPEWIRE_UNITS, POLKIT_UNITS, UDISKS_UNITS, UPOWER_UNITS,
-    // Udev
+    // Udev (UDEV_HELPERS kept here for backwards compatibility, canonical source in udev.rs)
     UDEV_HELPERS,
     // Sudo
     SUDO_LIBS,
@@ -94,4 +103,8 @@ pub use components::{
     CRITICAL_LIBS,
     // Users/groups
     SYSTEM_USERS, SYSTEM_GROUPS,
+};
+pub use udev::{
+    UDEV_HELPERS as UDEV_HELPER_BINARIES,
+    UDEV_UNITS_TO_PATCH, UDEV_TMPFILES_ENTRIES, UDEV_TMPFILES_CONF, UDEV_DIRS_SERVICE,
 };

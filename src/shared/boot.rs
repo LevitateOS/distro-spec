@@ -77,7 +77,8 @@ impl BootEntry {
             title: Cow::Owned(os_name.to_string()),
             linux: Cow::Owned(format!("/{}", kernel_filename)),
             initrd: Cow::Owned(format!("/{}", initramfs_filename)),
-            options: Cow::Borrowed("root=LABEL=root rw quiet"),
+            // Include console=ttyS0 for serial console output (needed for QEMU testing)
+            options: Cow::Borrowed("root=LABEL=root rw console=ttyS0,115200 console=tty0"),
         }
     }
 
@@ -89,8 +90,9 @@ impl BootEntry {
         initramfs_filename: &str,
         root_device: impl Into<String>,
     ) -> Self {
+        // Include console=ttyS0 for serial console output (needed for QEMU testing)
         Self {
-            options: Cow::Owned(format!("root={} rw quiet", root_device.into())),
+            options: Cow::Owned(format!("root={} rw console=ttyS0,115200 console=tty0", root_device.into())),
             ..Self::with_defaults(os_id, os_name, kernel_filename, initramfs_filename)
         }
     }
@@ -151,7 +153,7 @@ impl BootEntry {
 
     /// Update the root device in options.
     pub fn set_root(mut self, root_device: impl Into<String>) -> Self {
-        self.options = Cow::Owned(format!("root={} rw quiet", root_device.into()));
+        self.options = Cow::Owned(format!("root={} rw console=ttyS0,115200 console=tty0", root_device.into()));
         self
     }
 }

@@ -140,6 +140,7 @@ pub const BIN_UTILS: &[&str] = &[
     "ps", "pgrep", "pkill", "top", "free", "uptime", "w", "vmstat", "watch",
     // === SYSTEMD ===
     "systemctl", "journalctl", "timedatectl", "hostnamectl", "localectl", "loginctl", "bootctl",
+    "systemd-tmpfiles", // Note: this is in /usr/bin/, not /usr/lib/systemd/
     // === EDITORS ===
     "vi", "vim", "nano",
     // === NETWORK ===
@@ -215,11 +216,10 @@ pub const BIN_UTILS: &[&str] = &[
     "upower",
 ];
 
-/// Authentication binaries for /usr/bin.
-pub const AUTH_BIN: &[&str] = &["su", "sudo", "sudoedit", "sudoreplay"];
-
-/// SSH client binaries for /usr/bin.
-pub const SSH_BIN: &[&str] = &["ssh", "scp", "sftp", "ssh-keygen", "ssh-add", "ssh-agent"];
+// Authentication and SSH binaries have been consolidated into the auth subsystem.
+// See: distro-spec/src/shared/auth/components.rs
+// For backwards compatibility, re-export from the auth module below.
+pub use super::auth::components::{AUTH_BIN, SSH_BIN};
 
 /// NetworkManager binaries for /usr/bin.
 pub const NM_BIN: &[&str] = &["nmcli", "nm-online", "nmtui"];
@@ -281,27 +281,10 @@ pub const SBIN_UTILS: &[&str] = &[
     "ddrescue", "testdisk", "photorec",
 ];
 
-/// Authentication binaries for /usr/sbin.
-///
-/// unix_chkpwd is CRITICAL - pam_unix.so has hardcoded path to /usr/sbin/unix_chkpwd.
-/// Without it, chpasswd/passwd silently fail (PAM returns success but password unchanged).
-pub const AUTH_SBIN: &[&str] = &["visudo", "unix_chkpwd"];
-
-/// Additional shadow-utils binaries for /usr/sbin.
-pub const SHADOW_SBIN: &[&str] = &[
-    "faillock",     // Account lockout management (pam_faillock)
-    "chage",        // Password expiry management
-    "newusers",     // Batch user creation
-    "chgpasswd",    // Batch group password
-    "pwck",         // Database integrity checking
-    "grpck",
-    "vipw",         // Safe editing of passwd/group/shadow
-    "vigr",
-    "pwconv",       // Password conversion (for migration)
-    "pwunconv",
-    "grpconv",
-    "grpunconv",
-];
+// Authentication and shadow-utils binaries have been consolidated into the auth subsystem.
+// See: distro-spec/src/shared/auth/components.rs
+// For backwards compatibility, re-export from the auth module below.
+pub use super::auth::components::{AUTH_SBIN, SHADOW_SBIN};
 
 /// NetworkManager binaries for /usr/sbin.
 pub const NM_SBIN: &[&str] = &["NetworkManager"];
@@ -309,8 +292,9 @@ pub const NM_SBIN: &[&str] = &["NetworkManager"];
 /// wpa_supplicant binaries for /usr/sbin.
 pub const WPA_SBIN: &[&str] = &["wpa_supplicant", "wpa_cli", "wpa_passphrase"];
 
-/// SSH server binaries for /usr/sbin.
-pub const SSH_SBIN: &[&str] = &["sshd"];
+// SSH server binaries have been consolidated into the auth subsystem.
+// See: distro-spec/src/shared/auth/components.rs
+pub use super::auth::components::SSH_SBIN;
 
 /// Bluetooth binaries for /usr/sbin (from bluez).
 /// Note: bluetoothd is in /usr/libexec/bluetooth/, not /usr/sbin - handled via CopyTree
@@ -336,6 +320,7 @@ pub const UPOWER_SBIN: &[&str] = &[];
 // =============================================================================
 
 /// Systemd helper binaries in /usr/lib/systemd/.
+/// Note: systemd-tmpfiles is in /usr/bin/, not here - see BIN_UTILS.
 pub const SYSTEMD_BINARIES: &[&str] = &[
     "systemd-executor",
     "systemd-shutdown",
@@ -344,7 +329,7 @@ pub const SYSTEMD_BINARIES: &[&str] = &[
     "systemd-journald",
     "systemd-modules-load",
     "systemd-sysctl",
-    "systemd-tmpfiles",
+    // systemd-tmpfiles is in /usr/bin/, not /usr/lib/systemd/ - see BIN_UTILS
     "systemd-timedated",
     "systemd-hostnamed",
     "systemd-localed",
@@ -354,6 +339,7 @@ pub const SYSTEMD_BINARIES: &[&str] = &[
     "systemd-udevd",
     "systemd-fsck",
     "systemd-remount-fs",
+    "systemd-makefs",  // For creating/formatting filesystems during boot
     "systemd-vconsole-setup",
     "systemd-random-seed",
 ];
@@ -376,6 +362,9 @@ pub const ESSENTIAL_UNITS: &[&str] = &[
     "reboot.target", "poweroff.target", "halt.target",
     "suspend.target", "sleep.target", "umount.target", "final.target",
     "graphical.target",
+    // Initrd targets (required for install initramfs boot)
+    "initrd.target", "initrd-root-fs.target", "initrd-root-device.target",
+    "initrd-switch-root.target", "initrd-fs.target",
     // Services - core
     "systemd-journald.service", "systemd-journald@.service",
     "systemd-udevd.service", "systemd-udev-trigger.service",
@@ -387,6 +376,9 @@ pub const ESSENTIAL_UNITS: &[&str] = &[
     "systemd-fsck-root.service", "systemd-fsck@.service",
     "systemd-remount-fs.service",
     // Note: systemd-fstab-generator is in system-generators/, not a unit file
+    // Services - initrd (required for install initramfs boot)
+    "initrd-switch-root.service", "initrd-cleanup.service",
+    "initrd-udevadm-cleanup-db.service", "initrd-parse-etc.service",
     // Services - auth
     "systemd-logind.service",
     // Services - getty
@@ -473,119 +465,17 @@ pub const UDEV_HELPERS: &[&str] = &[
 // SUDO
 // =============================================================================
 
-/// Sudo support libraries in /usr/libexec/sudo/.
-pub const SUDO_LIBS: &[&str] = &[
-    "libsudo_util.so.0.0.0",
-    "libsudo_util.so.0",
-    "libsudo_util.so",
-    "sudoers.so",
-    "group_file.so",
-    "system_group.so",
-];
+// Sudo libraries have been consolidated into the auth subsystem.
+// See: distro-spec/src/shared/auth/components.rs
+pub use super::auth::components::SUDO_LIBS;
 
 // =============================================================================
 // PAM
 // =============================================================================
 
-/// Essential PAM modules in /usr/lib64/security/.
-///
-/// Comprehensive list for Arch-comparable security.
-pub const PAM_MODULES: &[&str] = &[
-    // === CORE AUTH ===
-    "pam_unix.so",           // Traditional Unix password auth (CRITICAL)
-    "pam_permit.so",         // Always permit (for stacking)
-    "pam_deny.so",           // Always deny (for fallback/other)
-    // === PASSWORD QUALITY ===
-    "pam_pwquality.so",      // Password strength checking
-    "pam_pwhistory.so",      // Prevent password reuse
-    // === ACCOUNT LOCKOUT ===
-    "pam_faillock.so",       // Lock account after failed attempts
-    "pam_faildelay.so",      // Delay after auth failure
-    "pam_tally2.so",         // Legacy tally (some configs use it)
-    // === ACCESS CONTROL ===
-    "pam_access.so",         // /etc/security/access.conf
-    "pam_time.so",           // /etc/security/time.conf
-    "pam_group.so",          // /etc/security/group.conf
-    "pam_wheel.so",          // Restrict su to wheel group
-    "pam_nologin.so",        // Deny login when /etc/nologin exists
-    "pam_securetty.so",      // Restrict root to secure ttys
-    "pam_shells.so",         // Require valid shell in /etc/shells
-    // === RESOURCE LIMITS ===
-    "pam_limits.so",         // /etc/security/limits.conf (ulimit)
-    "pam_umask.so",          // Set default umask
-    // === SESSION SETUP ===
-    "pam_env.so",            // Set environment from pam_env.conf
-    "pam_systemd.so",        // Register session with systemd-logind
-    "pam_keyinit.so",        // Initialize kernel keyring
-    "pam_loginuid.so",       // Set loginuid for auditing
-    "pam_namespace.so",      // Polyinstantiated directories (/tmp per-user)
-    // === CONDITIONAL ===
-    "pam_succeed_if.so",     // Conditional success based on user attributes
-    "pam_listfile.so",       // Check user against file list
-    "pam_rootok.so",         // Skip auth for root
-    "pam_localuser.so",      // Only allow local users
-    // === SELINUX ===
-    "pam_selinux.so",        // SELinux context setup
-    "pam_sepermit.so",       // SELinux permit mapping
-    // === INFO/LOGGING ===
-    "pam_lastlog.so",        // Record/display last login
-    "pam_motd.so",           // Display message of the day
-    "pam_mail.so",           // Check for new mail
-    "pam_warn.so",           // Log warnings to syslog
-    "pam_echo.so",           // Display messages
-    // === X11 ===
-    "pam_xauth.so",          // Forward X11 credentials on su
-    // === MISC ===
-    "pam_exec.so",           // Execute external command
-    "pam_mkhomedir.so",      // Create home directory on first login
-    "pam_ftp.so",            // Anonymous FTP-style login
-];
-
-/// Essential PAM configuration files in /etc/pam.d/.
-pub const PAM_CONFIGS: &[&str] = &[
-    // === CORE AUTH STACKS ===
-    "etc/pam.d/system-auth",      // Main auth stack (password, session, account)
-    "etc/pam.d/password-auth",    // Password-based auth (remote services)
-    // === LOGIN SERVICES ===
-    "etc/pam.d/login",            // Console login (agetty)
-    "etc/pam.d/sshd",             // SSH login
-    // === PRIVILEGE ESCALATION ===
-    "etc/pam.d/sudo",             // sudo command
-    "etc/pam.d/su",               // su command
-    "etc/pam.d/su-l",             // su - (login shell)
-    "etc/pam.d/runuser",          // runuser (root-only su)
-    "etc/pam.d/runuser-l",        // runuser - (login shell)
-    // === PASSWORD MANAGEMENT ===
-    "etc/pam.d/passwd",           // passwd command
-    "etc/pam.d/chpasswd",         // chpasswd command (batch password setting)
-    // === USER/GROUP MANAGEMENT ===
-    "etc/pam.d/useradd",          // useradd command
-    "etc/pam.d/usermod",          // usermod command
-    "etc/pam.d/userdel",          // userdel command
-    "etc/pam.d/groupadd",         // groupadd command
-    "etc/pam.d/groupmod",         // groupmod command
-    "etc/pam.d/groupdel",         // groupdel command
-    "etc/pam.d/chage",            // chage (password expiry)
-    "etc/pam.d/chgpasswd",        // chgpasswd (batch group password)
-    "etc/pam.d/groupmems",        // groupmems (group membership)
-    "etc/pam.d/newusers",         // newusers (batch user creation)
-    // === FALLBACK ===
-    "etc/pam.d/other",            // Fallback for unconfigured services (should deny)
-    // === SYSTEMD ===
-    "etc/pam.d/systemd-user",     // systemd user sessions
-];
-
-/// Security configuration files in /etc/security/.
-pub const SECURITY_FILES: &[&str] = &[
-    "etc/security/limits.conf",       // Resource limits (ulimit)
-    "etc/security/pam_env.conf",      // PAM environment variables
-    "etc/security/faillock.conf",     // Account lockout configuration
-    "etc/security/access.conf",       // Access control by user/group/host
-    "etc/security/group.conf",        // Group-based access control
-    "etc/security/namespace.conf",    // Namespace/polyinstantiation
-    "etc/security/time.conf",         // Time-based access control
-    "etc/security/pwquality.conf",    // Password quality requirements
-];
+// PAM modules, configs, and security files have been consolidated into the auth subsystem.
+// See: distro-spec/src/shared/auth/components.rs
+pub use super::auth::components::{PAM_MODULES, PAM_CONFIGS, SECURITY_FILES};
 
 // =============================================================================
 // /etc FILES
@@ -702,6 +592,32 @@ mod tests {
         assert!(ESSENTIAL_UNITS.contains(&"systemd-journald.service"));
     }
 
+    // Regression test: TEAM_145 - initrd units must be in ESSENTIAL_UNITS for install initramfs
+    #[test]
+    fn test_initrd_units_present() {
+        let initrd_targets = [
+            "initrd.target",
+            "initrd-root-fs.target",
+            "initrd-root-device.target",
+            "initrd-switch-root.target",
+            "initrd-fs.target",
+        ];
+        let initrd_services = [
+            "initrd-switch-root.service",
+            "initrd-cleanup.service",
+            "initrd-udevadm-cleanup-db.service",
+            "initrd-parse-etc.service",
+        ];
+
+        for unit in initrd_targets.iter().chain(initrd_services.iter()) {
+            assert!(
+                ESSENTIAL_UNITS.contains(unit),
+                "Initrd unit {} missing from ESSENTIAL_UNITS - required for install initramfs boot",
+                unit
+            );
+        }
+    }
+
     #[test]
     fn test_pam_critical_modules() {
         assert!(PAM_MODULES.contains(&"pam_unix.so"));
@@ -714,5 +630,42 @@ mod tests {
         assert!(FHS_DIRS.contains(&"usr/bin"));
         assert!(FHS_DIRS.contains(&"usr/sbin"));
         assert!(FHS_DIRS.contains(&"etc"));
+    }
+
+    // Regression test: TEAM_145 - systemd-tmpfiles must be in BIN_UTILS, not SYSTEMD_BINARIES
+    // systemd-tmpfiles is at /usr/bin/systemd-tmpfiles, not /usr/lib/systemd/
+    // If it's in the wrong list, the copy will silently fail and cause boot failures
+    #[test]
+    fn test_systemd_tmpfiles_in_correct_location() {
+        // systemd-tmpfiles must be in BIN_UTILS (for /usr/bin/)
+        assert!(
+            BIN_UTILS.contains(&"systemd-tmpfiles"),
+            "systemd-tmpfiles must be in BIN_UTILS - it's at /usr/bin/, not /usr/lib/systemd/"
+        );
+
+        // systemd-tmpfiles must NOT be in SYSTEMD_BINARIES (for /usr/lib/systemd/)
+        assert!(
+            !SYSTEMD_BINARIES.contains(&"systemd-tmpfiles"),
+            "systemd-tmpfiles must NOT be in SYSTEMD_BINARIES - wrong location causes silent copy failure"
+        );
+    }
+
+    // Regression test: TEAM_145 - verify other /usr/bin systemd tools are in BIN_UTILS
+    #[test]
+    fn test_systemd_usr_bin_tools() {
+        // These tools are in /usr/bin/, not /usr/lib/systemd/
+        let usr_bin_systemd_tools = [
+            "systemctl",
+            "journalctl",
+            "systemd-tmpfiles",
+        ];
+
+        for tool in usr_bin_systemd_tools {
+            assert!(
+                BIN_UTILS.contains(&tool),
+                "{} should be in BIN_UTILS (it's at /usr/bin/)",
+                tool
+            );
+        }
     }
 }
