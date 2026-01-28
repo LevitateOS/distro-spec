@@ -46,57 +46,36 @@ pub const SSH_BIN: &[&str] = &["ssh", "scp", "sftp", "ssh-keygen", "ssh-add", "s
 
 /// PAM modules in /usr/lib64/security/.
 ///
-/// Comprehensive list for Arch-comparable security. These modules implement
-/// the pluggable authentication framework used by all login services.
+/// Only includes modules actually used by LevitateOS PAM configurations.
+/// Verified against all /etc/pam.d/*.so references.
 pub const PAM_MODULES: &[&str] = &[
     // === CORE AUTH ===
     "pam_unix.so",           // Traditional Unix password auth (CRITICAL)
-    "pam_permit.so",         // Always permit (for stacking)
-    "pam_deny.so",           // Always deny (for fallback/other)
+    "pam_deny.so",           // Always deny (fallback for 'other' policy)
     // === PASSWORD QUALITY ===
-    "pam_pwquality.so",      // Password strength checking
-    "pam_pwhistory.so",      // Prevent password reuse
-    // === ACCOUNT LOCKOUT ===
-    "pam_faillock.so",       // Lock account after failed attempts
-    "pam_faildelay.so",      // Delay after auth failure
-    "pam_tally2.so",         // Legacy tally (some configs use it)
-    // === ACCESS CONTROL ===
-    "pam_access.so",         // /etc/security/access.conf
-    "pam_time.so",           // /etc/security/time.conf
-    "pam_group.so",          // /etc/security/group.conf
-    "pam_wheel.so",          // Restrict su to wheel group
-    "pam_nologin.so",        // Deny login when /etc/nologin exists
-    "pam_securetty.so",      // Restrict root to secure ttys
-    "pam_shells.so",         // Require valid shell in /etc/shells
+    "pam_pwquality.so",      // Password strength checking (password stack)
+    // === ACCOUNT ACCESS ===
+    "pam_access.so",         // /etc/security/access.conf (login services)
+    "pam_nologin.so",        // Deny login when /etc/nologin exists (login)
+    "pam_rootok.so",         // Skip auth for root (su, runuser)
+    // === FAILURE/DELAY ===
+    "pam_faildelay.so",      // Delay after auth failure (system-auth)
     // === RESOURCE LIMITS ===
     "pam_limits.so",         // /etc/security/limits.conf (ulimit)
-    "pam_umask.so",          // Set default umask
+    "pam_umask.so",          // Set default umask (session)
     // === SESSION SETUP ===
-    "pam_env.so",            // Set environment from pam_env.conf
-    "pam_systemd.so",        // Register session with systemd-logind
-    "pam_keyinit.so",        // Initialize kernel keyring
-    "pam_loginuid.so",       // Set loginuid for auditing
-    "pam_namespace.so",      // Polyinstantiated directories (/tmp per-user)
+    "pam_env.so",            // Set environment from pam_env.conf (auth)
+    "pam_systemd.so",        // Register session with systemd-logind (session)
+    "pam_keyinit.so",        // Initialize kernel keyring (session)
+    "pam_loginuid.so",       // Set loginuid for auditing (login, su, su-l)
+    "pam_namespace.so",      // Polyinstantiated /tmp per-user (login, su-l)
     // === CONDITIONAL ===
-    "pam_succeed_if.so",     // Conditional success based on user attributes
-    "pam_listfile.so",       // Check user against file list
-    "pam_rootok.so",         // Skip auth for root
-    "pam_localuser.so",      // Only allow local users
-    // === SELINUX ===
-    "pam_selinux.so",        // SELinux context setup
-    "pam_sepermit.so",       // SELinux permit mapping
+    "pam_succeed_if.so",     // Conditional success (system-auth cron bypass)
     // === INFO/LOGGING ===
-    "pam_lastlog.so",        // Record/display last login
-    "pam_motd.so",           // Display message of the day
-    "pam_mail.so",           // Check for new mail
-    "pam_warn.so",           // Log warnings to syslog
-    "pam_echo.so",           // Display messages
+    "pam_lastlog.so",        // Record/display last login (postlogin)
+    "pam_motd.so",           // Display message of the day (postlogin)
     // === X11 ===
-    "pam_xauth.so",          // Forward X11 credentials on su
-    // === MISC ===
-    "pam_exec.so",           // Execute external command
-    "pam_mkhomedir.so",      // Create home directory on first login
-    "pam_ftp.so",            // Anonymous FTP-style login
+    "pam_xauth.so",          // Forward X11 credentials on su (su-l)
 ];
 
 /// Essential PAM configuration files in /etc/pam.d/.
