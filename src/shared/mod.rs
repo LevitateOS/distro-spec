@@ -73,19 +73,19 @@ pub use services::ServiceManager;
 pub use system::{is_mount_point, is_root};
 pub use users::{UserSpec, MIN_GID, MIN_UID, SUDOERS_WHEEL_LINE};
 pub use auth::{
-    // Authentication components
-    components as auth_components,
-    // Auth module re-exports for convenience
-    AUTH_BIN as AUTH_BIN_FROM_SUBSYSTEM,
-    AUTH_SBIN as AUTH_SBIN_FROM_SUBSYSTEM,
+    // PAM configuration files
+    PAM_SYSTEM_AUTH, PAM_LOGIN, PAM_SSHD, PAM_SUDO, PAM_OTHER,
+    // Component lists (auth subsystem)
+    AUTH_BIN, AUTH_SBIN, SHADOW_SBIN, SSH_BIN, SSH_SBIN, SUDO_LIBS,
+    PAM_MODULES, PAM_CONFIGS, SECURITY_FILES,
 };
 pub use components::{
     // Filesystem hierarchy
     FHS_DIRS, FHS_SYMLINKS,
     // Binaries - /usr/bin
-    BIN_UTILS, AUTH_BIN, SSH_BIN, NM_BIN,
+    BIN_UTILS, NM_BIN,
     // Binaries - /usr/sbin
-    SBIN_UTILS, AUTH_SBIN, SHADOW_SBIN, NM_SBIN, WPA_SBIN, SSH_SBIN,
+    SBIN_UTILS, NM_SBIN, WPA_SBIN,
     BLUETOOTH_SBIN, PIPEWIRE_SBIN, POLKIT_SBIN, UDISKS_SBIN, UPOWER_SBIN,
     SYSTEMD_BINARIES,
     // Systemd units
@@ -93,10 +93,6 @@ pub use components::{
     BLUETOOTH_UNITS, PIPEWIRE_UNITS, POLKIT_UNITS, UDISKS_UNITS, UPOWER_UNITS,
     // Udev (UDEV_HELPERS kept here for backwards compatibility, canonical source in udev.rs)
     UDEV_HELPERS,
-    // Sudo
-    SUDO_LIBS,
-    // PAM
-    PAM_MODULES, PAM_CONFIGS, SECURITY_FILES,
     // /etc files
     ETC_FILES,
     // Libraries

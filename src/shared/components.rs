@@ -216,10 +216,9 @@ pub const BIN_UTILS: &[&str] = &[
     "upower",
 ];
 
-// Authentication and SSH binaries have been consolidated into the auth subsystem.
+// Authentication and SSH binaries have been moved to the auth subsystem.
 // See: distro-spec/src/shared/auth/components.rs
-// For backwards compatibility, re-export from the auth module below.
-pub use super::auth::components::{AUTH_BIN, SSH_BIN};
+// Import directly from there when needed.
 
 /// NetworkManager binaries for /usr/bin.
 pub const NM_BIN: &[&str] = &["nmcli", "nm-online", "nmtui"];
@@ -281,10 +280,8 @@ pub const SBIN_UTILS: &[&str] = &[
     "ddrescue", "testdisk", "photorec",
 ];
 
-// Authentication and shadow-utils binaries have been consolidated into the auth subsystem.
+// Authentication and shadow-utils binaries have been moved to the auth subsystem.
 // See: distro-spec/src/shared/auth/components.rs
-// For backwards compatibility, re-export from the auth module below.
-pub use super::auth::components::{AUTH_SBIN, SHADOW_SBIN};
 
 /// NetworkManager binaries for /usr/sbin.
 pub const NM_SBIN: &[&str] = &["NetworkManager"];
@@ -292,9 +289,8 @@ pub const NM_SBIN: &[&str] = &["NetworkManager"];
 /// wpa_supplicant binaries for /usr/sbin.
 pub const WPA_SBIN: &[&str] = &["wpa_supplicant", "wpa_cli", "wpa_passphrase"];
 
-// SSH server binaries have been consolidated into the auth subsystem.
+// SSH server binaries have been moved to the auth subsystem.
 // See: distro-spec/src/shared/auth/components.rs
-pub use super::auth::components::SSH_SBIN;
 
 /// Bluetooth binaries for /usr/sbin (from bluez).
 /// Note: bluetoothd is in /usr/libexec/bluetooth/, not /usr/sbin - handled via CopyTree
@@ -465,17 +461,16 @@ pub const UDEV_HELPERS: &[&str] = &[
 // SUDO
 // =============================================================================
 
-// Sudo libraries have been consolidated into the auth subsystem.
+// Sudo libraries have been moved to the auth subsystem.
 // See: distro-spec/src/shared/auth/components.rs
-pub use super::auth::components::SUDO_LIBS;
 
 // =============================================================================
 // PAM
 // =============================================================================
 
-// PAM modules, configs, and security files have been consolidated into the auth subsystem.
+// PAM modules, configs, and security files have been moved to the auth subsystem.
 // See: distro-spec/src/shared/auth/components.rs
-pub use super::auth::components::{PAM_MODULES, PAM_CONFIGS, SECURITY_FILES};
+// Import directly from there when needed.
 
 // =============================================================================
 // /etc FILES
@@ -582,7 +577,7 @@ mod tests {
         assert!(BIN_UTILS.contains(&"bash") || BIN_UTILS.contains(&"ls"));
         assert!(BIN_UTILS.contains(&"systemctl"));
         assert!(SBIN_UTILS.contains(&"passwd"));
-        assert!(AUTH_SBIN.contains(&"unix_chkpwd"));
+        // AUTH_SBIN tests moved to distro-spec/src/shared/auth/components.rs
     }
 
     #[test]
@@ -618,12 +613,7 @@ mod tests {
         }
     }
 
-    #[test]
-    fn test_pam_critical_modules() {
-        assert!(PAM_MODULES.contains(&"pam_unix.so"));
-        assert!(PAM_MODULES.contains(&"pam_permit.so"));
-        assert!(PAM_MODULES.contains(&"pam_deny.so"));
-    }
+    // PAM_MODULES tests moved to distro-spec/src/shared/auth/components.rs
 
     #[test]
     fn test_fhs_dirs_have_usr() {
