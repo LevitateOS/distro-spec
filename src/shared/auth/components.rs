@@ -147,9 +147,8 @@ mod tests {
         // Verify critical components for login to work
         assert!(AUTH_BIN.contains(&"sudo"));
         assert!(AUTH_BIN.contains(&"su"));
-        assert!(AUTH_SBIN.contains(&"unix_chkpwd"));
+        assert!(AUTH_SBIN.contains(&"unix_chkpwd"), "unix_chkpwd is CRITICAL - pam_unix.so depends on it");
         assert!(PAM_MODULES.contains(&"pam_unix.so"));
-        assert!(PAM_MODULES.contains(&"pam_permit.so"));
         assert!(PAM_MODULES.contains(&"pam_deny.so"));
         assert!(SSH_BIN.contains(&"ssh"));
         assert!(SSH_SBIN.contains(&"sshd"));
@@ -162,13 +161,34 @@ mod tests {
         assert!(PAM_CONFIGS.contains(&"etc/pam.d/sshd"));
         assert!(PAM_CONFIGS.contains(&"etc/pam.d/sudo"));
         assert!(PAM_CONFIGS.contains(&"etc/pam.d/system-auth"));
+        assert!(PAM_CONFIGS.contains(&"etc/pam.d/postlogin"));
+        assert!(PAM_CONFIGS.contains(&"etc/pam.d/other"));
     }
 
     #[test]
     fn test_security_files_complete() {
         // Verify security configuration files are defined
+        // NOTE: Only files actually created by create_security_config() are included
         assert!(SECURITY_FILES.contains(&"etc/security/limits.conf"));
-        assert!(SECURITY_FILES.contains(&"etc/security/faillock.conf"));
+        assert!(SECURITY_FILES.contains(&"etc/security/access.conf"));
         assert!(SECURITY_FILES.contains(&"etc/security/pwquality.conf"));
+    }
+
+    #[test]
+    fn test_pam_modules_count() {
+        // Verify only 18 modules (actual count used) are defined
+        assert_eq!(PAM_MODULES.len(), 18, "Should have exactly 18 modules (actual count used)");
+    }
+
+    #[test]
+    fn test_pam_configs_count() {
+        // Verify 18 configs are defined (17 from profile + password-auth)
+        assert_eq!(PAM_CONFIGS.len(), 18, "Should have 18 PAM configs");
+    }
+
+    #[test]
+    fn test_security_files_count() {
+        // Verify only 5 files (actual count created) are defined
+        assert_eq!(SECURITY_FILES.len(), 5, "Should have exactly 5 security files");
     }
 }
