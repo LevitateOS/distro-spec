@@ -52,7 +52,7 @@ This document serves as the **single source of truth** for all login/authenticat
 - Prevents cross-user tampering in shared directories
 - Currently minimal configuration (mostly empty)
 
-### 17 PAM Configuration Files
+### 18 PAM Configuration Files
 
 **Core Authentication Stacks**:
 1. `system-auth` - Main authentication stack (passwords, sessions, account)
@@ -70,19 +70,23 @@ This document serves as the **single source of truth** for all login/authenticat
 9. `runuser` - runuser (root-only su)
 10. `runuser-l` - runuser - (login shell)
 
-**Password Management**:
+**Password/User Management**:
 11. `passwd` - passwd command (user password change)
 12. `chpasswd` - chpasswd command (batch password setting)
+13. `chfn` - chfn command (change full name)
+14. `chsh` - chsh command (change shell)
 
-**User/Group Management**:
-13. `useradd` - useradd command
-14. `usermod` - usermod command
-15. `userdel` - userdel command
-16. `groupadd`, `groupmod`, `groupdel`, `chage`, `chgpasswd`, `groupmems`, `newusers`
+**System Services**:
+15. `crond` - cron daemon
+16. `systemd-user` - systemd user sessions
 
-**System**:
-17. `systemd-user` - systemd user sessions
+**Post-Login**:
+17. `postlogin` - Post-login session setup (included by login services)
+
+**Fallback**:
 18. `other` - Fallback for unconfigured services (should deny)
+
+Note: Other user/group management commands (useradd, userdel, groupadd, groupdel, chage, chgpasswd, groupmems, newusers) fall back to the "other" policy and don't have custom PAM configs.
 
 ---
 

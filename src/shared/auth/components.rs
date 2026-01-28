@@ -103,6 +103,10 @@ pub const PAM_MODULES: &[&str] = &[
 ///
 /// These files define the authentication policy for all services.
 /// Each file contains stacks of PAM modules that are called in sequence.
+///
+/// Note: Not all PAM-using services need their own config file.
+/// User/group management commands (useradd, groupadd, chage, etc.) fall back
+/// to the "other" policy and don't have custom configs.
 pub const PAM_CONFIGS: &[&str] = &[
     // === CORE AUTH STACKS ===
     "etc/pam.d/system-auth",      // Main auth stack (password, session, account)
@@ -120,21 +124,15 @@ pub const PAM_CONFIGS: &[&str] = &[
     // === PASSWORD MANAGEMENT ===
     "etc/pam.d/passwd",           // passwd command
     "etc/pam.d/chpasswd",         // chpasswd command (batch password setting)
-    // === USER/GROUP MANAGEMENT ===
-    "etc/pam.d/useradd",          // useradd command
-    "etc/pam.d/usermod",          // usermod command
-    "etc/pam.d/userdel",          // userdel command
-    "etc/pam.d/groupadd",         // groupadd command
-    "etc/pam.d/groupmod",         // groupmod command
-    "etc/pam.d/groupdel",         // groupdel command
-    "etc/pam.d/chage",            // chage (password expiry)
-    "etc/pam.d/chgpasswd",        // chgpasswd (batch group password)
-    "etc/pam.d/groupmems",        // groupmems (group membership)
-    "etc/pam.d/newusers",         // newusers (batch user creation)
+    "etc/pam.d/chfn",             // chfn command (change full name)
+    "etc/pam.d/chsh",             // chsh command (change shell)
+    // === SYSTEM SERVICES ===
+    "etc/pam.d/crond",            // cron daemon
+    "etc/pam.d/systemd-user",     // systemd user sessions
     // === FALLBACK ===
     "etc/pam.d/other",            // Fallback for unconfigured services (should deny)
-    // === SYSTEMD ===
-    "etc/pam.d/systemd-user",     // systemd user sessions
+    // === POSTLOGIN ===
+    "etc/pam.d/postlogin",        // Post-login session setup (included by login services)
 ];
 
 /// Security configuration files in /etc/security/.
