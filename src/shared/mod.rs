@@ -73,8 +73,13 @@ pub use services::ServiceManager;
 pub use system::{is_mount_point, is_root};
 pub use users::{UserSpec, MIN_GID, MIN_UID, SUDOERS_WHEEL_LINE};
 pub use auth::{
-    // PAM configuration files
-    PAM_SYSTEM_AUTH, PAM_LOGIN, PAM_SSHD, PAM_SUDO, PAM_OTHER,
+    // All PAM configuration files (SINGLE SOURCE OF TRUTH)
+    PAM_SYSTEM_AUTH, PAM_POSTLOGIN, PAM_LOGIN, PAM_SSHD, PAM_REMOTE,
+    PAM_SUDO, PAM_SU, PAM_SU_L, PAM_RUNUSER, PAM_RUNUSER_L,
+    PAM_CROND, PAM_PASSWD, PAM_CHPASSWD, PAM_CHFN, PAM_CHSH,
+    PAM_OTHER, PAM_SYSTEMD_USER,
+    // All security configuration files (SINGLE SOURCE OF TRUTH)
+    LIMITS_CONF, ACCESS_CONF, NAMESPACE_CONF, PAM_ENV_CONF, PWQUALITY_CONF,
     // Component lists (auth subsystem)
     AUTH_BIN, AUTH_SBIN, SHADOW_SBIN, SSH_BIN, SSH_SBIN, SUDO_LIBS,
     PAM_MODULES, PAM_CONFIGS, SECURITY_FILES,

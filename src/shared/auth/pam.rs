@@ -253,6 +253,62 @@ session    required     pam_limits.so
 session    required     pam_unix.so
 ";
 
+/// Security configuration: resource limits.
+///
+/// Controls ulimit settings: max file descriptors, core dumps, stack size, etc.
+/// Prevents denial of service via resource exhaustion.
+pub const LIMITS_CONF: &str = "\
+*               soft    core            0
+*               hard    nofile          1048576
+*               soft    nofile          1024
+root            soft    nofile          1048576
+";
+
+/// Security configuration: access control by user/group/host.
+///
+/// Controls who can login based on user, group, and host matching rules.
+pub const ACCESS_CONF: &str = "\
+# Access control rules for pam_access.so
+# Format: permission:users:origins
+# Allow root from LOCAL or network
++:root:LOCAL
+# Allow all other users
++:ALL:ALL
+";
+
+/// Security configuration: polyinstantiation (per-user /tmp isolation).
+///
+/// Enables per-user isolated /tmp directories (if configured by pam_namespace).
+/// Left mostly empty by default - administrators can configure as needed.
+pub const NAMESPACE_CONF: &str = "\
+# Polyinstantiation configuration for pam_namespace.so
+# Defines per-user isolated directories
+# See pam_namespace(5) for syntax
+";
+
+/// Security configuration: PAM environment variables.
+///
+/// Sets environment variables for PAM sessions.
+/// Left mostly empty by default - applications configure via pam.conf.
+pub const PAM_ENV_CONF: &str = "\
+# PAM environment configuration
+# Format: variable DEFAULT|@{PAM_ITEM}
+# See pam_env.conf(5) for syntax
+";
+
+/// Security configuration: password quality requirements.
+///
+/// Enforces password strength via pam_pwquality.so.
+/// Requirements: 12+ chars, 3+ classes, numbers, no repeats.
+pub const PWQUALITY_CONF: &str = "\
+# Password quality requirements (pam_pwquality.so)
+minlen = 12
+minclass = 3
+dcredit = -1
+ucredit = -1
+maxrepeat = 3
+";
+
 #[cfg(test)]
 mod tests {
     use super::*;
