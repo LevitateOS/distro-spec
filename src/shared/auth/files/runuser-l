@@ -1,0 +1,6 @@
+# runuser-l - PAM configuration for runuser with login shell
+auth       sufficient   pam_rootok.so
+account    include      system-auth
+session    required     pam_loginuid.so
+session    required     pam_namespace.so
+session    include      system-auth

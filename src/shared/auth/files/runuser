@@ -1,0 +1,4 @@
+# runuser - PAM configuration for root-only user switching
+auth       sufficient   pam_rootok.so
+account    include      system-auth
+session    include      system-auth

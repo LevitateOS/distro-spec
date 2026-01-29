@@ -1,0 +1,3 @@
+# chpasswd - PAM configuration for batch password changes
+account    required     pam_unix.so
+password   required     pam_unix.so yescrypt shadow

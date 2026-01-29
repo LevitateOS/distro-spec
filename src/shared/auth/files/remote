@@ -1,0 +1,9 @@
+# Remote login - PAM configuration for remote login services
+auth       substack     system-auth
+auth       include      postlogin
+account    required     pam_nologin.so
+account    include      system-auth
+password   include      system-auth
+session    required     pam_loginuid.so
+session    include      system-auth
+session    include      postlogin

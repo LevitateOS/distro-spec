@@ -1,0 +1,8 @@
+# su - PAM configuration for user switching
+auth       sufficient   pam_rootok.so
+auth       include      system-auth
+account    required     pam_nologin.so
+account    include      system-auth
+password   include      system-auth
+session    required     pam_unix.so
+session    include      system-auth

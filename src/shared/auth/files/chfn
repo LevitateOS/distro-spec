@@ -1,0 +1,5 @@
+# chfn - PAM configuration for changing user info
+auth       include      system-auth
+account    include      system-auth
+password   include      system-auth
+session    include      system-auth

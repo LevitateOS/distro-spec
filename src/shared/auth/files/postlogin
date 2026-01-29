@@ -1,0 +1,4 @@
+# Postlogin processing (included by login services)
+session     optional                     pam_lastlog.so showfailed silent
+session     optional                     pam_motd.so motd=/etc/motd
+session     optional                     pam_motd.so noupdate
