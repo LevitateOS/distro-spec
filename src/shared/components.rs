@@ -483,6 +483,93 @@ pub const DBUS_ACTIVATION_SYMLINKS: &[&str] = &[
     "dbus-org.freedesktop.resolve1.service",
 ];
 
+/// ALL systemd units that must be present in the rootfs.
+///
+/// This is a consolidated list of all systemd unit files required for:
+/// - Boot and shutdown (targets like multi-user.target, halt.target, poweroff.target)
+/// - System services (journald, udev, fsck, etc.)
+/// - Login (getty, serial-getty)
+/// - Networking (NetworkManager, wpa_supplicant)
+/// - Audio (PipeWire)
+/// - Bluetooth, polkit, udisks, upower
+/// - SSH (sshd)
+/// - D-Bus activation symlinks
+///
+/// Used by fsdbg to verify the rootfs contains all required systemd units.
+pub const ALL_SYSTEMD_UNITS: &[&str] = &[
+    // Essential targets and services
+    "basic.target", "sysinit.target", "multi-user.target", "default.target",
+    "getty.target", "local-fs.target", "local-fs-pre.target",
+    "remote-fs.target", "remote-fs-pre.target",
+    "network.target", "network-pre.target", "network-online.target",
+    "paths.target", "slices.target", "sockets.target", "timers.target",
+    "swap.target", "shutdown.target", "rescue.target", "emergency.target",
+    // CRITICAL: Shutdown targets that were missing
+    "reboot.target", "poweroff.target", "halt.target",
+    "suspend.target", "sleep.target", "umount.target", "final.target",
+    "graphical.target",
+    // Initrd targets
+    "initrd.target", "initrd-root-fs.target", "initrd-root-device.target",
+    "initrd-switch-root.target", "initrd-fs.target",
+    // Core services
+    "systemd-journald.service", "systemd-journald@.service",
+    "systemd-udevd.service", "systemd-udev-trigger.service",
+    "systemd-modules-load.service", "systemd-sysctl.service",
+    "systemd-tmpfiles-setup.service", "systemd-tmpfiles-setup-dev.service",
+    "systemd-tmpfiles-clean.service",
+    "systemd-random-seed.service", "systemd-vconsole-setup.service",
+    // Disk services
+    "systemd-fsck-root.service", "systemd-fsck@.service",
+    "systemd-remount-fs.service",
+    // Initrd services
+    "initrd-switch-root.service", "initrd-cleanup.service",
+    "initrd-udevadm-cleanup-db.service", "initrd-parse-etc.service",
+    // Auth/login
+    "systemd-logind.service",
+    "getty@.service", "serial-getty@.service",
+    "console-getty.service", "container-getty@.service",
+    // Time/network
+    "systemd-timedated.service", "systemd-hostnamed.service",
+    "systemd-localed.service", "systemd-networkd.service",
+    "systemd-resolved.service", "systemd-networkd-wait-online.service",
+    // Misc core
+    "dbus.service", "dbus-broker.service", "chronyd.service",
+    // SSH
+    "sshd.service", "sshd@.service", "sshd-keygen.target",
+    "sshd-keygen@.service", "ssh-host-keys-migration.service",
+    // Sockets
+    "systemd-journald.socket", "systemd-journald-dev-log.socket",
+    "systemd-journald-audit.socket",
+    "systemd-udevd-control.socket", "systemd-udevd-kernel.socket",
+    "dbus.socket",
+    // Paths
+    "systemd-ask-password-console.path", "systemd-ask-password-wall.path",
+    // Slices
+    "user.slice",
+    // NetworkManager
+    "NetworkManager.service", "NetworkManager-dispatcher.service",
+    // wpa_supplicant
+    "wpa_supplicant.service",
+    // Bluetooth
+    "bluetooth.service", "bluetooth.target",
+    // PipeWire (user service - in user/ dir)
+    "pipewire.service", "pipewire.socket", "pipewire-pulse.service",
+    "pipewire-pulse.socket", "wireplumber.service",
+    // polkit
+    "polkit.service",
+    // udisks2
+    "udisks2.service",
+    // upower
+    "upower.service",
+    // D-Bus activation symlinks
+    "dbus-org.freedesktop.timedate1.service",
+    "dbus-org.freedesktop.hostname1.service",
+    "dbus-org.freedesktop.locale1.service",
+    "dbus-org.freedesktop.login1.service",
+    "dbus-org.freedesktop.network1.service",
+    "dbus-org.freedesktop.resolve1.service",
+];
+
 // =============================================================================
 // UDEV
 // =============================================================================

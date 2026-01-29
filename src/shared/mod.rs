@@ -98,6 +98,7 @@ pub use components::{
     // Systemd units
     ESSENTIAL_UNITS, NM_UNITS, WPA_UNITS, SSH_UNITS, DBUS_ACTIVATION_SYMLINKS,
     BLUETOOTH_UNITS, PIPEWIRE_UNITS, POLKIT_UNITS, UDISKS_UNITS, UPOWER_UNITS,
+    ALL_SYSTEMD_UNITS,
     // Udev (UDEV_HELPERS kept here for backwards compatibility, canonical source in udev.rs)
     UDEV_HELPERS,
     // /etc files
