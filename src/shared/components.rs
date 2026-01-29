@@ -101,6 +101,41 @@ pub const FHS_SYMLINKS: &[(&str, &str)] = &[
 ];
 
 // =============================================================================
+// LEVITATEOS INSTALLATION TOOLS
+// =============================================================================
+
+/// LevitateOS-specific installation tools (ALL).
+///
+/// These are REQUIRED for installing LevitateOS from the live ISO.
+/// They are automatically rebuilt during ISO creation to ensure latest versions.
+///
+/// - recstrap: Rootfs extractor (like pacstrap)
+/// - recfstab: Fstab generator (like genfstab)
+/// - recchroot: Chroot helper (like arch-chroot)
+/// - recipe: Package manager (like pacman)
+/// - levitate-docs: Interactive documentation TUI
+pub const LEVITATE_TOOLS: &[&str] = &[
+    "recstrap",
+    "recfstab",
+    "recchroot",
+    "recipe",
+    "levitate-docs",
+];
+
+/// Cargo-based installation tools that are built together.
+///
+/// These are Rust crates in tools/ that share the same build command:
+/// `cargo build --release -p recstrap -p recfstab -p recchroot`
+///
+/// Note: `recipe` is also a cargo crate but has a different package name
+/// (`levitate-recipe`) so it's built separately.
+pub const LEVITATE_CARGO_TOOLS: &[&str] = &[
+    "recstrap",
+    "recfstab",
+    "recchroot",
+];
+
+// =============================================================================
 // BINARIES - /usr/bin
 // =============================================================================
 
@@ -526,13 +561,27 @@ pub const ETC_FILES: &[&str] = &[
 // =============================================================================
 
 /// Critical libraries that must exist for system to boot.
+///
+/// NOTE: In glibc 2.34+, libpthread/libdl/librt are merged into libc.so.6,
+/// but the .so.0 files must still exist as compatibility stubs for binaries
+/// compiled against older glibc. Without these, apps fail with:
+///   "error while loading shared libraries: libpthread.so.0: cannot open..."
 pub const CRITICAL_LIBS: &[&str] = &[
+    // Core glibc
     "usr/lib64/libc.so.6",
     "usr/lib64/ld-linux-x86-64.so.2",
+    // glibc 2.34+ compatibility stubs (REQUIRED for older binaries)
+    // These are symlinks to libc.so.6 but must exist
+    "usr/lib64/libpthread.so.0",
+    "usr/lib64/libdl.so.2",
+    "usr/lib64/librt.so.1",
+    "usr/lib64/libm.so.6",
+    // PAM and auth
     "usr/lib64/libpam.so.0",
+    "usr/lib64/libcrypt.so.2",
+    // systemd and security
     "usr/lib64/libsystemd.so.0",
     "usr/lib64/libnss_files.so.2",
-    "usr/lib64/libcrypt.so.2",
     "usr/lib64/libselinux.so.1",
 ];
 
@@ -571,6 +620,27 @@ pub const SYSTEM_GROUPS: &[&str] = &[
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_levitate_tools_complete() {
+        // CRITICAL: These tools are required for installation from the live ISO.
+        // If any are missing, users cannot install LevitateOS.
+        let required_tools = [
+            "recstrap",      // Rootfs extractor (like pacstrap)
+            "recfstab",      // Fstab generator (like genfstab)
+            "recchroot",     // Chroot helper (like arch-chroot)
+            "recipe",        // Package manager
+            "levitate-docs", // Interactive documentation TUI
+        ];
+
+        for tool in required_tools {
+            assert!(
+                LEVITATE_TOOLS.contains(&tool),
+                "LEVITATE_TOOLS missing '{}' - users cannot install without this!",
+                tool
+            );
+        }
+    }
 
     #[test]
     fn test_critical_binaries() {

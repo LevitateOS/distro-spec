@@ -85,6 +85,8 @@ pub use auth::{
     PAM_MODULES, PAM_CONFIGS, SECURITY_FILES,
 };
 pub use components::{
+    // LevitateOS installation tools
+    LEVITATE_TOOLS, LEVITATE_CARGO_TOOLS,
     // Filesystem hierarchy
     FHS_DIRS, FHS_SYMLINKS,
     // Binaries - /usr/bin
