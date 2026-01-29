@@ -863,4 +863,38 @@ mod tests {
             );
         }
     }
+
+    // CRITICAL REGRESSION TEST: Documentation TUI must always be in live environment
+    // Users need access to documentation during installation to understand the process.
+    // The levitate-docs binary provides interactive documentation via TUI.
+    #[test]
+    fn test_levitate_docs_in_tools() {
+        assert!(
+            LEVITATE_TOOLS.contains(&"levitate-docs"),
+            "CRITICAL: levitate-docs missing from LEVITATE_TOOLS! \
+             Users cannot access documentation during installation. \
+             Without this, installation process is undocumented and confusing."
+        );
+    }
+
+    // Verify all critical installation tools are present
+    #[test]
+    fn test_all_levitate_tools_present() {
+        let required_installation_tools = [
+            "recstrap",      // Rootfs extractor - required to extract the OS
+            "recfstab",      // Fstab generator - required to configure boot
+            "recchroot",     // Chroot helper - required to configure installed system
+            "recipe",        // Package manager - required for custom packages
+            "levitate-docs", // Documentation - required for installation guidance
+        ];
+
+        for tool in required_installation_tools {
+            assert!(
+                LEVITATE_TOOLS.contains(&tool),
+                "CRITICAL: {} missing from LEVITATE_TOOLS! \
+                 Users cannot complete installation without this tool.",
+                tool
+            );
+        }
+    }
 }
