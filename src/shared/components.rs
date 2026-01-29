@@ -821,4 +821,46 @@ mod tests {
             );
         }
     }
+
+    // CRITICAL REGRESSION TEST: Shutdown service files must always be present
+    // Bug: On 2026-01-29, these services were completely missing from the ISO,
+    // causing "Unit systemd-halt or poweroff not found" errors on bare metal.
+    // This test prevents that from ever happening again.
+    #[test]
+    fn test_shutdown_services_present() {
+        let critical_shutdown_services = [
+            "systemd-halt.service",
+            "systemd-poweroff.service",
+            "systemd-reboot.service",
+            "systemd-soft-reboot.service",
+        ];
+
+        for service in critical_shutdown_services {
+            assert!(
+                ESSENTIAL_UNITS.contains(&service),
+                "CRITICAL: {} missing from ESSENTIAL_UNITS! \
+                 Without this service, shutdown/poweroff/halt commands fail on bare metal. \
+                 See TEAM_XXX_systemd_shutdown_services.md",
+                service
+            );
+        }
+    }
+
+    // Verify shutdown targets exist and have their dependencies
+    #[test]
+    fn test_shutdown_targets_present() {
+        let shutdown_targets = [
+            "halt.target",
+            "poweroff.target",
+            "reboot.target",
+        ];
+
+        for target in shutdown_targets {
+            assert!(
+                ESSENTIAL_UNITS.contains(&target),
+                "Shutdown target {} missing from ESSENTIAL_UNITS",
+                target
+            );
+        }
+    }
 }

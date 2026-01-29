@@ -25,7 +25,7 @@ pub const UKI_ENTRIES: &[UkiEntry] = &[
     UkiEntry {
         name: "LevitateOS",
         filename: UKI_LIVE_FILENAME,
-        extra_cmdline: "",
+        extra_cmdline: "video=1920x1080",
     },
     UkiEntry {
         name: "LevitateOS (Emergency)",
