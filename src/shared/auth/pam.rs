@@ -132,7 +132,7 @@ auth       include      system-auth
 account    required     pam_nologin.so
 account    include      system-auth
 password   include      system-auth
-session    required     pam_pam_unix.so
+session    required     pam_unix.so
 session    include      system-auth
 ";
 
@@ -149,7 +149,7 @@ password   include      system-auth
 session    required     pam_loginuid.so
 session    required     pam_namespace.so
 session    optional     pam_keyinit.so force revoke
-session    required     pam_pam_unix.so
+session    required     pam_unix.so
 session    include      system-auth
 ";
 
