@@ -415,6 +415,9 @@ pub const ESSENTIAL_UNITS: &[&str] = &[
     // Services - getty
     "getty@.service", "serial-getty@.service",
     "console-getty.service", "container-getty@.service",
+    // Services - shutdown (CRITICAL: required for halt/poweroff/reboot)
+    "systemd-halt.service", "systemd-poweroff.service", "systemd-reboot.service",
+    "systemd-soft-reboot.service",
     // Services - time/network
     "systemd-timedated.service", "systemd-hostnamed.service",
     "systemd-localed.service", "systemd-networkd.service",
@@ -534,6 +537,9 @@ pub const ALL_SYSTEMD_UNITS: &[&str] = &[
     "systemd-resolved.service", "systemd-networkd-wait-online.service",
     // Misc core
     "dbus.service", "dbus-broker.service", "chronyd.service",
+    // Shutdown services (CRITICAL)
+    "systemd-halt.service", "systemd-poweroff.service", "systemd-reboot.service",
+    "systemd-soft-reboot.service",
     // SSH
     "sshd.service", "sshd@.service", "sshd-keygen.target",
     "sshd-keygen@.service", "ssh-host-keys-migration.service",
