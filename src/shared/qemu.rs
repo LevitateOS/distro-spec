@@ -39,8 +39,8 @@ pub const QEMU_CPU_MODE: &str = "qemu64";
 // qcow2 VM Image Constants
 // =============================================================================
 
-/// Output filename for qcow2 VM images.
-pub const QCOW2_IMAGE_FILENAME: &str = "levitateos.qcow2";
+/// Output filename for qcow2 VM images (x86_64 architecture).
+pub const QCOW2_IMAGE_FILENAME: &str = "levitateos-x86_64.qcow2";
 
 /// Temporary raw disk filename (converted to qcow2 after building).
-pub const RAW_DISK_FILENAME: &str = "levitateos.raw";
+pub const RAW_DISK_FILENAME: &str = "levitateos-x86_64.raw";
