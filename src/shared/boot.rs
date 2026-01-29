@@ -77,8 +77,11 @@ impl BootEntry {
             title: Cow::Owned(os_name.to_string()),
             linux: Cow::Owned(format!("/{}", kernel_filename)),
             initrd: Cow::Owned(format!("/{}", initramfs_filename)),
-            // Include console=ttyS0 for serial console output (needed for QEMU testing)
-            options: Cow::Borrowed("root=LABEL=root rw console=ttyS0,115200 console=tty0"),
+            // Include:
+            // - earlycon for kernel messages from earliest possible point
+            // - console=ttyS0 for serial console output (needed for QEMU testing)
+            // - console=tty0 for VGA fallback
+            options: Cow::Borrowed("root=LABEL=root rw earlycon=uart,io,0x3f8,115200 console=ttyS0,115200 console=tty0"),
         }
     }
 
@@ -90,9 +93,15 @@ impl BootEntry {
         initramfs_filename: &str,
         root_device: impl Into<String>,
     ) -> Self {
-        // Include console=ttyS0 for serial console output (needed for QEMU testing)
+        // Include:
+        // - earlycon for kernel messages from earliest possible point
+        // - console=ttyS0 for serial console output (needed for QEMU testing)
+        // - console=tty0 for VGA fallback
         Self {
-            options: Cow::Owned(format!("root={} rw console=ttyS0,115200 console=tty0", root_device.into())),
+            options: Cow::Owned(format!(
+                "root={} rw earlycon=uart,io,0x3f8,115200 console=ttyS0,115200 console=tty0",
+                root_device.into()
+            )),
             ..Self::with_defaults(os_id, os_name, kernel_filename, initramfs_filename)
         }
     }
@@ -153,7 +162,10 @@ impl BootEntry {
 
     /// Update the root device in options.
     pub fn set_root(mut self, root_device: impl Into<String>) -> Self {
-        self.options = Cow::Owned(format!("root={} rw console=ttyS0,115200 console=tty0", root_device.into()));
+        self.options = Cow::Owned(format!(
+            "root={} rw earlycon=uart,io,0x3f8,115200 console=ttyS0,115200 console=tty0",
+            root_device.into()
+        ));
         self
     }
 }
@@ -183,7 +195,7 @@ impl LoaderConfig {
         Self {
             default_entry: Cow::Owned(os_id.to_string()),
             timeout: DEFAULT_TIMEOUT,
-            console_mode: None,
+            console_mode: Some(Cow::Borrowed("auto")),
             editor: true,
         }
     }
