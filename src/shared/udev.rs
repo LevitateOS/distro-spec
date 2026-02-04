@@ -20,12 +20,12 @@
 /// These binaries are invoked by udev rules to probe device attributes.
 /// Located in `/usr/lib/udev/`.
 pub const UDEV_HELPERS: &[&str] = &[
-    "ata_id",       // ATA device identification (SATA drives)
-    "scsi_id",      // SCSI device identification
-    "cdrom_id",     // CD/DVD detection
-    "v4l_id",       // Video4Linux identification
+    "ata_id",        // ATA device identification (SATA drives)
+    "scsi_id",       // SCSI device identification
+    "cdrom_id",      // CD/DVD detection
+    "v4l_id",        // Video4Linux identification
     "dmi_memory_id", // DMI memory identification
-    "mtd_probe",    // MTD (Memory Technology Device) probe
+    "mtd_probe",     // MTD (Memory Technology Device) probe
 ];
 
 /// Systemd units that need patching for initramfs operation.
@@ -104,8 +104,14 @@ mod tests {
 
     #[test]
     fn test_udev_helpers_contains_essential() {
-        assert!(UDEV_HELPERS.contains(&"ata_id"), "ata_id is essential for SATA drives");
-        assert!(UDEV_HELPERS.contains(&"scsi_id"), "scsi_id is essential for SCSI devices");
+        assert!(
+            UDEV_HELPERS.contains(&"ata_id"),
+            "ata_id is essential for SATA drives"
+        );
+        assert!(
+            UDEV_HELPERS.contains(&"scsi_id"),
+            "scsi_id is essential for SCSI devices"
+        );
     }
 
     #[test]
@@ -123,15 +129,27 @@ mod tests {
     #[test]
     fn test_tmpfiles_entries_valid_format() {
         for entry in UDEV_TMPFILES_ENTRIES {
-            assert!(entry.starts_with("d "), "tmpfiles entry should start with 'd ' for directory");
-            assert!(entry.contains("/run/udev"), "tmpfiles entry should reference /run/udev");
+            assert!(
+                entry.starts_with("d "),
+                "tmpfiles entry should start with 'd ' for directory"
+            );
+            assert!(
+                entry.contains("/run/udev"),
+                "tmpfiles entry should reference /run/udev"
+            );
         }
     }
 
     #[test]
     fn test_udev_dirs_service_has_required_sections() {
-        assert!(UDEV_DIRS_SERVICE.contains("[Unit]"), "service must have [Unit] section");
-        assert!(UDEV_DIRS_SERVICE.contains("[Service]"), "service must have [Service] section");
+        assert!(
+            UDEV_DIRS_SERVICE.contains("[Unit]"),
+            "service must have [Unit] section"
+        );
+        assert!(
+            UDEV_DIRS_SERVICE.contains("[Service]"),
+            "service must have [Service] section"
+        );
         assert!(
             UDEV_DIRS_SERVICE.contains("Before=sockets.target"),
             "service must run before sockets.target"

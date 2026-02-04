@@ -157,9 +157,18 @@ mod tests {
     #[test]
     fn test_critical_pam_modules() {
         // Verify critical modules are in system-auth
-        assert!(PAM_SYSTEM_AUTH.contains("pam_unix.so"), "pam_unix.so required");
-        assert!(PAM_SYSTEM_AUTH.contains("yescrypt"), "yescrypt hashing required");
-        assert!(PAM_SYSTEM_AUTH.contains("pam_deny.so"), "pam_deny fallback required");
+        assert!(
+            PAM_SYSTEM_AUTH.contains("pam_unix.so"),
+            "pam_unix.so required"
+        );
+        assert!(
+            PAM_SYSTEM_AUTH.contains("yescrypt"),
+            "yescrypt hashing required"
+        );
+        assert!(
+            PAM_SYSTEM_AUTH.contains("pam_deny.so"),
+            "pam_deny fallback required"
+        );
     }
 
     #[test]
@@ -171,6 +180,9 @@ mod tests {
     #[test]
     fn test_other_denies_all() {
         // Verify fallback denies access to unknown services
-        assert!(PAM_OTHER.contains("pam_deny.so"), "Unknown services must be denied");
+        assert!(
+            PAM_OTHER.contains("pam_deny.so"),
+            "Unknown services must be denied"
+        );
     }
 }

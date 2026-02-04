@@ -98,8 +98,4 @@ pub const SHA512_SEPARATOR: &str = "  ";
 pub const XORRISO_PARTITION_OFFSET: u32 = 16;
 
 /// ISO filesystem flags for xorriso
-pub const XORRISO_FS_FLAGS: &[&str] = &[
-    "-full-iso9660-filenames",
-    "-joliet",
-    "-rational-rock",
-];
+pub const XORRISO_FS_FLAGS: &[&str] = &["-full-iso9660-filenames", "-joliet", "-rational-rock"];

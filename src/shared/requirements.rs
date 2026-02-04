@@ -38,13 +38,13 @@ pub struct SystemRequirements {
 /// - Discrete GPU (NVIDIA/AMD) OR integrated (Intel/AMD)
 /// - AMD Ryzen OR Intel Core (x86-64-v3 = Haswell+ / Zen+)
 pub const LEVITATE_REQUIREMENTS: SystemRequirements = SystemRequirements {
-    min_ram_gb: 8,           // Floor for daily desktop use
-    recommended_ram_gb: 16,  // Comfortable multi-tasking
+    min_ram_gb: 8,          // Floor for daily desktop use
+    recommended_ram_gb: 16, // Comfortable multi-tasking
 
     min_disk_gb: 64,          // Bare minimum (base + dev tools)
     recommended_disk_gb: 256, // Room for projects, VMs, games
 
-    cpu_microarch: "x86-64-v3",           // Haswell+ / Zen+ (AVX2 required)
+    cpu_microarch: "x86-64-v3", // Haswell+ / Zen+ (AVX2 required)
     supported_vendors: &["AMD", "Intel"], // AMD first - dominant in desktop
 
     gpu_vendors: &["AMD", "NVIDIA", "Intel"], // Discrete or integrated
@@ -55,13 +55,13 @@ pub const LEVITATE_REQUIREMENTS: SystemRequirements = SystemRequirements {
 /// Slightly lower floor than LevitateOS due to musl/busybox base,
 /// but still targeting daily-driver desktop use, NOT embedded.
 pub const ACORN_REQUIREMENTS: SystemRequirements = SystemRequirements {
-    min_ram_gb: 4,           // Lower floor due to musl/busybox
-    recommended_ram_gb: 8,   // Comfortable for Alpine-based desktop
+    min_ram_gb: 4,         // Lower floor due to musl/busybox
+    recommended_ram_gb: 8, // Comfortable for Alpine-based desktop
 
     min_disk_gb: 32,          // Alpine is more compact
     recommended_disk_gb: 128, // Room for packages and user data
 
-    cpu_microarch: "x86-64-v3",           // Same CPU requirements
+    cpu_microarch: "x86-64-v3", // Same CPU requirements
     supported_vendors: &["AMD", "Intel"],
 
     gpu_vendors: &["AMD", "NVIDIA", "Intel"],
@@ -73,16 +73,16 @@ pub const ACORN_REQUIREMENTS: SystemRequirements = SystemRequirements {
 /// Needs RAM for I/O buffers across many concurrent drives, but no GPU.
 /// Disk is for OS + refurbishment artifacts/reports (drives under test are NOT mounted).
 pub const IUPPITER_REQUIREMENTS: SystemRequirements = SystemRequirements {
-    min_ram_gb: 8,           // 64 drives × I/O buffers + engine overhead
-    recommended_ram_gb: 32,  // Comfortable for 64+ concurrent drive operations
+    min_ram_gb: 8,          // 64 drives × I/O buffers + engine overhead
+    recommended_ram_gb: 32, // Comfortable for 64+ concurrent drive operations
 
     min_disk_gb: 32,          // OS image + artifacts for current batch
     recommended_disk_gb: 256, // Room for historical reports, logs
 
-    cpu_microarch: "x86-64-v3",           // Server hardware is always modern
+    cpu_microarch: "x86-64-v3", // Server hardware is always modern
     supported_vendors: &["AMD", "Intel"],
 
-    gpu_vendors: &[],                      // Headless — no GPU required
+    gpu_vendors: &[], // Headless — no GPU required
 };
 
 #[cfg(test)]

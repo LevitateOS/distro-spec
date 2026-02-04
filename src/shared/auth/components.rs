@@ -20,18 +20,18 @@ pub const AUTH_SBIN: &[&str] = &["visudo", "unix_chkpwd"];
 ///
 /// These provide password expiry, account lockout, and batch user management.
 pub const SHADOW_SBIN: &[&str] = &[
-    "faillock",     // Account lockout management (pam_faillock)
-    "chage",        // Password expiry management
-    "newusers",     // Batch user creation
-    "chgpasswd",    // Batch group password changes
-    "pwck",         // Verify passwd file integrity
-    "grpck",        // Verify group file integrity
-    "vipw",         // Safe passwd/shadow/group editing
-    "vigr",         // Safe group editing
-    "pwconv",       // Convert to shadow format
-    "pwunconv",     // Unconvert from shadow format
-    "grpconv",      // Convert to shadow group format
-    "grpunconv",    // Unconvert from shadow group format
+    "faillock",  // Account lockout management (pam_faillock)
+    "chage",     // Password expiry management
+    "newusers",  // Batch user creation
+    "chgpasswd", // Batch group password changes
+    "pwck",      // Verify passwd file integrity
+    "grpck",     // Verify group file integrity
+    "vipw",      // Safe passwd/shadow/group editing
+    "vigr",      // Safe group editing
+    "pwconv",    // Convert to shadow format
+    "pwunconv",  // Unconvert from shadow format
+    "grpconv",   // Convert to shadow group format
+    "grpunconv", // Unconvert from shadow group format
 ];
 
 /// SSH binaries in /usr/sbin.
@@ -50,32 +50,32 @@ pub const SSH_BIN: &[&str] = &["ssh", "scp", "sftp", "ssh-keygen", "ssh-add", "s
 /// Verified against all /etc/pam.d/*.so references.
 pub const PAM_MODULES: &[&str] = &[
     // === CORE AUTH ===
-    "pam_unix.so",           // Traditional Unix password auth (CRITICAL)
-    "pam_deny.so",           // Always deny (fallback for 'other' policy)
+    "pam_unix.so", // Traditional Unix password auth (CRITICAL)
+    "pam_deny.so", // Always deny (fallback for 'other' policy)
     // === PASSWORD QUALITY ===
-    "pam_pwquality.so",      // Password strength checking (password stack)
+    "pam_pwquality.so", // Password strength checking (password stack)
     // === ACCOUNT ACCESS ===
-    "pam_access.so",         // /etc/security/access.conf (login services)
-    "pam_nologin.so",        // Deny login when /etc/nologin exists (login)
-    "pam_rootok.so",         // Skip auth for root (su, runuser)
+    "pam_access.so",  // /etc/security/access.conf (login services)
+    "pam_nologin.so", // Deny login when /etc/nologin exists (login)
+    "pam_rootok.so",  // Skip auth for root (su, runuser)
     // === FAILURE/DELAY ===
-    "pam_faildelay.so",      // Delay after auth failure (system-auth)
+    "pam_faildelay.so", // Delay after auth failure (system-auth)
     // === RESOURCE LIMITS ===
-    "pam_limits.so",         // /etc/security/limits.conf (ulimit)
-    "pam_umask.so",          // Set default umask (session)
+    "pam_limits.so", // /etc/security/limits.conf (ulimit)
+    "pam_umask.so",  // Set default umask (session)
     // === SESSION SETUP ===
-    "pam_env.so",            // Set environment from pam_env.conf (auth)
-    "pam_systemd.so",        // Register session with systemd-logind (session)
-    "pam_keyinit.so",        // Initialize kernel keyring (session)
-    "pam_loginuid.so",       // Set loginuid for auditing (login, su, su-l)
-    "pam_namespace.so",      // Polyinstantiated /tmp per-user (login, su-l)
+    "pam_env.so",       // Set environment from pam_env.conf (auth)
+    "pam_systemd.so",   // Register session with systemd-logind (session)
+    "pam_keyinit.so",   // Initialize kernel keyring (session)
+    "pam_loginuid.so",  // Set loginuid for auditing (login, su, su-l)
+    "pam_namespace.so", // Polyinstantiated /tmp per-user (login, su-l)
     // === CONDITIONAL ===
-    "pam_succeed_if.so",     // Conditional success (system-auth cron bypass)
+    "pam_succeed_if.so", // Conditional success (system-auth cron bypass)
     // === INFO/LOGGING ===
-    "pam_lastlog.so",        // Record/display last login (postlogin)
-    "pam_motd.so",           // Display message of the day (postlogin)
+    "pam_lastlog.so", // Record/display last login (postlogin)
+    "pam_motd.so",    // Display message of the day (postlogin)
     // === X11 ===
-    "pam_xauth.so",          // Forward X11 credentials on su (su-l)
+    "pam_xauth.so", // Forward X11 credentials on su (su-l)
 ];
 
 /// Essential PAM configuration files in /etc/pam.d/.
@@ -88,30 +88,30 @@ pub const PAM_MODULES: &[&str] = &[
 /// to the "other" policy and don't have custom configs.
 pub const PAM_CONFIGS: &[&str] = &[
     // === CORE AUTH STACKS ===
-    "etc/pam.d/system-auth",      // Main auth stack (password, session, account)
-    "etc/pam.d/password-auth",    // Password-based auth (remote services)
+    "etc/pam.d/system-auth",   // Main auth stack (password, session, account)
+    "etc/pam.d/password-auth", // Password-based auth (remote services)
     // === LOGIN SERVICES ===
-    "etc/pam.d/login",            // Console login (agetty)
-    "etc/pam.d/sshd",             // SSH login
-    "etc/pam.d/remote",           // Remote login services
+    "etc/pam.d/login",  // Console login (agetty)
+    "etc/pam.d/sshd",   // SSH login
+    "etc/pam.d/remote", // Remote login services
     // === PRIVILEGE ESCALATION ===
-    "etc/pam.d/sudo",             // sudo command
-    "etc/pam.d/su",               // su command
-    "etc/pam.d/su-l",             // su - (login shell)
-    "etc/pam.d/runuser",          // runuser (root-only su)
-    "etc/pam.d/runuser-l",        // runuser - (login shell)
+    "etc/pam.d/sudo",      // sudo command
+    "etc/pam.d/su",        // su command
+    "etc/pam.d/su-l",      // su - (login shell)
+    "etc/pam.d/runuser",   // runuser (root-only su)
+    "etc/pam.d/runuser-l", // runuser - (login shell)
     // === PASSWORD MANAGEMENT ===
-    "etc/pam.d/passwd",           // passwd command
-    "etc/pam.d/chpasswd",         // chpasswd command (batch password setting)
-    "etc/pam.d/chfn",             // chfn command (change full name)
-    "etc/pam.d/chsh",             // chsh command (change shell)
+    "etc/pam.d/passwd",   // passwd command
+    "etc/pam.d/chpasswd", // chpasswd command (batch password setting)
+    "etc/pam.d/chfn",     // chfn command (change full name)
+    "etc/pam.d/chsh",     // chsh command (change shell)
     // === SYSTEM SERVICES ===
-    "etc/pam.d/crond",            // cron daemon
-    "etc/pam.d/systemd-user",     // systemd user sessions
+    "etc/pam.d/crond",        // cron daemon
+    "etc/pam.d/systemd-user", // systemd user sessions
     // === FALLBACK ===
-    "etc/pam.d/other",            // Fallback for unconfigured services (should deny)
+    "etc/pam.d/other", // Fallback for unconfigured services (should deny)
     // === POSTLOGIN ===
-    "etc/pam.d/postlogin",        // Post-login session setup (included by login services)
+    "etc/pam.d/postlogin", // Post-login session setup (included by login services)
 ];
 
 /// Security configuration files in /etc/security/.
@@ -119,11 +119,11 @@ pub const PAM_CONFIGS: &[&str] = &[
 /// These files configure PAM policies, resource limits, and access control.
 /// Only includes files actually created by create_security_config().
 pub const SECURITY_FILES: &[&str] = &[
-    "etc/security/limits.conf",       // Resource limits (ulimit)
-    "etc/security/pam_env.conf",      // PAM environment variables
-    "etc/security/access.conf",       // Access control by user/group/host
-    "etc/security/namespace.conf",    // Namespace/polyinstantiation
-    "etc/security/pwquality.conf",    // Password quality requirements
+    "etc/security/limits.conf",    // Resource limits (ulimit)
+    "etc/security/pam_env.conf",   // PAM environment variables
+    "etc/security/access.conf",    // Access control by user/group/host
+    "etc/security/namespace.conf", // Namespace/polyinstantiation
+    "etc/security/pwquality.conf", // Password quality requirements
 ];
 
 /// Libraries required for sudo.
@@ -147,7 +147,10 @@ mod tests {
         // Verify critical components for login to work
         assert!(AUTH_BIN.contains(&"sudo"));
         assert!(AUTH_BIN.contains(&"su"));
-        assert!(AUTH_SBIN.contains(&"unix_chkpwd"), "unix_chkpwd is CRITICAL - pam_unix.so depends on it");
+        assert!(
+            AUTH_SBIN.contains(&"unix_chkpwd"),
+            "unix_chkpwd is CRITICAL - pam_unix.so depends on it"
+        );
         assert!(PAM_MODULES.contains(&"pam_unix.so"));
         assert!(PAM_MODULES.contains(&"pam_deny.so"));
         assert!(SSH_BIN.contains(&"ssh"));
@@ -177,7 +180,11 @@ mod tests {
     #[test]
     fn test_pam_modules_count() {
         // Verify only 18 modules (actual count used) are defined
-        assert_eq!(PAM_MODULES.len(), 18, "Should have exactly 18 modules (actual count used)");
+        assert_eq!(
+            PAM_MODULES.len(),
+            18,
+            "Should have exactly 18 modules (actual count used)"
+        );
     }
 
     #[test]
@@ -189,6 +196,10 @@ mod tests {
     #[test]
     fn test_security_files_count() {
         // Verify only 5 files (actual count created) are defined
-        assert_eq!(SECURITY_FILES.len(), 5, "Should have exactly 5 security files");
+        assert_eq!(
+            SECURITY_FILES.len(),
+            5,
+            "Should have exactly 5 security files"
+        );
     }
 }

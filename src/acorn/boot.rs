@@ -3,13 +3,12 @@
 //! Defines systemd-boot configuration for UEFI systems.
 //! AcornOS uses systemd-boot despite using OpenRC for init.
 
-use super::paths::{KERNEL_FILENAME, INITRAMFS_FILENAME, OS_NAME, OS_ID};
+use super::paths::{INITRAMFS_FILENAME, KERNEL_FILENAME, OS_ID, OS_NAME};
 
 // Re-export shared boot types
 pub use crate::shared::boot::{
-    BootEntry, LoaderConfig,
-    ESP_MOUNT_POINT, LOADER_CONF_PATH, ENTRIES_DIR, DEFAULT_TIMEOUT,
-    bootctl_install_command,
+    bootctl_install_command, BootEntry, LoaderConfig, DEFAULT_TIMEOUT, ENTRIES_DIR,
+    ESP_MOUNT_POINT, LOADER_CONF_PATH,
 };
 
 // Re-export shared boot module constants for direct access
@@ -58,10 +57,9 @@ pub const BOOT_MODULES: &[&str] = &[
     "kernel/drivers/block/virtio_blk",
     // Rootfs filesystems
     "kernel/drivers/block/loop",
-    "kernel/fs/erofs/erofs",         // EROFS for live boot rootfs
-    "kernel/fs/squashfs/squashfs",   // Keep for mounting Alpine modloop
+    "kernel/fs/erofs/erofs",       // EROFS for live boot rootfs
+    "kernel/fs/squashfs/squashfs", // Keep for mounting Alpine modloop
     "kernel/fs/overlayfs/overlay",
-
     // =========================================================================
     // USB_BOOT_MODULES (from shared::boot_modules)
     // =========================================================================
@@ -92,12 +90,24 @@ pub fn default_boot_entry() -> BootEntry {
 
 /// Create a boot entry with the given root device.
 pub fn boot_entry_with_root(root_device: impl Into<String>) -> BootEntry {
-    BootEntry::with_root(OS_ID, OS_NAME, KERNEL_FILENAME, INITRAMFS_FILENAME, root_device)
+    BootEntry::with_root(
+        OS_ID,
+        OS_NAME,
+        KERNEL_FILENAME,
+        INITRAMFS_FILENAME,
+        root_device,
+    )
 }
 
 /// Create a boot entry using PARTUUID.
 pub fn boot_entry_with_partuuid(partuuid: impl Into<String>) -> BootEntry {
-    BootEntry::with_partuuid(OS_ID, OS_NAME, KERNEL_FILENAME, INITRAMFS_FILENAME, partuuid)
+    BootEntry::with_partuuid(
+        OS_ID,
+        OS_NAME,
+        KERNEL_FILENAME,
+        INITRAMFS_FILENAME,
+        partuuid,
+    )
 }
 
 /// Create a boot entry using LABEL.

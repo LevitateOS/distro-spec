@@ -59,7 +59,6 @@ pub const BOOT_MODULES: &[&str] = &[
     "kernel/drivers/block/loop",
     "kernel/fs/erofs/erofs",
     "kernel/fs/overlayfs/overlay",
-
     // =========================================================================
     // SAS / HBA MODULES (server-specific)
     // =========================================================================
@@ -69,14 +68,12 @@ pub const BOOT_MODULES: &[&str] = &[
     "kernel/drivers/scsi/mpt3sas/mpt3sas",
     // Broadcom MegaRAID SAS — Dell PERC, Lenovo, etc.
     "kernel/drivers/scsi/megaraid/megaraid_sas",
-
     // =========================================================================
     // SCSI ENCLOSURE SERVICES (slot-to-device mapping)
     // =========================================================================
     // SES — read enclosure status, slot numbers, LED control, temperature
     "kernel/drivers/misc/enclosure",
     "kernel/drivers/scsi/ses",
-
     // =========================================================================
     // SCSI GENERIC (SG_IO passthrough for smartctl/hdparm)
     // =========================================================================
@@ -116,13 +113,7 @@ pub fn boot_entry_with_partuuid(partuuid: impl Into<String>) -> BootEntry {
 
 /// Create a boot entry using LABEL.
 pub fn boot_entry_with_label(label: impl Into<String>) -> BootEntry {
-    BootEntry::with_label(
-        OS_ID,
-        OS_NAME,
-        KERNEL_FILENAME,
-        INITRAMFS_FILENAME,
-        label,
-    )
+    BootEntry::with_label(OS_ID, OS_NAME, KERNEL_FILENAME, INITRAMFS_FILENAME, label)
 }
 
 /// Create a default loader config for IuppiterOS.

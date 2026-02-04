@@ -210,18 +210,38 @@ pub use super::users;
 
 // Public API convenience re-exports
 pub use self::components::{
-    AUTH_BIN, AUTH_SBIN, PAM_CONFIGS, PAM_MODULES, SECURITY_FILES, SHADOW_SBIN,
-    SSH_BIN, SSH_SBIN, SUDO_LIBS,
+    AUTH_BIN, AUTH_SBIN, PAM_CONFIGS, PAM_MODULES, SECURITY_FILES, SHADOW_SBIN, SSH_BIN, SSH_SBIN,
+    SUDO_LIBS,
 };
-pub use self::getty::{GETTY_TERM_TYPE, LIVE_CONSOLE_AUTOLOGIN_SERVICE,
-    LIVE_SERIAL_CONSOLE_SERVICE, SERIAL_BAUD_RATES, SERIAL_GETTY_OVERRIDE};
+pub use self::getty::{
+    GETTY_TERM_TYPE, LIVE_CONSOLE_AUTOLOGIN_SERVICE, LIVE_SERIAL_CONSOLE_SERVICE,
+    SERIAL_BAUD_RATES, SERIAL_GETTY_OVERRIDE,
+};
 pub use self::pam::{
-    // All PAM configuration files
-    PAM_CHFN, PAM_CHPASSWD, PAM_CHSH, PAM_CROND, PAM_LOGIN, PAM_OTHER, PAM_PASSWD,
-    PAM_POSTLOGIN, PAM_REMOTE, PAM_RUNUSER, PAM_RUNUSER_L, PAM_SSHD, PAM_SU,
-    PAM_SU_L, PAM_SUDO, PAM_SYSTEM_AUTH, PAM_SYSTEMD_USER,
+    ACCESS_CONF,
     // All security configuration files
-    LIMITS_CONF, ACCESS_CONF, NAMESPACE_CONF, PAM_ENV_CONF, PWQUALITY_CONF,
+    LIMITS_CONF,
+    NAMESPACE_CONF,
+    // All PAM configuration files
+    PAM_CHFN,
+    PAM_CHPASSWD,
+    PAM_CHSH,
+    PAM_CROND,
+    PAM_ENV_CONF,
+    PAM_LOGIN,
+    PAM_OTHER,
+    PAM_PASSWD,
+    PAM_POSTLOGIN,
+    PAM_REMOTE,
+    PAM_RUNUSER,
+    PAM_RUNUSER_L,
+    PAM_SSHD,
+    PAM_SU,
+    PAM_SUDO,
+    PAM_SU_L,
+    PAM_SYSTEMD_USER,
+    PAM_SYSTEM_AUTH,
+    PWQUALITY_CONF,
 };
 pub use self::ssh::{SSHD_CONFIG_SETTINGS, SSHD_TMPFILES_CONFIG};
 
@@ -232,8 +252,17 @@ mod tests {
     #[test]
     fn test_auth_module_structure() {
         // Verify the module structure is correct
-        assert!(!PAM_SYSTEM_AUTH.is_empty(), "PAM system-auth config required");
-        assert!(!SERIAL_GETTY_OVERRIDE.is_empty(), "Serial getty config required");
-        assert!(!SSHD_TMPFILES_CONFIG.is_empty(), "SSH tmpfiles config required");
+        assert!(
+            !PAM_SYSTEM_AUTH.is_empty(),
+            "PAM system-auth config required"
+        );
+        assert!(
+            !SERIAL_GETTY_OVERRIDE.is_empty(),
+            "Serial getty config required"
+        );
+        assert!(
+            !SSHD_TMPFILES_CONFIG.is_empty(),
+            "SSH tmpfiles config required"
+        );
     }
 }

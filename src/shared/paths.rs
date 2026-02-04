@@ -81,8 +81,8 @@ pub const DEFAULT_USER_GROUPS: &[&str] = &[
 /// as installation targets. Tools like recstrap and recchroot use this list
 /// to prevent catastrophic user errors.
 pub const PROTECTED_PATHS: &[&str] = &[
-    "/", "/bin", "/boot", "/dev", "/etc", "/home", "/lib", "/lib64", "/opt",
-    "/proc", "/root", "/run", "/sbin", "/srv", "/sys", "/tmp", "/usr", "/var",
+    "/", "/bin", "/boot", "/dev", "/etc", "/home", "/lib", "/lib64", "/opt", "/proc", "/root",
+    "/run", "/sbin", "/srv", "/sys", "/tmp", "/usr", "/var",
 ];
 
 /// Check if a path is a protected system path.

@@ -48,9 +48,9 @@ pub const LIVE_MODULES: &[&str] = &[
 /// LevitateOS uses a custom kernel config that builds essential boot
 /// modules into the kernel for faster boot times.
 pub const LIVE_MODULES_BUILTIN: &[&str] = &[
-    "erofs",       // CONFIG_EROFS_FS=y
-    "loop",        // CONFIG_BLK_DEV_LOOP=y
-    "overlay",     // CONFIG_OVERLAY_FS=y
+    "erofs",   // CONFIG_EROFS_FS=y
+    "loop",    // CONFIG_BLK_DEV_LOOP=y
+    "overlay", // CONFIG_OVERLAY_FS=y
     // Virtio core (QEMU support)
     "virtio",
     "virtio_ring",
@@ -285,14 +285,8 @@ mod tests {
 
     #[test]
     fn test_module_path_lookup() {
-        assert_eq!(
-            module_path("virtio"),
-            Some("kernel/drivers/virtio/virtio")
-        );
-        assert_eq!(
-            module_path("ext4"),
-            Some("kernel/fs/ext4/ext4")
-        );
+        assert_eq!(module_path("virtio"), Some("kernel/drivers/virtio/virtio"));
+        assert_eq!(module_path("ext4"), Some("kernel/fs/ext4/ext4"));
         assert_eq!(module_path("nonexistent"), None);
     }
 }

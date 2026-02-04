@@ -9,11 +9,18 @@
 // Re-export shared constants that are identical across distros
 pub use crate::shared::{
     // Paths
-    AMD_UCODE_FILENAME, DEFAULT_USER_GROUPS, INITRAMFS_BUILD_DIR, INITRAMFS_FILENAME,
-    INITRAMFS_LIVE_OUTPUT, INTEL_UCODE_FILENAME, KERNEL_FILENAME, LOADER_CONF_FILENAME,
+    AMD_UCODE_FILENAME,
+    DEFAULT_USER_GROUPS,
+    INITRAMFS_BUILD_DIR,
+    INITRAMFS_FILENAME,
+    INITRAMFS_LIVE_OUTPUT,
+    INTEL_UCODE_FILENAME,
+    KERNEL_FILENAME,
+    LOADER_CONF_FILENAME,
     OS_VERSION,
     // QEMU
-    QEMU_DISK_GB, QEMU_MEMORY_GB,
+    QEMU_DISK_GB,
+    QEMU_MEMORY_GB,
 };
 
 // =============================================================================

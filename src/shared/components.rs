@@ -129,11 +129,7 @@ pub const LEVITATE_TOOLS: &[&str] = &[
 ///
 /// Note: `recipe` is also a cargo crate but has a different package name
 /// (`levitate-recipe`) so it's built separately.
-pub const LEVITATE_CARGO_TOOLS: &[&str] = &[
-    "recstrap",
-    "recfstab",
-    "recchroot",
-];
+pub const LEVITATE_CARGO_TOOLS: &[&str] = &["recstrap", "recfstab", "recchroot"];
 
 // =============================================================================
 // BINARIES - /usr/bin
@@ -145,43 +141,127 @@ pub const LEVITATE_CARGO_TOOLS: &[&str] = &[
 /// Comparable to Arch Linux base + base-devel.
 pub const BIN_UTILS: &[&str] = &[
     // === COREUTILS ===
-    "ls", "cat", "cp", "mv", "rm", "mkdir", "rmdir", "touch",
-    "chmod", "chown", "chgrp", "ln", "readlink", "realpath",
-    "stat", "file", "mknod", "mkfifo",
-    "timeout", "sleep", "true", "false", "test", "[",
+    "ls",
+    "cat",
+    "cp",
+    "mv",
+    "rm",
+    "mkdir",
+    "rmdir",
+    "touch",
+    "chmod",
+    "chown",
+    "chgrp",
+    "ln",
+    "readlink",
+    "realpath",
+    "stat",
+    "file",
+    "mknod",
+    "mkfifo",
+    "timeout",
+    "sleep",
+    "true",
+    "false",
+    "test",
+    "[",
     // Text processing
-    "echo", "head", "tail", "wc", "sort", "cut", "tr", "tee",
-    "sed", "awk", "gawk", "printf", "uniq", "seq",
+    "echo",
+    "head",
+    "tail",
+    "wc",
+    "sort",
+    "cut",
+    "tr",
+    "tee",
+    "sed",
+    "awk",
+    "gawk",
+    "printf",
+    "uniq",
+    "seq",
     // Search
-    "grep", "find", "xargs",
+    "grep",
+    "find",
+    "xargs",
     // System info
-    "pwd", "uname", "date", "env", "id", "hostname",
-    "printenv", "whoami", "groups", "dmesg", "lsusb",
+    "pwd",
+    "uname",
+    "date",
+    "env",
+    "id",
+    "hostname",
+    "printenv",
+    "whoami",
+    "groups",
+    "dmesg",
+    "lsusb",
     // Process control
-    "kill", "nice", "nohup", "setsid",
+    "kill",
+    "nice",
+    "nohup",
+    "setsid",
     // Compression
-    "gzip", "gunzip", "xz", "unxz", "tar", "bzip2", "bunzip2", "cpio",
+    "gzip",
+    "gunzip",
+    "xz",
+    "unxz",
+    "tar",
+    "bzip2",
+    "bunzip2",
+    "cpio",
     // Shell utilities
-    "expr", "yes", "mktemp",
+    "expr",
+    "yes",
+    "mktemp",
     // Disk info
-    "df", "du", "sync", "mount", "umount", "lsblk", "findmnt", "flock",
+    "df",
+    "du",
+    "sync",
+    "mount",
+    "umount",
+    "lsblk",
+    "findmnt",
+    "flock",
     // Path utilities
-    "dirname", "basename",
+    "dirname",
+    "basename",
     // Other
     "which",
     // === DIFFUTILS ===
-    "diff", "cmp",
+    "diff",
+    "cmp",
     // === PROCPS-NG ===
-    "ps", "pgrep", "pkill", "top", "free", "uptime", "w", "vmstat", "watch",
+    "ps",
+    "pgrep",
+    "pkill",
+    "top",
+    "free",
+    "uptime",
+    "w",
+    "vmstat",
+    "watch",
     // === SYSTEMD ===
-    "systemctl", "journalctl", "timedatectl", "hostnamectl", "localectl", "loginctl", "bootctl",
+    "systemctl",
+    "journalctl",
+    "timedatectl",
+    "hostnamectl",
+    "localectl",
+    "loginctl",
+    "bootctl",
     "systemd-tmpfiles", // Note: this is in /usr/bin/, not /usr/lib/systemd/
     // === EDITORS ===
-    "vi", "vim", "nano",
+    "vi",
+    "vim",
+    "nano",
     // === NETWORK ===
-    "ping", "curl", "wget",
+    "ping",
+    "curl",
+    "wget",
     // === TERMINAL ===
-    "clear", "stty", "tty",
+    "clear",
+    "stty",
+    "tty",
     // === KEYBOARD ===
     "loadkeys",
     // === LOCALE ===
@@ -189,26 +269,40 @@ pub const BIN_UTILS: &[&str] = &[
     // === UDEV ===
     "udevadm",
     // === MISC ===
-    "less", "more",
+    "less",
+    "more",
     // === UTIL-LINUX ===
     "getopt",
     // === GLIBC UTILITIES ===
-    "getent", "ldd",
+    "getent",
+    "ldd",
     // === CHECKSUMS ===
-    "base64", "md5sum", "sha256sum", "sha512sum",
+    "base64",
+    "md5sum",
+    "sha256sum",
+    "sha512sum",
     // === TERMINAL MULTIPLEXER ===
-    "tmux", "screen",
+    "tmux",
+    "screen",
     // === NETWORK DIAGNOSTICS ===
-    "dig", "nslookup", "tracepath",
+    "dig",
+    "nslookup",
+    "tracepath",
     // NOTE: iwctl (iwd) is NOT in Rocky 10 repos - WiFi via NetworkManager-wifi instead
     // === BINARY INSPECTION ===
-    "strings", "hexdump",
+    "strings",
+    "hexdump",
     // === FILE SYNC ===
     "rsync",
     // === DOCUMENTATION ===
-    "man", "mandb", "apropos", "whatis",
+    "man",
+    "mandb",
+    "apropos",
+    "whatis",
     // === FILE MANAGERS ===
-    "mc", "mcedit", "mcview",
+    "mc",
+    "mcedit",
+    "mcview",
     // === PIPE UTILITIES ===
     "pv",
     // === TEXT BROWSER ===
@@ -216,35 +310,64 @@ pub const BIN_UTILS: &[&str] = &[
     // === NETWORK TOOLS ===
     "nmap",
     // === AUDIO ===
-    "alsamixer", "amixer", "aplay", "arecord", "speaker-test",
+    "alsamixer",
+    "amixer",
+    "aplay",
+    "arecord",
+    "speaker-test",
     // === GPG/CRYPTO ===
-    "gpg", "gpg2", "gpgconf", "gpg-agent",
+    "gpg",
+    "gpg2",
+    "gpgconf",
+    "gpg-agent",
     // === NTFS (bin tools) ===
-    "ntfsfix", "ntfscat", "ntfscluster", "ntfscmp", "ntfsfallocate",
-    "ntfsinfo", "ntfsls", "ntfsmove", "ntfsrecover", "ntfssecaudit",
-    "ntfstruncate", "ntfsusermap", "ntfswipe",
+    "ntfsfix",
+    "ntfscat",
+    "ntfscluster",
+    "ntfscmp",
+    "ntfsfallocate",
+    "ntfsinfo",
+    "ntfsls",
+    "ntfsmove",
+    "ntfsrecover",
+    "ntfssecaudit",
+    "ntfstruncate",
+    "ntfsusermap",
+    "ntfswipe",
     // === VERSION CONTROL ===
     "git",
     // === SCRIPTING LANGUAGES ===
-    "python3",  // Note: 'python' symlink not created by Rocky, use python3
+    "python3", // Note: 'python' symlink not created by Rocky, use python3
     "perl",
     // === PROCESS MONITORING ===
     "htop",
     // === ARCHIVE TOOLS ===
-    "zip", "unzip",
-    "7za",  // Note: p7zip only provides 7za wrapper script, not 7z/7zr
+    "zip",
+    "unzip",
+    "7za", // Note: p7zip only provides 7za wrapper script, not 7z/7zr
     // === DIRECTORY TOOLS ===
     "tree",
     // === BLUETOOTH ===
     "bluetoothctl",
     // === PIPEWIRE AUDIO ===
-    "pw-cli", "pw-dump", "pw-cat", "pw-play", "pw-record",
-    "pw-top", "pw-metadata", "pw-mon", "pw-link",
-    "wpctl",  // WirePlumber control
+    "pw-cli",
+    "pw-dump",
+    "pw-cat",
+    "pw-play",
+    "pw-record",
+    "pw-top",
+    "pw-metadata",
+    "pw-mon",
+    "pw-link",
+    "wpctl", // WirePlumber control
     // === PULSEAUDIO COMPAT (pipewire-pulse) ===
-    "pactl", "paplay", "parecord",  // Note: pacmd not provided by pipewire-pulseaudio
+    "pactl",
+    "paplay",
+    "parecord", // Note: pacmd not provided by pipewire-pulseaudio
     // === POLKIT ===
-    "pkexec", "pkaction", "pkcheck",
+    "pkexec",
+    "pkaction",
+    "pkcheck",
     // === UDISKS2 ===
     "udisksctl",
     // === POWER MANAGEMENT ===
@@ -267,33 +390,90 @@ pub const NM_BIN: &[&str] = &["nmcli", "nm-online", "nmtui"];
 /// System administration utilities requiring elevated privileges.
 pub const SBIN_UTILS: &[&str] = &[
     // === UTIL-LINUX ===
-    "fsck", "blkid", "losetup", "mkswap", "swapon", "swapoff",
-    "fdisk", "sfdisk", "wipefs", "blockdev", "pivot_root", "chroot",
-    "switch_root", "parted",
+    "fsck",
+    "blkid",
+    "losetup",
+    "mkswap",
+    "swapon",
+    "swapoff",
+    "fdisk",
+    "sfdisk",
+    "wipefs",
+    "blockdev",
+    "pivot_root",
+    "chroot",
+    "switch_root",
+    "parted",
     // === E2FSPROGS ===
-    "fsck.ext4", "fsck.ext2", "fsck.ext3", "e2fsck", "mke2fs",
-    "mkfs.ext4", "mkfs.ext2", "mkfs.ext3", "tune2fs", "resize2fs",
+    "fsck.ext4",
+    "fsck.ext2",
+    "fsck.ext3",
+    "e2fsck",
+    "mke2fs",
+    "mkfs.ext4",
+    "mkfs.ext2",
+    "mkfs.ext3",
+    "tune2fs",
+    "resize2fs",
     // === DOSFSTOOLS ===
-    "mkfs.fat", "mkfs.vfat", "fsck.fat", "fsck.vfat",
+    "mkfs.fat",
+    "mkfs.vfat",
+    "fsck.fat",
+    "fsck.vfat",
     // === BTRFS ===
-    "btrfs", "btrfsck", "mkfs.btrfs", "btrfs-convert", "btrfs-find-root",
-    "btrfs-image", "btrfs-map-logical", "btrfs-select-super",
+    "btrfs",
+    "btrfsck",
+    "mkfs.btrfs",
+    "btrfs-convert",
+    "btrfs-find-root",
+    "btrfs-image",
+    "btrfs-map-logical",
+    "btrfs-select-super",
     // === NTFS (sbin tools) ===
-    "mkfs.ntfs", "ntfsresize", "ntfsclone", "ntfscp", "ntfslabel",
+    "mkfs.ntfs",
+    "ntfsresize",
+    "ntfsclone",
+    "ntfscp",
+    "ntfslabel",
     // === KMOD ===
-    "insmod", "rmmod", "modprobe", "lsmod", "depmod", "modinfo",
+    "insmod",
+    "rmmod",
+    "modprobe",
+    "lsmod",
+    "depmod",
+    "modinfo",
     // === SHADOW-UTILS ===
-    "useradd", "userdel", "usermod", "groupadd", "groupdel", "groupmod",
-    "chpasswd", "passwd",
+    "useradd",
+    "userdel",
+    "usermod",
+    "groupadd",
+    "groupdel",
+    "groupmod",
+    "chpasswd",
+    "passwd",
     // === IPROUTE ===
-    "ip", "ss", "bridge",
+    "ip",
+    "ss",
+    "bridge",
     // === PROCPS-NG ===
     "sysctl",
     // === SYSTEM CONTROL ===
-    "reboot", "shutdown", "poweroff", "halt", "efibootmgr",
+    "reboot",
+    "shutdown",
+    "poweroff",
+    "halt",
+    "efibootmgr",
     // === OTHER ===
-    "ldconfig", "hwclock", "lspci", "ifconfig", "route",
-    "agetty", "login", "sulogin", "nologin", "chronyd",
+    "ldconfig",
+    "hwclock",
+    "lspci",
+    "ifconfig",
+    "route",
+    "agetty",
+    "login",
+    "sulogin",
+    "nologin",
+    "chronyd",
     // === SQUASHFS-TOOLS ===
     "unsquashfs",
     // === CRYPTSETUP (LUKS) ===
@@ -301,18 +481,36 @@ pub const SBIN_UTILS: &[&str] = &[
     // === LVM ===
     "lvm",
     // === RAID ===
-    "mdadm", "mdmon",
+    "mdadm",
+    "mdmon",
     // === HARDWARE DETECTION ===
-    "dmidecode", "ethtool",
+    "dmidecode",
+    "ethtool",
     // === XFS ===
-    "mkfs.xfs", "xfs_repair", "xfs_admin", "xfs_copy", "xfs_db",
-    "xfs_freeze", "xfs_growfs", "xfs_info", "xfs_io", "xfs_logprint",
-    "xfs_mdrestore", "xfs_metadump", "xfs_ncheck", "xfs_quota",
-    "xfs_rtcp", "xfs_spaceman",
+    "mkfs.xfs",
+    "xfs_repair",
+    "xfs_admin",
+    "xfs_copy",
+    "xfs_db",
+    "xfs_freeze",
+    "xfs_growfs",
+    "xfs_info",
+    "xfs_io",
+    "xfs_logprint",
+    "xfs_mdrestore",
+    "xfs_metadump",
+    "xfs_ncheck",
+    "xfs_quota",
+    "xfs_rtcp",
+    "xfs_spaceman",
     // === DISK HEALTH ===
-    "smartctl", "hdparm", "nvme",
+    "smartctl",
+    "hdparm",
+    "nvme",
     // === RECOVERY TOOLS ===
-    "ddrescue", "testdisk", "photorec",
+    "ddrescue",
+    "testdisk",
+    "photorec",
 ];
 
 // Authentication and shadow-utils binaries have been moved to the auth subsystem.
@@ -370,7 +568,7 @@ pub const SYSTEMD_BINARIES: &[&str] = &[
     "systemd-udevd",
     "systemd-fsck",
     "systemd-remount-fs",
-    "systemd-makefs",  // For creating/formatting filesystems during boot
+    "systemd-makefs", // For creating/formatting filesystems during boot
     "systemd-vconsole-setup",
     "systemd-random-seed",
 ];
@@ -384,62 +582,110 @@ pub const SYSTEMD_BINARIES: &[&str] = &[
 /// These units are required for a bootable system.
 pub const ESSENTIAL_UNITS: &[&str] = &[
     // Targets
-    "basic.target", "sysinit.target", "multi-user.target", "default.target",
-    "getty.target", "local-fs.target", "local-fs-pre.target",
-    "remote-fs.target", "remote-fs-pre.target",
-    "network.target", "network-pre.target", "network-online.target",
-    "paths.target", "slices.target", "sockets.target", "timers.target",
-    "swap.target", "shutdown.target", "rescue.target", "emergency.target",
-    "reboot.target", "poweroff.target", "halt.target",
-    "suspend.target", "sleep.target", "umount.target", "final.target",
+    "basic.target",
+    "sysinit.target",
+    "multi-user.target",
+    "default.target",
+    "getty.target",
+    "local-fs.target",
+    "local-fs-pre.target",
+    "remote-fs.target",
+    "remote-fs-pre.target",
+    "network.target",
+    "network-pre.target",
+    "network-online.target",
+    "paths.target",
+    "slices.target",
+    "sockets.target",
+    "timers.target",
+    "swap.target",
+    "shutdown.target",
+    "rescue.target",
+    "emergency.target",
+    "reboot.target",
+    "poweroff.target",
+    "halt.target",
+    "suspend.target",
+    "sleep.target",
+    "umount.target",
+    "final.target",
     "graphical.target",
     // Initrd targets (required for install initramfs boot)
-    "initrd.target", "initrd-root-fs.target", "initrd-root-device.target",
-    "initrd-switch-root.target", "initrd-fs.target",
+    "initrd.target",
+    "initrd-root-fs.target",
+    "initrd-root-device.target",
+    "initrd-switch-root.target",
+    "initrd-fs.target",
     // Services - core
-    "systemd-journald.service", "systemd-journald@.service",
-    "systemd-udevd.service", "systemd-udev-trigger.service",
-    "systemd-modules-load.service", "systemd-sysctl.service",
-    "systemd-tmpfiles-setup.service", "systemd-tmpfiles-setup-dev.service",
+    "systemd-journald.service",
+    "systemd-journald@.service",
+    "systemd-udevd.service",
+    "systemd-udev-trigger.service",
+    "systemd-modules-load.service",
+    "systemd-sysctl.service",
+    "systemd-tmpfiles-setup.service",
+    "systemd-tmpfiles-setup-dev.service",
     "systemd-tmpfiles-clean.service",
-    "systemd-random-seed.service", "systemd-vconsole-setup.service",
+    "systemd-random-seed.service",
+    "systemd-vconsole-setup.service",
     // Services - disk
-    "systemd-fsck-root.service", "systemd-fsck@.service",
+    "systemd-fsck-root.service",
+    "systemd-fsck@.service",
     "systemd-remount-fs.service",
     // Note: systemd-fstab-generator is in system-generators/, not a unit file
     // Services - initrd (required for install initramfs boot)
-    "initrd-switch-root.service", "initrd-cleanup.service",
-    "initrd-udevadm-cleanup-db.service", "initrd-parse-etc.service",
+    "initrd-switch-root.service",
+    "initrd-cleanup.service",
+    "initrd-udevadm-cleanup-db.service",
+    "initrd-parse-etc.service",
     // Services - auth
     "systemd-logind.service",
     // Services - getty
-    "getty@.service", "serial-getty@.service",
-    "console-getty.service", "container-getty@.service",
+    "getty@.service",
+    "serial-getty@.service",
+    "console-getty.service",
+    "container-getty@.service",
     // Services - shutdown (CRITICAL: required for halt/poweroff/reboot)
-    "systemd-halt.service", "systemd-poweroff.service", "systemd-reboot.service",
+    "systemd-halt.service",
+    "systemd-poweroff.service",
+    "systemd-reboot.service",
     "systemd-soft-reboot.service",
     // Services - time/network
-    "systemd-timedated.service", "systemd-hostnamed.service",
-    "systemd-localed.service", "systemd-networkd.service",
-    "systemd-resolved.service", "systemd-networkd-wait-online.service",
+    "systemd-timedated.service",
+    "systemd-hostnamed.service",
+    "systemd-localed.service",
+    "systemd-networkd.service",
+    "systemd-resolved.service",
+    "systemd-networkd-wait-online.service",
     // Services - misc
-    "dbus.service", "dbus-broker.service", "chronyd.service",
+    "dbus.service",
+    "dbus-broker.service",
+    "chronyd.service",
     // Services - SSH
-    "sshd.service", "sshd@.service", "sshd.socket",
-    "sshd-keygen.target", "sshd-keygen@.service",
+    "sshd.service",
+    "sshd@.service",
+    "sshd.socket",
+    "sshd-keygen.target",
+    "sshd-keygen@.service",
     // Sockets
-    "systemd-journald.socket", "systemd-journald-dev-log.socket",
+    "systemd-journald.socket",
+    "systemd-journald-dev-log.socket",
     "systemd-journald-audit.socket",
-    "systemd-udevd-control.socket", "systemd-udevd-kernel.socket",
+    "systemd-udevd-control.socket",
+    "systemd-udevd-kernel.socket",
     "dbus.socket",
     // Paths
-    "systemd-ask-password-console.path", "systemd-ask-password-wall.path",
+    "systemd-ask-password-console.path",
+    "systemd-ask-password-wall.path",
     // Slices (note: -.slice, system.slice, machine.slice are built-in to systemd)
     "user.slice",
 ];
 
 /// NetworkManager units.
-pub const NM_UNITS: &[&str] = &["NetworkManager.service", "NetworkManager-dispatcher.service"];
+pub const NM_UNITS: &[&str] = &[
+    "NetworkManager.service",
+    "NetworkManager-dispatcher.service",
+];
 
 /// wpa_supplicant units.
 pub const WPA_UNITS: &[&str] = &["wpa_supplicant.service"];
@@ -501,66 +747,116 @@ pub const DBUS_ACTIVATION_SYMLINKS: &[&str] = &[
 /// Used by fsdbg to verify the rootfs contains all required systemd units.
 pub const ALL_SYSTEMD_UNITS: &[&str] = &[
     // Essential targets and services
-    "basic.target", "sysinit.target", "multi-user.target", "default.target",
-    "getty.target", "local-fs.target", "local-fs-pre.target",
-    "remote-fs.target", "remote-fs-pre.target",
-    "network.target", "network-pre.target", "network-online.target",
-    "paths.target", "slices.target", "sockets.target", "timers.target",
-    "swap.target", "shutdown.target", "rescue.target", "emergency.target",
+    "basic.target",
+    "sysinit.target",
+    "multi-user.target",
+    "default.target",
+    "getty.target",
+    "local-fs.target",
+    "local-fs-pre.target",
+    "remote-fs.target",
+    "remote-fs-pre.target",
+    "network.target",
+    "network-pre.target",
+    "network-online.target",
+    "paths.target",
+    "slices.target",
+    "sockets.target",
+    "timers.target",
+    "swap.target",
+    "shutdown.target",
+    "rescue.target",
+    "emergency.target",
     // CRITICAL: Shutdown targets that were missing
-    "reboot.target", "poweroff.target", "halt.target",
-    "suspend.target", "sleep.target", "umount.target", "final.target",
+    "reboot.target",
+    "poweroff.target",
+    "halt.target",
+    "suspend.target",
+    "sleep.target",
+    "umount.target",
+    "final.target",
     "graphical.target",
     // Initrd targets
-    "initrd.target", "initrd-root-fs.target", "initrd-root-device.target",
-    "initrd-switch-root.target", "initrd-fs.target",
+    "initrd.target",
+    "initrd-root-fs.target",
+    "initrd-root-device.target",
+    "initrd-switch-root.target",
+    "initrd-fs.target",
     // Core services
-    "systemd-journald.service", "systemd-journald@.service",
-    "systemd-udevd.service", "systemd-udev-trigger.service",
-    "systemd-modules-load.service", "systemd-sysctl.service",
-    "systemd-tmpfiles-setup.service", "systemd-tmpfiles-setup-dev.service",
+    "systemd-journald.service",
+    "systemd-journald@.service",
+    "systemd-udevd.service",
+    "systemd-udev-trigger.service",
+    "systemd-modules-load.service",
+    "systemd-sysctl.service",
+    "systemd-tmpfiles-setup.service",
+    "systemd-tmpfiles-setup-dev.service",
     "systemd-tmpfiles-clean.service",
-    "systemd-random-seed.service", "systemd-vconsole-setup.service",
+    "systemd-random-seed.service",
+    "systemd-vconsole-setup.service",
     // Disk services
-    "systemd-fsck-root.service", "systemd-fsck@.service",
+    "systemd-fsck-root.service",
+    "systemd-fsck@.service",
     "systemd-remount-fs.service",
     // Initrd services
-    "initrd-switch-root.service", "initrd-cleanup.service",
-    "initrd-udevadm-cleanup-db.service", "initrd-parse-etc.service",
+    "initrd-switch-root.service",
+    "initrd-cleanup.service",
+    "initrd-udevadm-cleanup-db.service",
+    "initrd-parse-etc.service",
     // Auth/login
     "systemd-logind.service",
-    "getty@.service", "serial-getty@.service",
-    "console-getty.service", "container-getty@.service",
+    "getty@.service",
+    "serial-getty@.service",
+    "console-getty.service",
+    "container-getty@.service",
     // Time/network
-    "systemd-timedated.service", "systemd-hostnamed.service",
-    "systemd-localed.service", "systemd-networkd.service",
-    "systemd-resolved.service", "systemd-networkd-wait-online.service",
+    "systemd-timedated.service",
+    "systemd-hostnamed.service",
+    "systemd-localed.service",
+    "systemd-networkd.service",
+    "systemd-resolved.service",
+    "systemd-networkd-wait-online.service",
     // Misc core
-    "dbus.service", "dbus-broker.service", "chronyd.service",
+    "dbus.service",
+    "dbus-broker.service",
+    "chronyd.service",
     // Shutdown services (CRITICAL)
-    "systemd-halt.service", "systemd-poweroff.service", "systemd-reboot.service",
+    "systemd-halt.service",
+    "systemd-poweroff.service",
+    "systemd-reboot.service",
     "systemd-soft-reboot.service",
     // SSH
-    "sshd.service", "sshd@.service", "sshd-keygen.target",
-    "sshd-keygen@.service", "ssh-host-keys-migration.service",
+    "sshd.service",
+    "sshd@.service",
+    "sshd-keygen.target",
+    "sshd-keygen@.service",
+    "ssh-host-keys-migration.service",
     // Sockets
-    "systemd-journald.socket", "systemd-journald-dev-log.socket",
+    "systemd-journald.socket",
+    "systemd-journald-dev-log.socket",
     "systemd-journald-audit.socket",
-    "systemd-udevd-control.socket", "systemd-udevd-kernel.socket",
+    "systemd-udevd-control.socket",
+    "systemd-udevd-kernel.socket",
     "dbus.socket",
     // Paths
-    "systemd-ask-password-console.path", "systemd-ask-password-wall.path",
+    "systemd-ask-password-console.path",
+    "systemd-ask-password-wall.path",
     // Slices
     "user.slice",
     // NetworkManager
-    "NetworkManager.service", "NetworkManager-dispatcher.service",
+    "NetworkManager.service",
+    "NetworkManager-dispatcher.service",
     // wpa_supplicant
     "wpa_supplicant.service",
     // Bluetooth
-    "bluetooth.service", "bluetooth.target",
+    "bluetooth.service",
+    "bluetooth.target",
     // PipeWire (user service - in user/ dir)
-    "pipewire.service", "pipewire.socket", "pipewire-pulse.service",
-    "pipewire-pulse.socket", "wireplumber.service",
+    "pipewire.service",
+    "pipewire.socket",
+    "pipewire-pulse.service",
+    "pipewire-pulse.socket",
+    "wireplumber.service",
     // polkit
     "polkit.service",
     // udisks2
@@ -582,7 +878,12 @@ pub const ALL_SYSTEMD_UNITS: &[&str] = &[
 
 /// Udev helper binaries in /usr/lib/udev/.
 pub const UDEV_HELPERS: &[&str] = &[
-    "ata_id", "scsi_id", "cdrom_id", "v4l_id", "dmi_memory_id", "mtd_probe",
+    "ata_id",
+    "scsi_id",
+    "cdrom_id",
+    "v4l_id",
+    "dmi_memory_id",
+    "mtd_probe",
 ];
 
 // =============================================================================
@@ -684,12 +985,8 @@ pub const CRITICAL_LIBS: &[&str] = &[
 
 /// System users that must exist in /etc/passwd.
 pub const SYSTEM_USERS: &[&str] = &[
-    "root",
-    "dbus",
-    "sshd",
-    "chrony",
-    "polkitd",
-    "pipewire",   // For PipeWire system mode (optional)
+    "root", "dbus", "sshd", "chrony", "polkitd",
+    "pipewire", // For PipeWire system mode (optional)
 ];
 
 /// System groups that must exist in /etc/group.
@@ -701,9 +998,9 @@ pub const SYSTEM_GROUPS: &[&str] = &[
     "chrony",
     "polkitd",
     "pipewire",
-    "bluetooth",  // Users in this group can use bluetooth
-    "audio",      // Users in this group can use audio
-    "video",      // Users in this group can use video devices
+    "bluetooth", // Users in this group can use bluetooth
+    "audio",     // Users in this group can use audio
+    "video",     // Users in this group can use video devices
 ];
 
 // =============================================================================
@@ -807,11 +1104,7 @@ mod tests {
     #[test]
     fn test_systemd_usr_bin_tools() {
         // These tools are in /usr/bin/, not /usr/lib/systemd/
-        let usr_bin_systemd_tools = [
-            "systemctl",
-            "journalctl",
-            "systemd-tmpfiles",
-        ];
+        let usr_bin_systemd_tools = ["systemctl", "journalctl", "systemd-tmpfiles"];
 
         for tool in usr_bin_systemd_tools {
             assert!(
@@ -849,11 +1142,7 @@ mod tests {
     // Verify shutdown targets exist and have their dependencies
     #[test]
     fn test_shutdown_targets_present() {
-        let shutdown_targets = [
-            "halt.target",
-            "poweroff.target",
-            "reboot.target",
-        ];
+        let shutdown_targets = ["halt.target", "poweroff.target", "reboot.target"];
 
         for target in shutdown_targets {
             assert!(

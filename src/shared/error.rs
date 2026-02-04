@@ -92,7 +92,11 @@ macro_rules! impl_error_code_display {
     ($type:ty) => {
         impl std::fmt::Display for $type {
             fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-                write!(f, "{}", <Self as $crate::shared::error::ToolErrorCode>::code(self))
+                write!(
+                    f,
+                    "{}",
+                    <Self as $crate::shared::error::ToolErrorCode>::code(self)
+                )
             }
         }
     };

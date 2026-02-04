@@ -51,9 +51,9 @@ pub const BOOTABLE_PACKAGES: &[&str] = &[
     "grub-efi",
     "efibootmgr",
     // Filesystem essentials
-    "e2fsprogs",     // ext4 — root and data partitions
-    "dosfstools",    // FAT — EFI System Partition
-    "util-linux",    // mount, fdisk, blkid, lsblk
+    "e2fsprogs",  // ext4 — root and data partitions
+    "dosfstools", // FAT — EFI System Partition
+    "util-linux", // mount, fdisk, blkid, lsblk
 ];
 
 // =============================================================================
@@ -133,10 +133,10 @@ pub const REFURBISHMENT_PACKAGES: &[&str] = &[
     // SCSI device enumeration (maps /dev/sd* to HBA:channel:target:lun)
     "lsscsi",
     // Hardware enumeration
-    "pciutils",         // lspci — identify HBAs
-    "usbutils",         // lsusb
-    "dmidecode",        // BIOS/DMI — server model, serial number
-    "ethtool",          // NIC diagnostics
+    "pciutils",  // lspci — identify HBAs
+    "usbutils",  // lsusb
+    "dmidecode", // BIOS/DMI — server model, serial number
+    "ethtool",   // NIC diagnostics
     // System monitoring
     "htop",
     "iotop",
@@ -154,8 +154,7 @@ pub const REFURBISHMENT_PACKAGES: &[&str] = &[
 /// Tier 3: Live ISO installer packages.
 pub const LIVE_ISO_PACKAGES: &[&str] = &[
     // Partitioning (for initial appliance disk setup)
-    "parted",
-    // XFS (alternative data partition filesystem)
+    "parted", // XFS (alternative data partition filesystem)
     "xfsprogs",
 ];
 
@@ -165,27 +164,47 @@ pub const LIVE_ISO_PACKAGES: &[&str] = &[
 // Re-export from AcornOS — same Alpine base, same keys.
 
 /// Alpine signing key: 4a6a0840 (used for older packages)
-pub const ALPINE_KEY_4A6A0840: &str = include_str!("keys/alpine-devel@lists.alpinelinux.org-4a6a0840.rsa.pub");
+pub const ALPINE_KEY_4A6A0840: &str =
+    include_str!("keys/alpine-devel@lists.alpinelinux.org-4a6a0840.rsa.pub");
 
 /// Alpine signing key: 5243ef4b (used for v3.x main packages)
-pub const ALPINE_KEY_5243EF4B: &str = include_str!("keys/alpine-devel@lists.alpinelinux.org-5243ef4b.rsa.pub");
+pub const ALPINE_KEY_5243EF4B: &str =
+    include_str!("keys/alpine-devel@lists.alpinelinux.org-5243ef4b.rsa.pub");
 
 /// Alpine signing key: 5261cecb (used for v3.x community packages)
-pub const ALPINE_KEY_5261CECB: &str = include_str!("keys/alpine-devel@lists.alpinelinux.org-5261cecb.rsa.pub");
+pub const ALPINE_KEY_5261CECB: &str =
+    include_str!("keys/alpine-devel@lists.alpinelinux.org-5261cecb.rsa.pub");
 
 /// Alpine signing key: 6165ee59 (used for v3.15+ packages)
-pub const ALPINE_KEY_6165EE59: &str = include_str!("keys/alpine-devel@lists.alpinelinux.org-6165ee59.rsa.pub");
+pub const ALPINE_KEY_6165EE59: &str =
+    include_str!("keys/alpine-devel@lists.alpinelinux.org-6165ee59.rsa.pub");
 
 /// Alpine signing key: 61666e3f (used for v3.17+ packages)
-pub const ALPINE_KEY_61666E3F: &str = include_str!("keys/alpine-devel@lists.alpinelinux.org-61666e3f.rsa.pub");
+pub const ALPINE_KEY_61666E3F: &str =
+    include_str!("keys/alpine-devel@lists.alpinelinux.org-61666e3f.rsa.pub");
 
 /// All Alpine signing keys as (filename, content) tuples.
 pub const ALPINE_KEYS: &[(&str, &str)] = &[
-    ("alpine-devel@lists.alpinelinux.org-4a6a0840.rsa.pub", ALPINE_KEY_4A6A0840),
-    ("alpine-devel@lists.alpinelinux.org-5243ef4b.rsa.pub", ALPINE_KEY_5243EF4B),
-    ("alpine-devel@lists.alpinelinux.org-5261cecb.rsa.pub", ALPINE_KEY_5261CECB),
-    ("alpine-devel@lists.alpinelinux.org-6165ee59.rsa.pub", ALPINE_KEY_6165EE59),
-    ("alpine-devel@lists.alpinelinux.org-61666e3f.rsa.pub", ALPINE_KEY_61666E3F),
+    (
+        "alpine-devel@lists.alpinelinux.org-4a6a0840.rsa.pub",
+        ALPINE_KEY_4A6A0840,
+    ),
+    (
+        "alpine-devel@lists.alpinelinux.org-5243ef4b.rsa.pub",
+        ALPINE_KEY_5243EF4B,
+    ),
+    (
+        "alpine-devel@lists.alpinelinux.org-5261cecb.rsa.pub",
+        ALPINE_KEY_5261CECB,
+    ),
+    (
+        "alpine-devel@lists.alpinelinux.org-6165ee59.rsa.pub",
+        ALPINE_KEY_6165EE59,
+    ),
+    (
+        "alpine-devel@lists.alpinelinux.org-61666e3f.rsa.pub",
+        ALPINE_KEY_61666E3F,
+    ),
 ];
 
 // =============================================================================
@@ -227,8 +246,14 @@ mod tests {
     #[test]
     fn test_package_tiers_not_empty() {
         assert!(!BOOTABLE_PACKAGES.is_empty(), "Tier 0 should have packages");
-        assert!(!SERVER_CORE_PACKAGES.is_empty(), "Tier 1 should have packages");
-        assert!(!REFURBISHMENT_PACKAGES.is_empty(), "Tier 2 should have packages");
+        assert!(
+            !SERVER_CORE_PACKAGES.is_empty(),
+            "Tier 1 should have packages"
+        );
+        assert!(
+            !REFURBISHMENT_PACKAGES.is_empty(),
+            "Tier 2 should have packages"
+        );
         assert!(!LIVE_ISO_PACKAGES.is_empty(), "Tier 3 should have packages");
     }
 
@@ -255,16 +280,37 @@ mod tests {
         let all = all_live_packages();
 
         // Disk diagnostic tools — these ARE the product
-        assert!(all.contains(&"smartmontools"), "smartmontools required for SMART data");
+        assert!(
+            all.contains(&"smartmontools"),
+            "smartmontools required for SMART data"
+        );
         assert!(all.contains(&"hdparm"), "hdparm required for ATA commands");
-        assert!(all.contains(&"sg3_utils"), "sg3_utils required for SAS/SCSI passthrough");
-        assert!(all.contains(&"lsscsi"), "lsscsi required for device enumeration");
-        assert!(all.contains(&"nvme-cli"), "nvme-cli required for NVMe drives");
+        assert!(
+            all.contains(&"sg3_utils"),
+            "sg3_utils required for SAS/SCSI passthrough"
+        );
+        assert!(
+            all.contains(&"lsscsi"),
+            "lsscsi required for device enumeration"
+        );
+        assert!(
+            all.contains(&"nvme-cli"),
+            "nvme-cli required for NVMe drives"
+        );
 
         // Server essentials
-        assert!(all.contains(&"openssh"), "openssh required for remote management");
-        assert!(all.contains(&"ca-certificates"), "ca-certificates required for TLS");
-        assert!(all.contains(&"eudev"), "eudev required for device management");
+        assert!(
+            all.contains(&"openssh"),
+            "openssh required for remote management"
+        );
+        assert!(
+            all.contains(&"ca-certificates"),
+            "ca-certificates required for TLS"
+        );
+        assert!(
+            all.contains(&"eudev"),
+            "eudev required for device management"
+        );
     }
 
     #[test]
@@ -272,12 +318,24 @@ mod tests {
         let all = all_live_packages();
 
         // IuppiterOS is headless — none of these should be present
-        assert!(!all.contains(&"iwd"), "WiFi daemon not needed on racked server");
-        assert!(!all.contains(&"wireless-regdb"), "WiFi regulatory DB not needed");
+        assert!(
+            !all.contains(&"iwd"),
+            "WiFi daemon not needed on racked server"
+        );
+        assert!(
+            !all.contains(&"wireless-regdb"),
+            "WiFi regulatory DB not needed"
+        );
         assert!(!all.contains(&"sof-firmware"), "Audio firmware not needed");
-        assert!(!all.contains(&"cryptsetup"), "LUKS not needed for appliance");
+        assert!(
+            !all.contains(&"cryptsetup"),
+            "LUKS not needed for appliance"
+        );
         assert!(!all.contains(&"lvm2"), "LVM not needed for appliance");
-        assert!(!all.contains(&"btrfs-progs"), "Btrfs not needed for appliance");
+        assert!(
+            !all.contains(&"btrfs-progs"),
+            "Btrfs not needed for appliance"
+        );
     }
 
     #[test]
@@ -286,7 +344,11 @@ mod tests {
 
         for (filename, content) in ALPINE_KEYS {
             assert!(!filename.is_empty(), "Key filename should not be empty");
-            assert!(content.contains("BEGIN PUBLIC KEY"), "Key {} should be PEM format", filename);
+            assert!(
+                content.contains("BEGIN PUBLIC KEY"),
+                "Key {} should be PEM format",
+                filename
+            );
         }
     }
 }

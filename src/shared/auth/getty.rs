@@ -76,13 +76,22 @@ mod tests {
     #[test]
     fn test_serial_getty_override_contains_l_flag() {
         // Verify the critical -L flag is present in QEMU override
-        assert!(SERIAL_GETTY_OVERRIDE.contains("-L"), "Serial getty must include -L flag for QEMU");
+        assert!(
+            SERIAL_GETTY_OVERRIDE.contains("-L"),
+            "Serial getty must include -L flag for QEMU"
+        );
     }
 
     #[test]
     fn test_baud_rates_configured() {
         // Verify standard baud rates are defined
-        assert!(SERIAL_BAUD_RATES.contains("115200"), "Primary baud rate 115200 required");
-        assert!(SERIAL_BAUD_RATES.contains("57600"), "Fallback baud rate 57600 required");
+        assert!(
+            SERIAL_BAUD_RATES.contains("115200"),
+            "Primary baud rate 115200 required"
+        );
+        assert!(
+            SERIAL_BAUD_RATES.contains("57600"),
+            "Fallback baud rate 57600 required"
+        );
     }
 }

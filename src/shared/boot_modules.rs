@@ -12,15 +12,13 @@
 
 /// Virtio core modules - must be loaded first, other virtio modules depend on these.
 pub const VIRTIO_CORE: &[&str] = &[
-    "kernel/drivers/virtio/virtio",       // Base virtio bus
-    "kernel/drivers/virtio/virtio_ring",  // Virtqueue implementation
-    "kernel/drivers/virtio/virtio_pci",   // PCI transport (needs virtio + virtio_ring)
+    "kernel/drivers/virtio/virtio",      // Base virtio bus
+    "kernel/drivers/virtio/virtio_ring", // Virtqueue implementation
+    "kernel/drivers/virtio/virtio_pci",  // PCI transport (needs virtio + virtio_ring)
 ];
 
 /// SCSI core - needed by sr_mod, sd_mod, virtio_scsi, usb-storage.
-pub const SCSI_CORE: &[&str] = &[
-    "kernel/drivers/scsi/scsi_mod",
-];
+pub const SCSI_CORE: &[&str] = &["kernel/drivers/scsi/scsi_mod"];
 
 /// CDROM and SCSI support for mounting the ISO.
 pub const CDROM_SCSI: &[&str] = &[
@@ -75,15 +73,13 @@ pub const USB_HOST_CONTROLLERS: &[&str] = &[
 ];
 
 /// USB mass storage for USB boot media.
-pub const USB_STORAGE: &[&str] = &[
-    "kernel/drivers/usb/storage/usb-storage",
-];
+pub const USB_STORAGE: &[&str] = &["kernel/drivers/usb/storage/usb-storage"];
 
 /// HID (Human Interface Devices) for keyboards and mice.
 pub const USB_HID: &[&str] = &[
-    "kernel/drivers/hid/hid",             // HID core
-    "kernel/drivers/hid/hid-generic",     // Generic HID driver
-    "kernel/drivers/hid/usbhid/usbhid",   // USB HID (keyboards)
+    "kernel/drivers/hid/hid",           // HID core
+    "kernel/drivers/hid/hid-generic",   // Generic HID driver
+    "kernel/drivers/hid/usbhid/usbhid", // USB HID (keyboards)
 ];
 
 // =============================================================================
@@ -166,25 +162,20 @@ pub const INSTALL_BOOT_MODULES: &[&str] = &[
     "kernel/drivers/virtio/virtio",
     "kernel/drivers/virtio/virtio_ring",
     "kernel/drivers/virtio/virtio_pci",
-
     // === SCSI core (needed by sd_mod, virtio_scsi, usb-storage) ===
     "kernel/drivers/scsi/scsi_mod",
     "kernel/drivers/scsi/sd_mod",
     "kernel/drivers/scsi/virtio_scsi",
-
     // === NVMe (modern SSDs) ===
     "kernel/drivers/nvme/host/nvme-core",
     "kernel/drivers/nvme/host/nvme",
-
     // === SATA/AHCI ===
     "kernel/drivers/ata/libata",
     "kernel/drivers/ata/libahci",
     "kernel/drivers/ata/ahci",
     "kernel/drivers/ata/ata_piix",
-
     // === Virtio block (QEMU virtual disks) ===
     "kernel/drivers/block/virtio_blk",
-
     // === USB Storage ===
     "kernel/drivers/usb/common/usb-common",
     "kernel/drivers/usb/core/usbcore",
@@ -193,12 +184,10 @@ pub const INSTALL_BOOT_MODULES: &[&str] = &[
     "kernel/drivers/usb/host/ehci-hcd",
     "kernel/drivers/usb/host/ehci-pci",
     "kernel/drivers/usb/storage/usb-storage",
-
     // === HID (keyboards for LUKS prompts) ===
     "kernel/drivers/hid/hid",
     "kernel/drivers/hid/hid-generic",
     "kernel/drivers/hid/usbhid/usbhid",
-
     // === Filesystems ===
     "kernel/fs/ext4/ext4",
     "kernel/fs/xfs/xfs",
@@ -208,7 +197,6 @@ pub const INSTALL_BOOT_MODULES: &[&str] = &[
     "kernel/fs/nls/nls_cp437",
     "kernel/fs/nls/nls_iso8859-1",
     "kernel/fs/nls/nls_utf8",
-
     // === Device Mapper (for future LUKS/LVM) ===
     "kernel/drivers/md/dm-mod",
     "kernel/drivers/md/dm-crypt",

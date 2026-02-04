@@ -49,9 +49,12 @@ pub mod shared;
 
 // Re-export shared items at crate root for convenience
 pub use shared::{
-    boot::{BootEntry, LoaderConfig, ESP_MOUNT_POINT, LOADER_CONF_PATH, ENTRIES_DIR, DEFAULT_TIMEOUT, bootctl_install_command},
-    chroot::{BindMount, CHROOT_BIND_MOUNTS, mounts_in_order, mounts_in_unmount_order},
+    boot::{
+        bootctl_install_command, BootEntry, LoaderConfig, DEFAULT_TIMEOUT, ENTRIES_DIR,
+        ESP_MOUNT_POINT, LOADER_CONF_PATH,
+    },
+    chroot::{mounts_in_order, mounts_in_unmount_order, BindMount, CHROOT_BIND_MOUNTS},
     partitions::{PartitionLayout, PartitionSpec, EFI_PARTITION_SIZE_MB},
     services::ServiceManager,
-    users::{UserSpec, MIN_UID, MIN_GID, SUDOERS_WHEEL_LINE},
+    users::{UserSpec, MIN_GID, MIN_UID, SUDOERS_WHEEL_LINE},
 };

@@ -10,24 +10,20 @@
 pub const SSHD_CONFIG_SETTINGS: &[(&str, &str)] = &[
     // Port configuration
     ("Port", "22"),
-
     // Access control
-    ("PermitRootLogin", "yes"),           // Allow root login (can be tightened post-install)
-    ("PasswordAuthentication", "yes"),    // Allow password auth (convenient for live ISO)
-    ("PubkeyAuthentication", "yes"),      // Allow public key auth (secure)
-
+    ("PermitRootLogin", "yes"), // Allow root login (can be tightened post-install)
+    ("PasswordAuthentication", "yes"), // Allow password auth (convenient for live ISO)
+    ("PubkeyAuthentication", "yes"), // Allow public key auth (secure)
     // Protocol
-    ("Protocol", "2"),                    // SSH protocol version 2 only
-    ("AddressFamily", "any"),             // Listen on IPv4 and IPv6
-
+    ("Protocol", "2"),        // SSH protocol version 2 only
+    ("AddressFamily", "any"), // Listen on IPv4 and IPv6
     // Session
-    ("X11Forwarding", "no"),              // Don't allow X11 forwarding (security)
-    ("PrintMotD", "yes"),                 // Display message of the day
-
+    ("X11Forwarding", "no"), // Don't allow X11 forwarding (security)
+    ("PrintMotD", "yes"),    // Display message of the day
     // Security
-    ("PermitEmptyPasswords", "no"),       // Never allow empty passwords
-    ("ClientAliveInterval", "300"),       // Send keepalive every 5 minutes
-    ("ClientAliveCountMax", "2"),         // Close after 2 missed keepalives
+    ("PermitEmptyPasswords", "no"), // Never allow empty passwords
+    ("ClientAliveInterval", "300"), // Send keepalive every 5 minutes
+    ("ClientAliveCountMax", "2"),   // Close after 2 missed keepalives
 ];
 
 /// tmpfiles.d configuration for SSH runtime directory.
@@ -67,17 +63,17 @@ pub const HOST_KEY_CONFIGS: &[HostKeyConfig] = &[
     HostKeyConfig {
         key_type: "rsa",
         bits: 3072,
-        min_recommended_bits: 2048,  // We use 3072 for better security
+        min_recommended_bits: 2048, // We use 3072 for better security
     },
     HostKeyConfig {
         key_type: "ecdsa",
         bits: 256,
-        min_recommended_bits: 256,   // Fixed for P-256 curve
+        min_recommended_bits: 256, // Fixed for P-256 curve
     },
     HostKeyConfig {
         key_type: "ed25519",
-        bits: 0,                      // Fixed size, no bits parameter
-        min_recommended_bits: 0,      // N/A
+        bits: 0,                 // Fixed size, no bits parameter
+        min_recommended_bits: 0, // N/A
     },
 ];
 
@@ -85,9 +81,9 @@ pub const HOST_KEY_CONFIGS: &[HostKeyConfig] = &[
 ///
 /// Modern SSH prefers keys in this order.
 pub const SSH_KEY_TYPES_PREFERRED: &[&str] = &[
-    "ssh-ed25519",      // Modern, best choice
+    "ssh-ed25519", // Modern, best choice
     "ecdsa-sha2-nistp256",
-    "ssh-rsa",          // Widely compatible but less secure
+    "ssh-rsa", // Widely compatible but less secure
 ];
 
 #[cfg(test)]
