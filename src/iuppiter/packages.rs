@@ -115,7 +115,6 @@ pub const SERVER_CORE_PACKAGES: &[&str] = &[
 /// Adds to Tier 1:
 /// - SMART monitoring (smartmontools)
 /// - ATA/SCSI command passthrough (hdparm, sg3_utils)
-/// - SAS drive parameters (sdparm)
 /// - NVMe management (nvme-cli)
 /// - Hardware enumeration (lsscsi, pciutils)
 /// - System monitoring (htop, iotop)
@@ -126,8 +125,7 @@ pub const REFURBISHMENT_PACKAGES: &[&str] = &[
     "hdparm",
     // SCSI/SAS generic utilities (sg_sat_identify, sg_readcap, etc.)
     "sg3_utils",
-    // SAS drive parameters
-    "sdparm",
+    // Note: sdparm is not available in Alpine v3.23 repos
     // NVMe management
     "nvme-cli",
     // SCSI device enumeration (maps /dev/sd* to HBA:channel:target:lun)
