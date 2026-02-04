@@ -31,6 +31,7 @@
 //!
 //! - `levitate` - LevitateOS: Rocky Linux, systemd, glibc, GNU coreutils
 //! - `acorn` - AcornOS: Alpine Linux, OpenRC, musl, busybox
+//! - `iuppiter` - IuppiterOS: Alpine Linux, OpenRC, musl, busybox (headless refurbishment server)
 //!
 //! # Philosophy
 //!
@@ -42,6 +43,7 @@
 //! Any mismatch between these three is a bug.
 
 pub mod acorn;
+pub mod iuppiter;
 pub mod levitate;
 pub mod shared;
 

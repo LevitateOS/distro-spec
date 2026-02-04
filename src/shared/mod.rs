@@ -68,7 +68,7 @@ pub use paths::{
     INITRAMFS_FILENAME, INITRAMFS_LIVE_OUTPUT, INTEL_UCODE_FILENAME, KERNEL_FILENAME,
     LOADER_CONF_FILENAME, OS_VERSION, PROTECTED_PATHS,
 };
-pub use requirements::{SystemRequirements, ACORN_REQUIREMENTS, LEVITATE_REQUIREMENTS};
+pub use requirements::{SystemRequirements, ACORN_REQUIREMENTS, IUPPITER_REQUIREMENTS, LEVITATE_REQUIREMENTS};
 pub use services::ServiceManager;
 pub use system::{is_mount_point, is_root};
 pub use users::{UserSpec, MIN_GID, MIN_UID, SUDOERS_WHEEL_LINE};

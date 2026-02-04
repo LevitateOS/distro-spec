@@ -67,6 +67,24 @@ pub const ACORN_REQUIREMENTS: SystemRequirements = SystemRequirements {
     gpu_vendors: &["AMD", "NVIDIA", "Intel"],
 };
 
+/// IuppiterOS system requirements.
+///
+/// Headless HDD refurbishment server with 64+ drive slots.
+/// Needs RAM for I/O buffers across many concurrent drives, but no GPU.
+/// Disk is for OS + refurbishment artifacts/reports (drives under test are NOT mounted).
+pub const IUPPITER_REQUIREMENTS: SystemRequirements = SystemRequirements {
+    min_ram_gb: 8,           // 64 drives × I/O buffers + engine overhead
+    recommended_ram_gb: 32,  // Comfortable for 64+ concurrent drive operations
+
+    min_disk_gb: 32,          // OS image + artifacts for current batch
+    recommended_disk_gb: 256, // Room for historical reports, logs
+
+    cpu_microarch: "x86-64-v3",           // Server hardware is always modern
+    supported_vendors: &["AMD", "Intel"],
+
+    gpu_vendors: &[],                      // Headless — no GPU required
+};
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -91,5 +109,17 @@ mod tests {
     fn acorn_requirements_are_sane() {
         assert!(ACORN_REQUIREMENTS.min_ram_gb <= ACORN_REQUIREMENTS.recommended_ram_gb);
         assert!(ACORN_REQUIREMENTS.min_disk_gb <= ACORN_REQUIREMENTS.recommended_disk_gb);
+    }
+
+    #[test]
+    fn iuppiter_requirements_are_sane() {
+        assert!(IUPPITER_REQUIREMENTS.min_ram_gb <= IUPPITER_REQUIREMENTS.recommended_ram_gb);
+        assert!(IUPPITER_REQUIREMENTS.min_disk_gb <= IUPPITER_REQUIREMENTS.recommended_disk_gb);
+
+        // Headless server — no GPU required
+        assert!(IUPPITER_REQUIREMENTS.gpu_vendors.is_empty());
+
+        // Should have at least 2 CPU vendors
+        assert!(IUPPITER_REQUIREMENTS.supported_vendors.len() >= 2);
     }
 }
