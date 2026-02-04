@@ -91,6 +91,7 @@ pub const SERVER_CORE_PACKAGES: &[&str] = &[
     "gawk",
     "findutils",
     // Networking (wired only — no WiFi on a racked server)
+    "ifupdown-ng", // Provides ifup/ifdown for /etc/network/interfaces (required by OpenRC networking service)
     "dhcpcd",
     "iproute2",
     "iputils",

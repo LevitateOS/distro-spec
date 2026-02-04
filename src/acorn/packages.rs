@@ -107,6 +107,7 @@ pub const CORE_PACKAGES: &[&str] = &[
 /// - Audio firmware
 pub const DAILY_DRIVER_PACKAGES: &[&str] = &[
     // Networking (P1)
+    "ifupdown-ng", // Provides ifup/ifdown for /etc/network/interfaces (required by OpenRC networking service)
     "dhcpcd",
     "iproute2",
     "iputils",        // ping
