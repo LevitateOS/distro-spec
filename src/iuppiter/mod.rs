@@ -43,6 +43,9 @@ pub use paths::{
     // User defaults
     DEFAULT_SHELL,
     DEFAULT_USER_GROUPS,
+    // Disk Image
+    DISK_IMAGE_FILENAME,
+    DISK_IMAGE_SIZE_GB,
     ENGINE_BINARY,
     ENGINE_CONFIG,
     ENGINE_CONFIG_DIR,
@@ -56,9 +59,6 @@ pub use paths::{
     INITRAMFS_BUILD_DIR,
     INITRAMFS_FILENAME,
     INITRAMFS_LIVE_OUTPUT,
-    // Disk Image
-    DISK_IMAGE_FILENAME,
-    DISK_IMAGE_SIZE_GB,
     // ISO Output
     ISO_FILENAME,
     // ISO constants

@@ -1,18 +1,20 @@
 //! IuppiterOS package tier definitions.
 //!
 //! This module defines package tiers for building IuppiterOS images.
-//! IuppiterOS is a headless HDD refurbishment server appliance.
+//! IuppiterOS is an HDD refurbishment server appliance with touchscreen kiosk display.
 //!
 //! - **Tier 0 (Bootable)**: Kernel + init + minimal filesystem
 //! - **Tier 1 (Server Core)**: Networking, SSH, device management
 //! - **Tier 2 (Refurbishment)**: Disk diagnostics, SAS/SCSI tools
 //! - **Tier 3 (Live ISO)**: Installer tools (only on install media)
+//! - **Tier 4 (Display)**: DRM/GPU, Cage Wayland compositor, seatd, fonts
+//! - **Tier 5 (Kiosk)**: Firefox ESR for kiosk browser UI
 //!
 //! # NOT included (vs AcornOS daily-driver)
 //!
 //! - No WiFi (iwd, wireless-regdb)
 //! - No audio (sof-firmware, pipewire)
-//! - No desktop (no DE, no Wayland compositor, no fonts)
+//! - No full desktop (no DE — uses Cage kiosk compositor only)
 //! - No LUKS/LVM (appliance rootfs is EROFS, data partition is plain ext4)
 //! - No Btrfs (not needed for appliance)
 //!
@@ -158,6 +160,50 @@ pub const LIVE_ISO_PACKAGES: &[&str] = &[
 ];
 
 // =============================================================================
+// Tier 4: Display (DRM/GPU + Cage Wayland Compositor)
+// =============================================================================
+// Minimal display stack for touchscreen kiosk UI.
+
+/// Tier 4: Display packages for touchscreen kiosk.
+///
+/// Provides:
+/// - Mesa DRI/EGL/GBM for GPU rendering (simpledrm for EFI framebuffer)
+/// - Cage: single-application Wayland compositor (kiosk mode)
+/// - seatd: minimal seat management daemon (no logind/elogind)
+/// - Input handling (libinput, xkbcommon)
+/// - Fonts for browser rendering
+pub const DISPLAY_PACKAGES: &[&str] = &[
+    // GPU / DRM
+    "mesa",
+    "mesa-dri-gallium",
+    "mesa-egl",
+    "mesa-gbm",
+    "libdrm",
+    // Wayland kiosk compositor + seat management
+    "cage",
+    "seatd",
+    "seatd-openrc",
+    // Input
+    "libinput",
+    "xkeyboard-config",
+    "libxkbcommon",
+    // Fonts (required for browser text rendering)
+    "font-dejavu",
+    "fontconfig",
+];
+
+// =============================================================================
+// Tier 5: Kiosk Browser
+// =============================================================================
+// Firefox ESR in kiosk mode pointed at iuppiter-dar localhost UI.
+
+/// Tier 5: Kiosk browser packages.
+///
+/// Firefox ESR runs in `--kiosk` mode inside Cage, pointing at
+/// `http://localhost:5195` (iuppiter-dar React SPA).
+pub const KIOSK_PACKAGES: &[&str] = &["firefox-esr"];
+
+// =============================================================================
 // Alpine Signing Keys
 // =============================================================================
 // Re-export from AcornOS — same Alpine base, same keys.
@@ -229,11 +275,25 @@ pub fn refurbishment_packages() -> Vec<&'static str> {
     packages
 }
 
-/// Returns all packages for a live ISO (Tiers 0-3).
+/// Returns all packages for display support (Tiers 0-4).
+pub fn display_packages() -> Vec<&'static str> {
+    let mut packages = refurbishment_packages();
+    packages.extend_from_slice(DISPLAY_PACKAGES);
+    packages
+}
+
+/// Returns all packages for kiosk mode (Tiers 0-5).
+pub fn kiosk_packages() -> Vec<&'static str> {
+    let mut packages = display_packages();
+    packages.extend_from_slice(KIOSK_PACKAGES);
+    packages
+}
+
+/// Returns all packages for a live ISO (Tiers 0-5 + live tools).
 ///
 /// This is the default package set for `iuppiter build`.
 pub fn all_live_packages() -> Vec<&'static str> {
-    let mut packages = refurbishment_packages();
+    let mut packages = kiosk_packages();
     packages.extend_from_slice(LIVE_ISO_PACKAGES);
     packages
 }
@@ -254,6 +314,8 @@ mod tests {
             "Tier 2 should have packages"
         );
         assert!(!LIVE_ISO_PACKAGES.is_empty(), "Tier 3 should have packages");
+        assert!(!DISPLAY_PACKAGES.is_empty(), "Tier 4 should have packages");
+        assert!(!KIOSK_PACKAGES.is_empty(), "Tier 5 should have packages");
     }
 
     #[test]
@@ -271,6 +333,12 @@ mod tests {
         }
         for pkg in LIVE_ISO_PACKAGES {
             assert!(all.contains(pkg), "Missing Tier 3 package: {}", pkg);
+        }
+        for pkg in DISPLAY_PACKAGES {
+            assert!(all.contains(pkg), "Missing Tier 4 package: {}", pkg);
+        }
+        for pkg in KIOSK_PACKAGES {
+            assert!(all.contains(pkg), "Missing Tier 5 package: {}", pkg);
         }
     }
 
@@ -313,10 +381,10 @@ mod tests {
     }
 
     #[test]
-    fn test_no_desktop_packages() {
+    fn test_no_unnecessary_packages() {
         let all = all_live_packages();
 
-        // IuppiterOS is headless — none of these should be present
+        // IuppiterOS has a kiosk display but no WiFi, audio, or encryption
         assert!(
             !all.contains(&"iwd"),
             "WiFi daemon not needed on racked server"
@@ -334,6 +402,22 @@ mod tests {
         assert!(
             !all.contains(&"btrfs-progs"),
             "Btrfs not needed for appliance"
+        );
+    }
+
+    #[test]
+    fn test_kiosk_packages_present() {
+        let all = all_live_packages();
+
+        assert!(all.contains(&"cage"), "cage compositor required for kiosk");
+        assert!(all.contains(&"seatd"), "seatd required for seat management");
+        assert!(
+            all.contains(&"firefox-esr"),
+            "firefox-esr required for kiosk browser"
+        );
+        assert!(
+            all.contains(&"font-dejavu"),
+            "fonts required for browser rendering"
         );
     }
 

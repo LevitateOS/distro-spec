@@ -22,11 +22,13 @@ pub use crate::shared::boot_modules::CORE_BOOT_MODULES;
 
 /// Kernel modules required in the initramfs for boot.
 ///
-/// IuppiterOS is a headless refurbishment server with 64+ SATA/SAS drive slots.
+/// IuppiterOS is a refurbishment server with 64+ SATA/SAS drive slots
+/// and a touchscreen kiosk display.
 /// Boot modules include:
 /// - Core storage (SATA/AHCI, NVMe, virtio for QEMU testing)
 /// - SAS HBA drivers (server hardware uses SAS backplanes)
 /// - SCSI enclosure services (slot mapping, LED control)
+/// - DRM/GPU drivers (simpledrm for EFI framebuffer, virtio-gpu for QEMU)
 /// - No USB modules (server boots from internal disk, not USB)
 ///
 /// Paths are relative to `/lib/modules/<kernel-version>/`.
@@ -78,6 +80,16 @@ pub const BOOT_MODULES: &[&str] = &[
     // SCSI GENERIC (SG_IO passthrough for smartctl/hdparm)
     // =========================================================================
     "kernel/drivers/scsi/sg",
+    // =========================================================================
+    // DRM / GPU (kiosk display)
+    // =========================================================================
+    // DRM core
+    "kernel/drivers/gpu/drm/drm",
+    "kernel/drivers/gpu/drm/drm_kms_helper",
+    // EFI framebuffer (works on any UEFI system — primary display driver)
+    "kernel/drivers/gpu/drm/simpledrm/simpledrm",
+    // Virtio GPU (QEMU testing with -device virtio-gpu-pci)
+    "kernel/drivers/gpu/drm/virtio/virtio-gpu",
 ];
 
 // =============================================================================

@@ -1,7 +1,7 @@
 //! OpenRC service configuration for IuppiterOS.
 //!
 //! Defines which services should be enabled on a fresh IuppiterOS installation.
-//! IuppiterOS is a headless refurbishment server — services are minimal.
+//! IuppiterOS is a refurbishment server with kiosk display.
 
 use crate::shared::services::ServiceManager;
 
@@ -36,9 +36,21 @@ pub const ENABLED_SERVICES: &[ServiceSpec] = &[
         required: true,
     },
     ServiceSpec {
-        name: "iuppiter-engine",
+        name: "seatd",
         runlevel: "default",
-        description: "iuppiter HDD refurbishment engine",
+        description: "Seat management daemon (DRM/input access for kiosk)",
+        required: true,
+    },
+    ServiceSpec {
+        name: "iuppiter-dar",
+        runlevel: "default",
+        description: "iuppiter DAR daemon (Axum HTTP server on port 5195)",
+        required: true,
+    },
+    ServiceSpec {
+        name: "iuppiter-kiosk",
+        runlevel: "default",
+        description: "iuppiter kiosk display (Cage + Firefox ESR)",
         required: true,
     },
 ];
