@@ -4,7 +4,7 @@
 //! for IuppiterOS installation.
 //!
 //! IuppiterOS: Alpine Linux base, OpenRC, musl, busybox
-//! Purpose: Headless HDD refurbishment server appliance (64+ drive slots)
+//! Purpose: HDD refurbishment server appliance with touchscreen kiosk display
 
 // Re-export shared constants that are identical across distros
 pub use crate::shared::{
@@ -146,9 +146,10 @@ pub const ROOT_SHELL: &str = "/bin/ash";
 
 /// Operator user groups.
 ///
-/// IuppiterOS is a headless server — no audio/video groups needed.
 /// The `disk` group grants access to /dev/sd* block devices.
-pub const OPERATOR_GROUPS: &[&str] = &["wheel", "disk"];
+/// The `video`, `input`, and `seat` groups grant DRM/input/seatd access
+/// for the kiosk display.
+pub const OPERATOR_GROUPS: &[&str] = &["wheel", "disk", "video", "input", "seat"];
 
 // =============================================================================
 // ISO Output
@@ -156,6 +157,16 @@ pub const OPERATOR_GROUPS: &[&str] = &["wheel", "disk"];
 
 /// ISO output filename.
 pub const ISO_FILENAME: &str = "iuppiter-x86_64.iso";
+
+// =============================================================================
+// Disk Image Constants
+// =============================================================================
+
+/// Raw disk image output filename (dd-able to SSD).
+pub const DISK_IMAGE_FILENAME: &str = "iuppiteros-x86_64.img";
+
+/// Default disk image size in GB (sparse, first-boot resize fills SSD).
+pub const DISK_IMAGE_SIZE_GB: u32 = 8;
 
 // =============================================================================
 // Alpine Version Constants
@@ -192,6 +203,15 @@ pub const ENGINE_BINARY: &str = "/opt/iuppiter/iuppiter-engine";
 
 /// Engine configuration file.
 pub const ENGINE_CONFIG: &str = "/etc/iuppiter/config.toml";
+
+/// DAR (Diagnostics and Reporting) daemon binary path.
+pub const DAR_BINARY: &str = "/opt/iuppiter/iuppiter-dar";
+
+/// DAR SPA (React web UI) directory.
+pub const DAR_SPA_DIR: &str = "/usr/share/iuppiter/spa";
+
+/// DAR HTTP server port (Axum).
+pub const DAR_PORT: u16 = 5195;
 
 // =============================================================================
 // Helper Functions
