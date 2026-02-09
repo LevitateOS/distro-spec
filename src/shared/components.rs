@@ -100,6 +100,9 @@ pub const FHS_SYMLINKS: &[(&str, &str)] = &[
     ("lib64", "usr/lib64"),
 ];
 
+/// /var symlinks to /run (systemd convention).
+pub const VAR_SYMLINKS: &[(&str, &str)] = &[("var/run", "/run"), ("var/lock", "/run/lock")];
+
 // =============================================================================
 // LEVITATEOS INSTALLATION TOOLS
 // =============================================================================

@@ -100,6 +100,19 @@ pub fn is_protected_path(path: &std::path::Path) -> bool {
 // Version
 // =============================================================================
 
+// =============================================================================
+// Library Directories
+// =============================================================================
+
+/// Library directories to copy shared libraries from.
+///
+/// Alpine uses musl (no multilib), so we use /usr/lib (not /usr/lib64).
+pub const LIBRARY_DIRS: &[&str] = &["lib", "usr/lib"];
+
+// =============================================================================
+// Version
+// =============================================================================
+
 /// OS version number.
 ///
 /// Both distros share the same version for coordinated releases.

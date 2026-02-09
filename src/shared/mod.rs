@@ -5,10 +5,12 @@
 pub mod auth;
 pub mod boot;
 pub mod boot_modules;
+pub mod busybox;
 pub mod chroot;
 pub mod components;
 pub mod devices;
 pub mod error;
+pub mod firmware;
 pub mod initramfs;
 pub mod iso;
 pub mod licenses;
@@ -65,6 +67,7 @@ pub use boot::{
     ESP_MOUNT_POINT, LOADER_CONF_PATH,
 };
 pub use boot_modules::{CORE_BOOT_MODULES, INSTALL_BOOT_MODULES, USB_BOOT_MODULES};
+pub use busybox::{COMMON_APPLETS, SBIN_APPLETS};
 pub use chroot::{BindMount, CHROOT_BIND_MOUNTS};
 pub use components::{
     ALL_SYSTEMD_UNITS,
@@ -105,11 +108,13 @@ pub use components::{
     UDISKS_UNITS,
     UPOWER_SBIN,
     UPOWER_UNITS,
+    VAR_SYMLINKS,
     WPA_SBIN,
     WPA_UNITS,
 };
 pub use devices::BOOT_DEVICE_PROBE_ORDER;
 pub use error::{ToolError, ToolErrorCode};
+pub use firmware::WIFI_FIRMWARE_DIRS;
 pub use initramfs::{
     CPIO_GZIP_LEVEL, INITRAMFS_DIRS, MOUNT_LIVE_OVERLAY, MOUNT_NEWROOT, MOUNT_OVERLAY, MOUNT_ROOTFS,
 };
@@ -122,12 +127,12 @@ pub use iso::{
 };
 pub use modules::{
     module_path, INSTALL_MODULES, INSTALL_MODULES_BUILTIN, LIVE_MODULES, LIVE_MODULES_BUILTIN,
-    MODULE_PATHS,
+    MODULE_METADATA_FILES, MODULE_PATHS,
 };
 pub use partitions::{PartitionLayout, PartitionSpec, EFI_PARTITION_SIZE_MB};
 pub use paths::{
     is_protected_path, AMD_UCODE_FILENAME, DEFAULT_USER_GROUPS, INITRAMFS_BUILD_DIR,
-    INITRAMFS_FILENAME, INITRAMFS_LIVE_OUTPUT, INTEL_UCODE_FILENAME, KERNEL_FILENAME,
+    INITRAMFS_FILENAME, INITRAMFS_LIVE_OUTPUT, INTEL_UCODE_FILENAME, KERNEL_FILENAME, LIBRARY_DIRS,
     LOADER_CONF_FILENAME, OS_VERSION, PROTECTED_PATHS,
 };
 pub use qemu::{
