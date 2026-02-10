@@ -13,6 +13,7 @@ pub mod packages;
 pub mod paths;
 pub mod services;
 pub mod uki;
+pub mod verification;
 
 pub use boot::{
     boot_entry_with_label, boot_entry_with_partuuid, boot_entry_with_root, bootctl_install_command,
