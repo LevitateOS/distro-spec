@@ -98,6 +98,9 @@ pub use paths::{
 pub use services::{optional_services, required_services, ServiceSpec, ENABLED_SERVICES};
 pub use uki::{UkiEntry, UKI_ENTRIES, UKI_INSTALLED_ENTRIES};
 
+// Kernel source specification
+pub use crate::shared::IUPPITER_KERNEL as KERNEL_SOURCE;
+
 // Re-export shared constants (no squashfs - EROFS only)
 pub use crate::shared::{
     BOOT_DEVICE_PROBE_ORDER, CPIO_GZIP_LEVEL, EFIBOOT_FILENAME, EFIBOOT_SIZE_MB, EFI_BOOTLOADER,

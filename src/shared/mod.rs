@@ -12,6 +12,7 @@ pub mod devices;
 pub mod error;
 pub mod firmware;
 pub mod initramfs;
+pub mod kernel;
 pub mod iso;
 pub mod modules;
 pub mod partitions;
@@ -184,4 +185,5 @@ pub use uki::{
     UKI_INSTALLED_RECOVERY_FILENAME,
     UKI_LIVE_FILENAME,
 };
+pub use kernel::{KernelSource, ACORN_KERNEL, IUPPITER_KERNEL, LEVITATE_KERNEL};
 pub use users::{UserSpec, MIN_GID, MIN_UID, SUDOERS_WHEEL_LINE};
