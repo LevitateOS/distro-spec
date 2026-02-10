@@ -9,17 +9,7 @@ use super::paths::{
     UKI_DEBUG_FILENAME, UKI_EMERGENCY_FILENAME, UKI_INSTALLED_FILENAME,
     UKI_INSTALLED_RECOVERY_FILENAME, UKI_LIVE_FILENAME,
 };
-
-/// A UKI boot entry definition.
-#[derive(Debug, Clone)]
-pub struct UkiEntry {
-    /// Display name shown in boot menu.
-    pub name: &'static str,
-    /// Filename for the UKI (e.g., "iuppiter-live.efi").
-    pub filename: &'static str,
-    /// Extra kernel cmdline parameters appended to base cmdline.
-    pub extra_cmdline: &'static str,
-}
+pub use crate::shared::UkiEntry;
 
 /// UKI boot entries for live ISO.
 ///

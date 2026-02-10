@@ -3,6 +3,20 @@
 //! UKIs combine kernel + initramfs + cmdline into a single signed PE binary.
 //! This simplifies boot and enables Secure Boot with a single file to sign.
 
+/// A UKI boot entry definition.
+///
+/// Used by all distros (AcornOS, IuppiterOS, LevitateOS) to define
+/// boot menu entries for both live ISO and installed systems.
+#[derive(Debug, Clone)]
+pub struct UkiEntry {
+    /// Display name shown in boot menu.
+    pub name: &'static str,
+    /// Filename for the UKI (e.g., "acornos-live.efi").
+    pub filename: &'static str,
+    /// Extra kernel cmdline parameters appended to base cmdline.
+    pub extra_cmdline: &'static str,
+}
+
 /// Directory for UKIs on the EFI system partition.
 pub const UKI_EFI_DIR: &str = "EFI/Linux";
 

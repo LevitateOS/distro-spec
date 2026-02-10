@@ -171,6 +171,8 @@ pub use udev::{
     UDEV_TMPFILES_ENTRIES, UDEV_UNITS_TO_PATCH,
 };
 pub use uki::{
+    // Shared type
+    UkiEntry,
     LOADER_ENTRIES_DIR,
     SYSTEMD_BOOT_EFI,
     SYSTEMD_BOOT_STUB,

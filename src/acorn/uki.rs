@@ -9,36 +9,27 @@ use super::paths::{
     UKI_DEBUG_FILENAME, UKI_EMERGENCY_FILENAME, UKI_INSTALLED_FILENAME,
     UKI_INSTALLED_RECOVERY_FILENAME, UKI_LIVE_FILENAME,
 };
-
-/// A UKI boot entry definition.
-#[derive(Debug, Clone)]
-pub struct UkiEntry {
-    /// Display name shown in boot menu.
-    pub name: &'static str,
-    /// Filename for the UKI (e.g., "acornos-live.efi").
-    pub filename: &'static str,
-    /// Extra kernel cmdline parameters appended to base cmdline.
-    pub extra_cmdline: &'static str,
-}
+pub use crate::shared::UkiEntry;
 
 /// UKI boot entries for live ISO.
 ///
 /// These define the boot menu entries created by systemd-boot.
+/// Console parameters are in extra_cmdline so base cmdline stays clean.
 pub const UKI_ENTRIES: &[UkiEntry] = &[
     UkiEntry {
         name: "AcornOS",
         filename: UKI_LIVE_FILENAME,
-        extra_cmdline: "",
+        extra_cmdline: "console=tty0 console=ttyS0,115200n8",
     },
     UkiEntry {
         name: "AcornOS (Emergency)",
         filename: UKI_EMERGENCY_FILENAME,
-        extra_cmdline: "emergency",
+        extra_cmdline: "emergency console=tty0 console=ttyS0,115200n8",
     },
     UkiEntry {
         name: "AcornOS (Debug)",
         filename: UKI_DEBUG_FILENAME,
-        extra_cmdline: "debug",
+        extra_cmdline: "debug console=tty0 console=ttyS0,115200n8",
     },
 ];
 
@@ -51,11 +42,11 @@ pub const UKI_INSTALLED_ENTRIES: &[UkiEntry] = &[
     UkiEntry {
         name: "AcornOS",
         filename: UKI_INSTALLED_FILENAME,
-        extra_cmdline: "",
+        extra_cmdline: "console=tty0 console=ttyS0,115200n8",
     },
     UkiEntry {
         name: "AcornOS (Recovery)",
         filename: UKI_INSTALLED_RECOVERY_FILENAME,
-        extra_cmdline: "single",
+        extra_cmdline: "single console=tty0 console=ttyS0,115200n8",
     },
 ];
