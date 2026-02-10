@@ -13,7 +13,6 @@ pub mod error;
 pub mod firmware;
 pub mod initramfs;
 pub mod iso;
-pub mod licenses;
 pub mod modules;
 pub mod partitions;
 pub mod paths;
@@ -70,7 +69,7 @@ pub use boot_modules::{CORE_BOOT_MODULES, INSTALL_BOOT_MODULES, USB_BOOT_MODULES
 pub use busybox::{COMMON_APPLETS, SBIN_APPLETS};
 pub use chroot::{BindMount, CHROOT_BIND_MOUNTS};
 pub use components::{
-    ALL_SYSTEMD_UNITS,
+    all_systemd_units,
     // Binaries - /usr/bin
     BIN_UTILS,
     BLUETOOTH_SBIN,

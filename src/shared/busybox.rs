@@ -202,7 +202,6 @@ pub const COMMON_APPLETS: &[&str] = &[
     "ip",
     "route",
     "udhcpc",
-    "ping",
     // sbin utilities
     "blkid",
     "fdisk",
