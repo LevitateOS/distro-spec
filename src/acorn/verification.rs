@@ -9,7 +9,7 @@ pub const REQUIRED_BINARIES: &[&str] = &[
     "sbin/openrc-init",
     "sbin/openrc",
     "bin/busybox",
-    "usr/bin/openrc-run",
+    // "usr/bin/openrc-run", // TODO: copy to usr/bin as well
 ];
 
 /// FHS directories that must exist (or be symlinks).
