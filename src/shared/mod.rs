@@ -12,8 +12,8 @@ pub mod devices;
 pub mod error;
 pub mod firmware;
 pub mod initramfs;
-pub mod kernel;
 pub mod iso;
+pub mod kernel;
 pub mod modules;
 pub mod partitions;
 pub mod paths;
@@ -125,6 +125,7 @@ pub use iso::{
     SERIAL_CONSOLE, SHA512_SEPARATOR, SQUASHFS_ISO_PATH, VGA_CONSOLE, XORRISO_FS_FLAGS,
     XORRISO_PARTITION_OFFSET,
 };
+pub use kernel::{KernelSource, ACORN_KERNEL, IUPPITER_KERNEL, LEVITATE_KERNEL};
 pub use modules::{
     module_path, INSTALL_MODULES, INSTALL_MODULES_BUILTIN, LIVE_MODULES, LIVE_MODULES_BUILTIN,
     MODULE_METADATA_FILES, MODULE_PATHS,
@@ -185,5 +186,4 @@ pub use uki::{
     UKI_INSTALLED_RECOVERY_FILENAME,
     UKI_LIVE_FILENAME,
 };
-pub use kernel::{KernelSource, ACORN_KERNEL, IUPPITER_KERNEL, LEVITATE_KERNEL};
 pub use users::{UserSpec, MIN_GID, MIN_UID, SUDOERS_WHEEL_LINE};
