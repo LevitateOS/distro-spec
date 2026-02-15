@@ -1,7 +1,7 @@
 //! Distro Installation Specification
 //!
 //! Single source of truth for installation constants, paths, and configuration.
-//! Supports multiple distro variants: LevitateOS and AcornOS.
+//! Supports multiple distro variants: LevitateOS, AcornOS, IuppiterOS, and RalphOS.
 //!
 //! # STOP. READ. THEN ACT.
 //!
@@ -32,6 +32,7 @@
 //! - `levitate` - LevitateOS: Rocky Linux, systemd, glibc, GNU coreutils
 //! - `acorn` - AcornOS: Alpine Linux, OpenRC, musl, busybox
 //! - `iuppiter` - IuppiterOS: Alpine Linux, OpenRC, musl, busybox (headless refurbishment server)
+//! - `ralph` - RalphOS: LevitateOS base (Rocky Linux, systemd, glibc), headless sandbox host
 //!
 //! # Philosophy
 //!
@@ -45,6 +46,7 @@
 pub mod acorn;
 pub mod iuppiter;
 pub mod levitate;
+pub mod ralph;
 pub mod shared;
 
 // Re-export shared items at crate root for convenience

@@ -1,7 +1,7 @@
 //! Kernel source specification.
 //!
 //! Defines kernel version and tarball download info for each distro variant.
-//! All three distros download kernel tarballs from cdn.kernel.org instead of
+//! All distros download kernel tarballs from cdn.kernel.org instead of
 //! using a shared git submodule, enabling different kernel versions per distro.
 //!
 //! SHA256 hashes are from <https://cdn.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc>
@@ -59,4 +59,14 @@ pub const LEVITATE_KERNEL: KernelSource = KernelSource {
     version: "6.12.71",
     sha256: "143e8bc76cc41f831b51aa5e75819bed55bed41f299d35922820f1d2d2b02600",
     localversion: "-levitate",
+};
+
+/// RalphOS kernel: longterm (LTS) 6.12.71
+///
+/// RalphOS is based on the LevitateOS (glibc/Rocky) base but uses its own kconfig
+/// tailored for a headless sandbox host.
+pub const RALPH_KERNEL: KernelSource = KernelSource {
+    version: "6.12.71",
+    sha256: "143e8bc76cc41f831b51aa5e75819bed55bed41f299d35922820f1d2d2b02600",
+    localversion: "-ralph",
 };
