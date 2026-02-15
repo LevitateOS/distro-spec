@@ -47,16 +47,16 @@ pub const ACORN_KERNEL: KernelSource = KernelSource {
     localversion: "-acorn",
 };
 
-/// IuppiterOS kernel: stable 6.18.9
+/// IuppiterOS kernel: longterm (LTS) 6.12.71
 pub const IUPPITER_KERNEL: KernelSource = KernelSource {
-    version: "6.18.9",
-    sha256: "030115ff8fb4cb536d8449dc40ebc3e314e86ba1b316a6ae21091a11cc930578",
+    version: "6.12.71",
+    sha256: "143e8bc76cc41f831b51aa5e75819bed55bed41f299d35922820f1d2d2b02600",
     localversion: "-iuppiter",
 };
 
-/// LevitateOS kernel: stable 6.18.9
+/// LevitateOS kernel: longterm (LTS) 6.12.71
 pub const LEVITATE_KERNEL: KernelSource = KernelSource {
-    version: "6.18.9",
-    sha256: "030115ff8fb4cb536d8449dc40ebc3e314e86ba1b316a6ae21091a11cc930578",
+    version: "6.12.71",
+    sha256: "143e8bc76cc41f831b51aa5e75819bed55bed41f299d35922820f1d2d2b02600",
     localversion: "-levitate",
 };
