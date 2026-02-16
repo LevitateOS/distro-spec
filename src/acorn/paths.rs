@@ -113,9 +113,9 @@ pub const TARBALL_NAME: &str = "acornos-base.tar.xz";
 
 /// Module installation path.
 ///
-/// Alpine/AcornOS uses /lib/modules (traditional FHS).
-/// This is where `make modules_install INSTALL_MOD_PATH=...` should place modules.
-pub const MODULE_INSTALL_PATH: &str = "/lib/modules";
+/// AcornOS enforces UsrMerge parity with other distros, so modules are staged
+/// under /usr/lib/modules.
+pub const MODULE_INSTALL_PATH: &str = "/usr/lib/modules";
 
 /// Boot entry configuration filename.
 pub const BOOT_ENTRY_FILENAME: &str = "acornos.conf";

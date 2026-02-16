@@ -27,4 +27,4 @@ pub const REQUIRED_CONFIGS: &[&str] = &["etc/inittab", "etc/passwd", "etc/group"
 pub const REQUIRED_SERVICE_DIR: &str = "etc/init.d";
 
 /// Kernel modules directory prefix (must contain at least one version dir).
-pub const KERNEL_MODULES_DIR: &str = "lib/modules";
+pub const KERNEL_MODULES_DIR: &str = "usr/lib/modules";

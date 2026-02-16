@@ -44,6 +44,7 @@
 //! Any mismatch between these three is a bug.
 
 pub mod acorn;
+pub mod conformance;
 pub mod iuppiter;
 pub mod levitate;
 pub mod ralph;

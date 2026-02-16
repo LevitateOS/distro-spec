@@ -104,8 +104,9 @@ pub const TARBALL_NAME: &str = "iuppiter-base.tar.xz";
 
 /// Module installation path.
 ///
-/// Alpine/IuppiterOS uses /lib/modules (traditional FHS).
-pub const MODULE_INSTALL_PATH: &str = "/lib/modules";
+/// IuppiterOS enforces UsrMerge parity with other distros, so modules are
+/// staged under /usr/lib/modules.
+pub const MODULE_INSTALL_PATH: &str = "/usr/lib/modules";
 
 /// Boot entry configuration filename.
 pub const BOOT_ENTRY_FILENAME: &str = "iuppiter.conf";
