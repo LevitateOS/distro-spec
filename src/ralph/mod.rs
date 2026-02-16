@@ -6,10 +6,16 @@
 
 pub mod paths;
 
-pub use paths::{DEFAULT_HOSTNAME, MODULE_INSTALL_PATH, OS_ID, OS_NAME};
+pub use paths::{
+    DEFAULT_HOSTNAME, ISO_FILENAME, ISO_LABEL, MODULE_INSTALL_PATH, OS_ID, OS_NAME, ROOTFS_NAME,
+    ROOTFS_TYPE,
+};
 
 // Kernel source specification
 pub use crate::shared::RALPH_KERNEL as KERNEL_SOURCE;
 
 // Re-export shared constants that are identical across distros.
-pub use crate::shared::{KERNEL_FILENAME, OS_VERSION};
+pub use crate::shared::{
+    BOOT_DEVICE_PROBE_ORDER, CPIO_GZIP_LEVEL, INITRAMFS_LIVE_OUTPUT, KERNEL_FILENAME,
+    LIVE_OVERLAY_ISO_PATH, OS_VERSION, ROOTFS_ISO_PATH,
+};
