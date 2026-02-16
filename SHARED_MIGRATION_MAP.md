@@ -14,7 +14,7 @@ Target architecture:
 
 - `distro-spec` currently mixes variant declarations, builder policy, and test oracles.
 - That causes duplication with per-OS crates and weakens conformance boundaries.
-- CP0 and later checkpoints need strict ownership to prevent drift/reward-hacking.
+- Stage 00 and later stages need strict ownership to prevent drift/reward-hacking.
 
 ## Proposed Module Ownership
 
