@@ -1,5 +1,22 @@
 # distro-spec
 
+## Deprecation Notice
+
+This crate is **deprecated** as the long-term source of distro declarations.
+
+Migration direction:
+- `distro-spec/src/{levitate,acorn,iuppiter,ralph}` -> `distro-variants/*`
+- Shared runtime/build policy -> `distro-builder`
+- Test-only assertions/checklists -> `testing/*`
+
+Why deprecated:
+- We need tight conformance boundaries in `distro-variants/*`.
+- Cross-crate duplication between per-OS crates and `distro-spec` causes drift.
+- Shared invariants must be enforced once (in `distro-builder`/contract flow), not copied per distro module.
+
+Shared-module destination analysis is tracked in:
+- `SHARED_MIGRATION_MAP.md`
+
 Shared constants for LevitateOS installation. Partition layouts, user specs, boot configuration, chroot bind mounts.
 
 ## Status

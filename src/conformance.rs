@@ -1,4 +1,12 @@
-//! Canonical conformance declarations for distro checkpoint contracts.
+//! Legacy conformance declarations for distro checkpoint contracts.
+//!
+//! # Deprecation Notice
+//!
+//! Runtime CP0 conformance authority has moved to `distro-variants/*/cp0.toml`
+//! and is loaded by `distro-contract`.
+//!
+//! This module remains as a compatibility bridge while remaining variants are
+//! migrated to `distro-variants/*`.
 
 use distro_contract::{
     require_valid_contract, ArtifactIdentity, AuthMode, AutomatedLoginCheckpoint, BootCheckpoint,
@@ -477,7 +485,10 @@ fn iuppiter_contract() -> ConformanceContract {
     }
 }
 
-/// Get the canonical conformance contract for a distro id.
+/// Get the legacy canonical conformance contract for a distro id.
+///
+/// Deprecated runtime source of truth: CP0 now loads from
+/// `distro-variants/*/cp0.toml`.
 pub fn contract_for_distro(distro_id: &str) -> Option<ConformanceContract> {
     match distro_id {
         "levitate" | "levitateos" => Some(levitate_contract()),
@@ -487,7 +498,7 @@ pub fn contract_for_distro(distro_id: &str) -> Option<ConformanceContract> {
     }
 }
 
-/// Validate the canonical conformance contract for a distro.
+/// Validate the legacy canonical conformance contract for a distro.
 pub fn require_valid_contract_for_distro(distro_id: &str) -> Result<(), String> {
     let Some(contract) = contract_for_distro(distro_id) else {
         return Err(format!("unknown distro id '{distro_id}'"));

@@ -1,5 +1,9 @@
 //! LevitateOS installation specification.
 //!
+//! # Deprecation Notice
+//!
+//! This module is deprecated and will move to `distro-variants/levitate`.
+//!
 //! LevitateOS is built on:
 //! - Rocky Linux (RHEL-compatible base)
 //! - systemd (init, networking, boot)

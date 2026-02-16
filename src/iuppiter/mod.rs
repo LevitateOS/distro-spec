@@ -1,5 +1,9 @@
 //! IuppiterOS installation specification.
 //!
+//! # Deprecation Notice
+//!
+//! This module is deprecated and will move to `distro-variants/iuppiter`.
+//!
 //! IuppiterOS is built on:
 //! - Alpine Linux (lightweight base)
 //! - OpenRC (init system)

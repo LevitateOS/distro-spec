@@ -1,5 +1,9 @@
 //! RalphOS installation specification.
 //!
+//! # Deprecation Notice
+//!
+//! This module is deprecated and will move to `distro-variants/ralph`.
+//!
 //! RalphOS is "based on LevitateOS" in the sense that it reuses the build engine
 //! and the Rocky Linux (glibc/systemd) base, but it targets a different runtime
 //! contract: headless, agents-only, sandbox-host.
