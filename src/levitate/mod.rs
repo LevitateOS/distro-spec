@@ -93,6 +93,7 @@ pub use crate::shared::{
     ISO_EFI_DIR,
     ISO_LIVE_DIR,
     KERNEL_ISO_PATH,
+    LIVE_OVERLAYFS_ISO_PATH,
     LIVE_OVERLAY_ISO_PATH,
     // UKI constants
     LOADER_ENTRIES_DIR,
@@ -108,7 +109,6 @@ pub use crate::shared::{
     SERIAL_BAUD_RATE,
     SERIAL_CONSOLE,
     SHA512_SEPARATOR,
-    SQUASHFS_ISO_PATH,
     SYSTEMD_BOOT_EFI,
     SYSTEMD_BOOT_STUB,
     UKI_DEBUG_FILENAME,

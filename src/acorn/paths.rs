@@ -157,7 +157,7 @@ pub const ROOT_SHELL: &str = "/bin/ash";
 // =============================================================================
 
 /// ISO output filename
-pub const ISO_FILENAME: &str = "acornos.iso";
+pub const ISO_FILENAME: &str = "acornos-s00_build.iso";
 
 // =============================================================================
 // Alpine Version Constants

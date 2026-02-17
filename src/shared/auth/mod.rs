@@ -61,13 +61,13 @@
 //! Live ISO uses three-layer OverlayFS mount:
 //! ```text
 //! Layer 3 (top):    tmpfs /overlay/upper           [read-write, ephemeral]
-//! Layer 2 (middle): /live/overlay from ISO          [read-only, live configs]
+//! Layer 2 (middle): /live-overlay (mounted from live/overlayfs.erofs) [read-only, live configs]
 //! Layer 1 (bottom): EROFS /rootfs                   [read-only, base system]
 //! ```
 //!
 //! Live-specific files (applied ONLY during live boot):
-//! - Empty root password in `/live/overlay/etc/shadow`
-//! - Autologin services in `/live/overlay/etc/systemd/system/`
+//! - Empty root password in `/live-overlay/etc/shadow`
+//! - Autologin services in `/live-overlay/etc/systemd/system/`
 //!
 //! **Key Insight**: Installed systems don't use OverlayFS. They boot with standard
 //! initramfs that mounts EROFS only (no live-overlay). Therefore:

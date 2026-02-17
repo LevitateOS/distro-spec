@@ -99,7 +99,7 @@ pub const ROOT_SHELL: &str = "/bin/bash";
 // =============================================================================
 
 /// ISO output filename (x86_64 architecture)
-pub const ISO_FILENAME: &str = "levitateos-x86_64.iso";
+pub const ISO_FILENAME: &str = "levitateos-x86_64-s00_build.iso";
 
 // =============================================================================
 // Initramfs Build

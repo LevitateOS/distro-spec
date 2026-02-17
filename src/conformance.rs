@@ -2,7 +2,7 @@
 //!
 //! # Deprecation Notice
 //!
-//! Runtime Stage 00 conformance authority has moved to `distro-variants/*/stage-00.toml`
+//! Runtime Stage 00 conformance authority has moved to `distro-variants/*/00Build.toml`
 //! and is loaded by `distro-contract`.
 //!
 //! This module remains as a compatibility bridge while remaining variants are
@@ -11,8 +11,8 @@
 use distro_contract::{
     require_valid_contract, ArtifactIdentity, AuthMode, AutomatedLoginStage, BootStage,
     BuildCapabilityStage, ConformanceContract, DistroIdentity, InstallStage, ReleaseStage,
-    RootfsMutability, RuntimePolicyStage, ScriptEvidence, StageContract, ToolsStage,
-    CONTRACT_SCHEMA_VERSION,
+    RootfsMutability, RuntimePolicyStage, ScriptEvidence, Stage00NonKernelInputs, StageContract,
+    ToolsStage, CONTRACT_SCHEMA_VERSION,
 };
 
 fn str_vec(values: &[&str]) -> Vec<String> {
@@ -46,6 +46,24 @@ fn baseline_stage_00_build_tools() -> Vec<String> {
     ])
 }
 
+fn baseline_stage_00_non_kernel_inputs(
+    rootfs_name: &str,
+    initramfs_live_output: &str,
+    initramfs_installed_output: Option<&str>,
+) -> Stage00NonKernelInputs {
+    let mut deferred_to_03install_plus = Vec::new();
+    if let Some(installed) = initramfs_installed_output {
+        deferred_to_03install_plus.push(installed.to_string());
+    }
+
+    Stage00NonKernelInputs {
+        required_for_00build: str_vec(&[rootfs_name, initramfs_live_output, "overlayfs.erofs"]),
+        deferred_to_01boot: vec![],
+        deferred_to_02livetools: vec![],
+        deferred_to_03install_plus,
+    }
+}
+
 fn levitate_contract() -> ConformanceContract {
     use crate::levitate;
 
@@ -77,6 +95,11 @@ fn levitate_contract() -> ConformanceContract {
                 kernel_sha256: levitate::KERNEL_SOURCE.sha256.to_string(),
                 kernel_localversion: levitate::KERNEL_SOURCE.localversion.to_string(),
                 module_install_path: levitate::MODULE_INSTALL_PATH.to_string(),
+                non_kernel_inputs: baseline_stage_00_non_kernel_inputs(
+                    levitate::ROOTFS_NAME,
+                    levitate::INITRAMFS_LIVE_OUTPUT,
+                    Some(levitate::INITRAMFS_INSTALLED_OUTPUT),
+                ),
                 evidence: ScriptEvidence {
                     script_path: "stage-00-build-capability.sh".to_string(),
                     pass_marker: "STAGE 00 PASSED".to_string(),
@@ -222,6 +245,11 @@ fn acorn_contract() -> ConformanceContract {
                 kernel_sha256: acorn::KERNEL_SOURCE.sha256.to_string(),
                 kernel_localversion: acorn::KERNEL_SOURCE.localversion.to_string(),
                 module_install_path: acorn::MODULE_INSTALL_PATH.to_string(),
+                non_kernel_inputs: baseline_stage_00_non_kernel_inputs(
+                    acorn::ROOTFS_NAME,
+                    acorn::INITRAMFS_LIVE_OUTPUT,
+                    None,
+                ),
                 evidence: ScriptEvidence {
                     script_path: "stage-00-build-capability.sh".to_string(),
                     pass_marker: "STAGE 00 PASSED".to_string(),
@@ -368,6 +396,11 @@ fn iuppiter_contract() -> ConformanceContract {
                 kernel_sha256: iuppiter::KERNEL_SOURCE.sha256.to_string(),
                 kernel_localversion: iuppiter::KERNEL_SOURCE.localversion.to_string(),
                 module_install_path: iuppiter::MODULE_INSTALL_PATH.to_string(),
+                non_kernel_inputs: baseline_stage_00_non_kernel_inputs(
+                    iuppiter::ROOTFS_NAME,
+                    iuppiter::INITRAMFS_LIVE_OUTPUT,
+                    None,
+                ),
                 evidence: ScriptEvidence {
                     script_path: "stage-00-build-capability.sh".to_string(),
                     pass_marker: "STAGE 00 PASSED".to_string(),
@@ -488,7 +521,7 @@ fn iuppiter_contract() -> ConformanceContract {
 /// Get the legacy canonical conformance contract for a distro id.
 ///
 /// Deprecated runtime source of truth: Stage 00 now loads from
-/// `distro-variants/*/stage-00.toml`.
+/// `distro-variants/*/00Build.toml`.
 pub fn contract_for_distro(distro_id: &str) -> Option<ConformanceContract> {
     match distro_id {
         "levitate" | "levitateos" => Some(levitate_contract()),

@@ -1,11 +1,11 @@
-//! Rootfs image constants (EROFS primary, squashfs legacy).
+//! Rootfs image constants (EROFS only).
 //!
 //! EROFS (Enhanced Read-Only File System) is the primary format for live boot.
-//! Used by Fedora 42+, RHEL 10, Android. Better than squashfs because:
-//! - Random-access directory lookups (squashfs requires linear search)
+//! Used by Fedora 42+, RHEL 10, Android:
+//! - Random-access directory lookups
 //! - Fixed 4KB output blocks (better disk I/O alignment)
 //! - Lower memory amplification during decompression
-//! - More actively developed than squashfs
+//! - Actively developed
 //!
 //! For ISO paths (where rootfs lives on the ISO), see `iso.rs`.
 //!
@@ -67,45 +67,18 @@ pub const ROOTFS_NAME: &str = EROFS_NAME;
 pub const ROOTFS_CDROM_PATH: &str = EROFS_CDROM_PATH;
 
 // =============================================================================
-// Squashfs Build Parameters (Legacy/Fallback)
-// =============================================================================
-
-/// Squashfs compression algorithm for mksquashfs -comp flag.
-///
-/// Using zstd for better compression than legacy gzip.
-/// NOTE: This is only used if EROFS is not available.
-pub const SQUASHFS_COMPRESSION: &str = "zstd";
-
-/// Squashfs block size for mksquashfs -b flag.
-///
-/// 1MB blocks provide good compression ratio for the base system.
-pub const SQUASHFS_BLOCK_SIZE: &str = "1M";
-
-/// Name of the squashfs image file (legacy).
-pub const SQUASHFS_NAME: &str = "filesystem.squashfs";
-
-/// Path to squashfs on mounted CDROM at runtime (legacy).
-pub const SQUASHFS_CDROM_PATH: &str = "/media/cdrom/live/filesystem.squashfs";
-
-// =============================================================================
 // Installer Constants (used by recstrap, fsdbg, etc.)
 // =============================================================================
 
 /// Common rootfs locations to search during installation (in order of preference).
 ///
-/// EROFS paths are listed first as it's the modern format (Fedora 42+, LevitateOS).
+/// EROFS is the canonical format.
 /// Used by recstrap to auto-detect the rootfs when running from the live ISO.
 pub const ROOTFS_SEARCH_PATHS: &[&str] = &[
-    // EROFS (modern - LevitateOS default)
     "/media/cdrom/live/filesystem.erofs",
     "/run/initramfs/live/filesystem.erofs",
     "/run/archiso/bootmnt/live/filesystem.erofs",
     "/mnt/cdrom/live/filesystem.erofs",
-    // Squashfs (legacy fallback)
-    "/media/cdrom/live/filesystem.squashfs",
-    "/run/initramfs/live/filesystem.squashfs",
-    "/run/archiso/bootmnt/live/filesystem.squashfs",
-    "/mnt/cdrom/live/filesystem.squashfs",
 ];
 
 /// Essential directories that must exist after rootfs extraction.
@@ -135,12 +108,6 @@ pub const EROFS_MAGIC: u32 = 0xe0f5e1e2;
 /// EROFS magic byte offset from start of file.
 pub const EROFS_MAGIC_OFFSET: u64 = 1024;
 
-/// Squashfs magic bytes at offset 0.
-///
-/// Used to validate that a file is actually a squashfs image before extraction.
-/// The magic is "hsqs" (little-endian "sqsh").
-pub const SQUASHFS_MAGIC: &[u8; 4] = b"hsqs";
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -163,8 +130,8 @@ mod tests {
     fn test_rootfs_search_paths_valid_extensions() {
         for path in ROOTFS_SEARCH_PATHS {
             assert!(
-                path.ends_with(".erofs") || path.ends_with(".squashfs"),
-                "Path {} should end with .erofs or .squashfs",
+                path.ends_with(".erofs"),
+                "Path {} should end with .erofs",
                 path
             );
         }
@@ -199,15 +166,8 @@ mod tests {
     }
 
     #[test]
-    fn test_squashfs_magic_constant() {
-        // Squashfs magic is "hsqs"
-        assert_eq!(SQUASHFS_MAGIC, b"hsqs");
-    }
-
-    #[test]
     fn test_cdrom_paths_match_search_paths() {
         // The CDROM paths should be in the search paths
         assert!(ROOTFS_SEARCH_PATHS.contains(&EROFS_CDROM_PATH));
-        assert!(ROOTFS_SEARCH_PATHS.contains(&SQUASHFS_CDROM_PATH));
     }
 }

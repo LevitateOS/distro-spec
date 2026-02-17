@@ -7,7 +7,7 @@
 /// Boot directory on ISO (contains kernel, initramfs)
 pub const ISO_BOOT_DIR: &str = "boot";
 
-/// Live directory on ISO (contains squashfs, overlay)
+/// Live directory on ISO (contains rootfs + live overlay payload image)
 pub const ISO_LIVE_DIR: &str = "live";
 
 /// EFI boot directory on ISO
@@ -16,13 +16,7 @@ pub const ISO_EFI_DIR: &str = "EFI/BOOT";
 /// Path to rootfs image inside ISO (relative to ISO root)
 ///
 /// This is the EROFS filesystem image that contains the complete system.
-/// Legacy squashfs format used "live/filesystem.squashfs".
 pub const ROOTFS_ISO_PATH: &str = "live/filesystem.erofs";
-
-/// Path to squashfs inside ISO (relative to ISO root) - LEGACY
-///
-/// Kept for backward compatibility. New builds use ROOTFS_ISO_PATH.
-pub const SQUASHFS_ISO_PATH: &str = "live/filesystem.squashfs";
 
 /// Path to kernel inside ISO (relative to ISO root)
 pub const KERNEL_ISO_PATH: &str = "boot/vmlinuz";
@@ -32,8 +26,14 @@ pub const KERNEL_ISO_PATH: &str = "boot/vmlinuz";
 /// Note: reciso copies the initramfs to this fixed path.
 pub const INITRAMFS_LIVE_ISO_PATH: &str = "boot/initramfs.img";
 
-/// Path to live overlay inside ISO (relative to ISO root)
-pub const LIVE_OVERLAY_ISO_PATH: &str = "live/overlay";
+/// Path to live overlay payload image inside ISO (relative to ISO root).
+///
+/// The payload is a read-only EROFS image mounted as the higher read-only
+/// lowerdir for live overlayfs composition.
+pub const LIVE_OVERLAYFS_ISO_PATH: &str = "live/overlayfs.erofs";
+
+/// Legacy compatibility alias for callers not yet migrated.
+pub const LIVE_OVERLAY_ISO_PATH: &str = LIVE_OVERLAYFS_ISO_PATH;
 
 // =============================================================================
 // EFI Boot Files

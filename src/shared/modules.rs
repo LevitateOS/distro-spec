@@ -29,9 +29,6 @@ pub const LIVE_MODULES: &[&str] = &[
     "sd_mod",
     "virtio_scsi",
     "isofs",
-    // === NVMe (modern SSDs - for USB boot sticks on NVMe systems) ===
-    "nvme-core",
-    "nvme",
     // === SATA/AHCI (traditional drives) ===
     "libata",
     "libahci",
@@ -64,9 +61,6 @@ pub const LIVE_MODULES_BUILTIN: &[&str] = &[
     "cdrom",
     "sr_mod",
     "isofs",
-    // NVMe
-    "nvme-core",
-    "nvme",
     // SATA/AHCI
     "libata",
     "libahci",

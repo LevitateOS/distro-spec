@@ -21,5 +21,5 @@ pub use crate::shared::RALPH_KERNEL as KERNEL_SOURCE;
 // Re-export shared constants that are identical across distros.
 pub use crate::shared::{
     BOOT_DEVICE_PROBE_ORDER, CPIO_GZIP_LEVEL, INITRAMFS_LIVE_OUTPUT, KERNEL_FILENAME,
-    LIVE_OVERLAY_ISO_PATH, OS_VERSION, ROOTFS_ISO_PATH,
+    LIVE_OVERLAYFS_ISO_PATH, LIVE_OVERLAY_ISO_PATH, OS_VERSION, ROOTFS_ISO_PATH,
 };
