@@ -57,7 +57,7 @@ fn baseline_stage_00_non_kernel_inputs(
     }
 
     Stage00NonKernelInputs {
-        required_for_00build: str_vec(&[rootfs_name, initramfs_live_output, "overlayfs.erofs"]),
+        required_for_00build: str_vec(&[rootfs_name, initramfs_live_output, "s00-overlayfs.erofs"]),
         deferred_to_01boot: vec![],
         deferred_to_02livetools: vec![],
         deferred_to_03install_plus,
