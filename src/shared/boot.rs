@@ -224,6 +224,12 @@ impl LoaderConfig {
         self
     }
 
+    /// Set default boot entry.
+    pub fn with_default_entry(mut self, default_entry: impl Into<Cow<'static, str>>) -> Self {
+        self.default_entry = default_entry.into();
+        self
+    }
+
     /// Set console mode.
     pub fn with_console_mode(mut self, mode: impl Into<Cow<'static, str>>) -> Self {
         self.console_mode = Some(mode.into());

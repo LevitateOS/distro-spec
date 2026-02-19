@@ -33,7 +33,7 @@ pub const ROOTFS_TYPE: &str = "erofs";
 pub const EROFS_NAME: &str = "filesystem.erofs";
 
 /// Path to EROFS rootfs on mounted CDROM at runtime.
-pub const EROFS_CDROM_PATH: &str = "/media/cdrom/live/filesystem.erofs";
+pub const EROFS_CDROM_PATH: &str = "/run/live-rootfs.erofs";
 
 /// Compression algorithm for mkfs.erofs.
 ///

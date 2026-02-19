@@ -46,11 +46,11 @@ pub const EROFS_CHUNK_SIZE: u32 = 1048576;
 /// Name of the EROFS rootfs image file.
 pub const EROFS_NAME: &str = "filesystem.erofs";
 
-/// Path to EROFS rootfs on mounted CDROM at runtime.
+/// Path to EROFS rootfs payload device in live runtime.
 ///
-/// The tiny initramfs mounts the ISO at /media/cdrom before switch_root.
-/// This is where the initramfs looks for the rootfs to mount.
-pub const EROFS_CDROM_PATH: &str = "/media/cdrom/live/filesystem.erofs";
+/// Stage 01+ live initramfs resolves the rootfs payload partition and
+/// exposes it as a stable symlink for installer tooling.
+pub const EROFS_CDROM_PATH: &str = "/run/live-rootfs.erofs";
 
 // =============================================================================
 // Unified Rootfs Constants (for code that doesn't care about format)
@@ -75,10 +75,12 @@ pub const ROOTFS_CDROM_PATH: &str = EROFS_CDROM_PATH;
 /// EROFS is the canonical format.
 /// Used by recstrap to auto-detect the rootfs when running from the live ISO.
 pub const ROOTFS_SEARCH_PATHS: &[&str] = &[
-    "/media/cdrom/live/filesystem.erofs",
+    "/run/live-rootfs.erofs",
+    "/run/live-media/live/filesystem.erofs",
     "/run/initramfs/live/filesystem.erofs",
     "/run/archiso/bootmnt/live/filesystem.erofs",
     "/mnt/cdrom/live/filesystem.erofs",
+    "/media/cdrom/live/filesystem.erofs",
 ];
 
 /// Essential directories that must exist after rootfs extraction.

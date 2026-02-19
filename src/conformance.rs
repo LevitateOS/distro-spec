@@ -11,8 +11,8 @@
 use distro_contract::{
     require_valid_contract, ArtifactIdentity, AuthMode, AutomatedLoginStage, BootStage,
     BuildCapabilityStage, ConformanceContract, DistroIdentity, InstallStage, ReleaseStage,
-    RootfsMutability, RuntimePolicyStage, ScriptEvidence, Stage00NonKernelInputs, StageContract,
-    ToolsStage, CONTRACT_SCHEMA_VERSION,
+    RootfsMutability, RuntimePolicyStage, ScriptEvidence, Stage00IsoAssembly,
+    Stage00NonKernelInputs, StageContract, ToolsStage, CONTRACT_SCHEMA_VERSION,
 };
 
 fn str_vec(values: &[&str]) -> Vec<String> {
@@ -49,18 +49,13 @@ fn baseline_stage_00_build_tools() -> Vec<String> {
 fn baseline_stage_00_non_kernel_inputs(
     rootfs_name: &str,
     initramfs_live_output: &str,
-    initramfs_installed_output: Option<&str>,
+    _initramfs_installed_output: Option<&str>,
 ) -> Stage00NonKernelInputs {
-    let mut deferred_to_03install_plus = Vec::new();
-    if let Some(installed) = initramfs_installed_output {
-        deferred_to_03install_plus.push(installed.to_string());
-    }
-
     Stage00NonKernelInputs {
         required_for_00build: str_vec(&[rootfs_name, initramfs_live_output, "s00-overlayfs.erofs"]),
         deferred_to_01boot: vec![],
         deferred_to_02livetools: vec![],
-        deferred_to_03install_plus,
+        deferred_to_03install_plus: vec![],
     }
 }
 
@@ -100,6 +95,12 @@ fn levitate_contract() -> ConformanceContract {
                     levitate::INITRAMFS_LIVE_OUTPUT,
                     Some(levitate::INITRAMFS_INSTALLED_OUTPUT),
                 ),
+                iso_assembly: Stage00IsoAssembly {
+                    live_uki_filename: "levitateos-live.efi".to_string(),
+                    emergency_uki_filename: "levitateos-emergency.efi".to_string(),
+                    debug_uki_filename: "levitateos-debug.efi".to_string(),
+                    live_cmdline: "video=1920x1080".to_string(),
+                },
                 evidence: ScriptEvidence {
                     script_path: "stage-00-build-capability.sh".to_string(),
                     pass_marker: "STAGE 00 PASSED".to_string(),
@@ -119,6 +120,8 @@ fn levitate_contract() -> ConformanceContract {
                     "EROFS:",
                     "emergency shell",
                 ]),
+                required_kernel_cmdline: str_vec(&["audit=1", "inst.sshd=0"]),
+                required_live_services: vec!["sshd".to_string()],
                 evidence: ScriptEvidence {
                     script_path: "stage-01-live-boot.sh".to_string(),
                     pass_marker: "STAGE 01 PASSED".to_string(),
@@ -174,6 +177,8 @@ fn levitate_contract() -> ConformanceContract {
                     "emergency shell",
                     "Failed to start",
                 ]),
+                required_kernel_cmdline: str_vec(&["audit=1", "inst.sshd=0"]),
+                required_live_services: vec![],
                 evidence: ScriptEvidence {
                     script_path: "stage-04-installed-boot.sh".to_string(),
                     pass_marker: "STAGE 04 PASSED".to_string(),
@@ -250,6 +255,12 @@ fn acorn_contract() -> ConformanceContract {
                     acorn::INITRAMFS_LIVE_OUTPUT,
                     None,
                 ),
+                iso_assembly: Stage00IsoAssembly {
+                    live_uki_filename: "acornos-live.efi".to_string(),
+                    emergency_uki_filename: "acornos-emergency.efi".to_string(),
+                    debug_uki_filename: "acornos-debug.efi".to_string(),
+                    live_cmdline: "video=1920x1080".to_string(),
+                },
                 evidence: ScriptEvidence {
                     script_path: "stage-00-build-capability.sh".to_string(),
                     pass_marker: "STAGE 00 PASSED".to_string(),
@@ -266,6 +277,8 @@ fn acorn_contract() -> ConformanceContract {
                     "EROFS:",
                     "emergency shell",
                 ]),
+                required_kernel_cmdline: str_vec(&["audit=1", "inst.sshd=0"]),
+                required_live_services: vec!["sshd".to_string()],
                 evidence: ScriptEvidence {
                     script_path: "stage-01-live-boot.sh".to_string(),
                     pass_marker: "STAGE 01 PASSED".to_string(),
@@ -321,6 +334,8 @@ fn acorn_contract() -> ConformanceContract {
                     "emergency shell",
                     "Timed out waiting for device",
                 ]),
+                required_kernel_cmdline: str_vec(&["audit=1", "inst.sshd=0"]),
+                required_live_services: vec![],
                 evidence: ScriptEvidence {
                     script_path: "stage-04-installed-boot.sh".to_string(),
                     pass_marker: "STAGE 04 PASSED".to_string(),
@@ -401,6 +416,12 @@ fn iuppiter_contract() -> ConformanceContract {
                     iuppiter::INITRAMFS_LIVE_OUTPUT,
                     None,
                 ),
+                iso_assembly: Stage00IsoAssembly {
+                    live_uki_filename: "iuppiter-live.efi".to_string(),
+                    emergency_uki_filename: "iuppiter-emergency.efi".to_string(),
+                    debug_uki_filename: "iuppiter-debug.efi".to_string(),
+                    live_cmdline: String::new(),
+                },
                 evidence: ScriptEvidence {
                     script_path: "stage-00-build-capability.sh".to_string(),
                     pass_marker: "STAGE 00 PASSED".to_string(),
@@ -417,6 +438,8 @@ fn iuppiter_contract() -> ConformanceContract {
                     "EROFS:",
                     "emergency shell",
                 ]),
+                required_kernel_cmdline: str_vec(&["audit=1", "inst.sshd=0"]),
+                required_live_services: vec!["sshd".to_string()],
                 evidence: ScriptEvidence {
                     script_path: "stage-01-live-boot.sh".to_string(),
                     pass_marker: "STAGE 01 PASSED".to_string(),
@@ -475,6 +498,8 @@ fn iuppiter_contract() -> ConformanceContract {
                     "emergency shell",
                     "Timed out waiting for device",
                 ]),
+                required_kernel_cmdline: vec![],
+                required_live_services: vec![],
                 evidence: ScriptEvidence {
                     script_path: "stage-04-installed-boot.sh".to_string(),
                     pass_marker: "STAGE 04 PASSED".to_string(),
