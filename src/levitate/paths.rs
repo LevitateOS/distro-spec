@@ -48,7 +48,7 @@ pub const ISO_LABEL: &str = "LEVITATEOS";
 /// Name of the base system tarball.
 ///
 /// Used by rootfs-tests for container-based testing.
-/// Not used for installation (recstrap uses squashfs).
+/// Not used for installation (recstrap resolves EROFS payloads).
 pub const TARBALL_NAME: &str = "levitateos-base.tar.xz";
 
 /// Module installation path (UsrMerge compliant).

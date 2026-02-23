@@ -77,7 +77,7 @@ Disable `std` feature for embedded/bootloader contexts.
 ## Consumers
 
 - `leviso` - Uses paths, boot config
-- `recstrap` - Uses squashfs paths
+- `recstrap` - Uses canonical EROFS rootfs search paths
 - `install-tests` - Uses all specs for verification
 
 ## Known Limitations

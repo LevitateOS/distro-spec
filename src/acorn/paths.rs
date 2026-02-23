@@ -54,8 +54,7 @@ pub const ROOTFS_NAME: &str = EROFS_NAME;
 /// Unified rootfs CDROM path (currently EROFS).
 pub const ROOTFS_CDROM_PATH: &str = EROFS_CDROM_PATH;
 
-// NOTE: No squashfs constants exported. AcornOS uses EROFS only.
-// Squashfs is only for reading Alpine's modloop, handled by shared::rootfs.
+// NOTE: No squashfs constants exported. AcornOS stage artifacts use EROFS only.
 
 // =============================================================================
 // UKI (Unified Kernel Image) Constants

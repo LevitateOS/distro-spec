@@ -335,8 +335,6 @@ pub const SBIN_UTILS: &[&str] = &[
     "sulogin",
     "nologin",
     "chronyd",
-    // === SQUASHFS-TOOLS ===
-    "unsquashfs",
     // === CRYPTSETUP (LUKS) ===
     "cryptsetup",
     // === LVM ===

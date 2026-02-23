@@ -432,7 +432,7 @@ Files created:
 
 4. **Why installed systems don't get live overlay**:
    - Live overlay exists **on ISO filesystem**, not in EROFS image
-   - recstrap extracts from EROFS squashfs image
+   - recstrap extracts from the EROFS rootfs image
    - The ISO file is not part of the extracted system
    - Therefore: live overlay doesn't exist in installed system
 
@@ -764,4 +764,3 @@ distro-spec/src/shared/auth/
 - Arch Linux installer: User creation prompt pattern
 - Shadow-utils documentation: passwd/shadow format
 - Linux PAM documentation: Module and service configuration
-

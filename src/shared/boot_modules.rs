@@ -47,10 +47,10 @@ pub const VIRTIO_BLK: &[&str] = &[
     "kernel/drivers/block/virtio_blk", // QEMU -drive if=virtio -> /dev/vda
 ];
 
-/// Loop device and filesystems for squashfs+overlay live boot.
-pub const SQUASHFS_OVERLAY: &[&str] = &[
+/// Loop device and filesystems for EROFS+overlay live boot.
+pub const EROFS_OVERLAY: &[&str] = &[
     "kernel/drivers/block/loop",
-    "kernel/fs/squashfs/squashfs",
+    "kernel/fs/erofs/erofs",
     "kernel/fs/overlayfs/overlay",
 ];
 
@@ -92,7 +92,7 @@ pub const USB_HID: &[&str] = &[
 /// - QEMU/KVM boot (virtio)
 /// - CDROM/ISO boot (scsi, cdrom, isofs)
 /// - Real hardware boot (nvme, sata)
-/// - Live squashfs boot (loop, squashfs, overlay)
+/// - Live EROFS boot (loop, erofs, overlay)
 pub const CORE_BOOT_MODULES: &[&str] = &[
     // Virtio core (must be first)
     "kernel/drivers/virtio/virtio",
@@ -115,9 +115,9 @@ pub const CORE_BOOT_MODULES: &[&str] = &[
     "kernel/drivers/ata/ahci",
     // Virtio block
     "kernel/drivers/block/virtio_blk",
-    // Squashfs/overlay
+    // EROFS/overlay
     "kernel/drivers/block/loop",
-    "kernel/fs/squashfs/squashfs",
+    "kernel/fs/erofs/erofs",
     "kernel/fs/overlayfs/overlay",
 ];
 

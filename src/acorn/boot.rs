@@ -57,8 +57,7 @@ pub const BOOT_MODULES: &[&str] = &[
     "kernel/drivers/block/virtio_blk",
     // Rootfs filesystems
     "kernel/drivers/block/loop",
-    "kernel/fs/erofs/erofs",       // EROFS for live boot rootfs
-    "kernel/fs/squashfs/squashfs", // Keep for mounting Alpine modloop
+    "kernel/fs/erofs/erofs", // EROFS for live boot rootfs
     "kernel/fs/overlayfs/overlay",
     // =========================================================================
     // USB_BOOT_MODULES (from shared::boot_modules)
