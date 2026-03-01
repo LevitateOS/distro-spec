@@ -219,6 +219,63 @@ fn levitate_contract() -> ConformanceContract {
     }
 }
 
+fn ralph_contract() -> ConformanceContract {
+    use crate::ralph;
+
+    let mut contract = levitate_contract();
+
+    contract.identity = DistroIdentity {
+        os_name: ralph::OS_NAME.to_string(),
+        os_id: ralph::OS_ID.to_string(),
+        iso_label: ralph::ISO_LABEL.to_string(),
+        os_version: ralph::OS_VERSION.to_string(),
+        default_hostname: ralph::DEFAULT_HOSTNAME.to_string(),
+    };
+    contract.artifacts = ArtifactIdentity {
+        rootfs_name: ralph::ROOTFS_NAME.to_string(),
+        initramfs_live_output: ralph::INITRAMFS_LIVE_OUTPUT.to_string(),
+        iso_filename: ralph::ISO_FILENAME.to_string(),
+        initramfs_installed_output: None,
+    };
+
+    contract.stages.stage_00_build.kernel_version = ralph::KERNEL_SOURCE.version.to_string();
+    contract.stages.stage_00_build.kernel_sha256 = ralph::KERNEL_SOURCE.sha256.to_string();
+    contract.stages.stage_00_build.kernel_localversion =
+        ralph::KERNEL_SOURCE.localversion.to_string();
+    contract.stages.stage_00_build.module_install_path = ralph::MODULE_INSTALL_PATH.to_string();
+    contract.stages.stage_00_build.non_kernel_inputs =
+        baseline_stage_00_non_kernel_inputs(ralph::ROOTFS_NAME, ralph::INITRAMFS_LIVE_OUTPUT, None);
+    contract.stages.stage_00_build.iso_assembly = Stage00IsoAssembly {
+        live_uki_filename: "ralphos-live.efi".to_string(),
+        emergency_uki_filename: "ralphos-emergency.efi".to_string(),
+        debug_uki_filename: "ralphos-debug.efi".to_string(),
+        live_cmdline: "".to_string(),
+    };
+
+    contract.stages.stage_01_live_boot.success_patterns =
+        str_vec(&["___SHELL_READY___", "Reached target Multi-User System."]);
+    contract.stages.stage_01_live_boot.required_kernel_cmdline =
+        str_vec(&["audit=1", "inst.sshd=0"]);
+
+    contract.stages.stage_04_installed_boot.success_patterns =
+        str_vec(&["___SHELL_READY___", "ralphos login:", "multi-user.target"]);
+
+    contract.stages.stage_05_automated_login.default_username = Some("ralph".to_string());
+    contract.stages.stage_05_automated_login.default_password = Some("ralph".to_string());
+    contract
+        .stages
+        .stage_05_automated_login
+        .login_prompt_pattern = "ralphos login:".to_string();
+
+    contract.stages.stage_08_release.required_artifacts = str_vec(&[
+        ralph::ROOTFS_NAME,
+        ralph::INITRAMFS_LIVE_OUTPUT,
+        ralph::ISO_FILENAME,
+    ]);
+
+    contract
+}
+
 fn acorn_contract() -> ConformanceContract {
     use crate::acorn;
 
@@ -550,6 +607,7 @@ fn iuppiter_contract() -> ConformanceContract {
 pub fn contract_for_distro(distro_id: &str) -> Option<ConformanceContract> {
     match distro_id {
         "levitate" | "levitateos" => Some(levitate_contract()),
+        "ralph" | "ralphos" => Some(ralph_contract()),
         "acorn" | "acornos" => Some(acorn_contract()),
         "iuppiter" | "iuppiteros" => Some(iuppiter_contract()),
         _ => None,
@@ -571,7 +629,7 @@ mod tests {
 
     #[test]
     fn canonical_contracts_are_valid() {
-        for distro in ["levitate", "acorn", "iuppiter"] {
+        for distro in ["levitate", "ralph", "acorn", "iuppiter"] {
             require_valid_contract_for_distro(distro)
                 .unwrap_or_else(|err| panic!("{} contract invalid: {}", distro, err));
         }
