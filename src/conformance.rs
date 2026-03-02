@@ -507,6 +507,8 @@ fn iuppiter_contract() -> ConformanceContract {
                     "recstrap",
                     "recfstab",
                     "recchroot",
+                    "recab",
+                    "iuppiter-dar",
                     "sfdisk",
                     "mkfs.ext4",
                     "mount",
@@ -574,7 +576,17 @@ fn iuppiter_contract() -> ConformanceContract {
             },
             stage_06_installed_tools: ToolsStage {
                 required_tools: str_vec(&[
-                    "sudo", "ip", "ssh", "ash", "smartctl", "hdparm", "sg_inq", "mount", "umount",
+                    "sudo",
+                    "ip",
+                    "ssh",
+                    "ash",
+                    "smartctl",
+                    "hdparm",
+                    "sg_inq",
+                    "recab",
+                    "iuppiter-dar",
+                    "mount",
+                    "umount",
                     "dmesg",
                 ]),
                 evidence: ScriptEvidence {
