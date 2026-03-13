@@ -53,7 +53,11 @@ fn baseline_stage_00_non_kernel_inputs(
     _initramfs_installed_output: Option<&str>,
 ) -> Stage00NonKernelInputs {
     Stage00NonKernelInputs {
-        required_for_00build: str_vec(&[rootfs_name, initramfs_live_output, "s00-overlayfs.erofs"]),
+        required_for_00build: vec![
+            rootfs_name.to_string(),
+            initramfs_live_output.to_string(),
+            overlay_output_name(rootfs_name),
+        ],
         deferred_to_01boot: vec![],
         deferred_to_02livetools: vec![],
         deferred_to_03install_plus: vec![],
@@ -101,13 +105,13 @@ fn product_contract_from_legacy(artifacts: &ArtifactIdentity) -> ProductContract
             logical_name: "product.payload.boot.live".to_string(),
             description: "Live boot payload inputs".to_string(),
         },
-        boot_installed: artifacts
-            .initramfs_installed_output
-            .as_ref()
-            .map(|_| ProductDecl {
-                logical_name: "product.payload.boot.installed".to_string(),
-                description: "Installed-system boot payload inputs".to_string(),
-            }),
+        boot_installed: (artifacts.initramfs_installed_output.is_some()
+            || !artifacts.installed_uki_outputs.is_empty()
+            || artifacts.disk_image_output.is_some())
+        .then_some(ProductDecl {
+            logical_name: "product.payload.boot.installed".to_string(),
+            description: "Installed-system boot payload inputs".to_string(),
+        }),
         kernel_staging: ProductDecl {
             logical_name: "product.kernel.staging".to_string(),
             description: "Kernel image and modules staging product".to_string(),
@@ -122,21 +126,21 @@ fn transform_contract_from_legacy(
     TransformContract {
         rootfs_image: ArtifactTransform {
             logical_name: "artifact.rootfs.erofs".to_string(),
-            input_products: vec!["product.rootfs.base".to_string()],
+            dependencies: vec!["product.rootfs.base".to_string()],
             output_names: vec![artifacts.rootfs_name.clone()],
             format: "erofs".to_string(),
             extra_cmdline: None,
         },
         overlay_image: ArtifactTransform {
             logical_name: "artifact.overlay.erofs".to_string(),
-            input_products: vec!["product.payload.live_overlay".to_string()],
+            dependencies: vec!["product.payload.live_overlay".to_string()],
             output_names: vec![overlay_output_name(&artifacts.rootfs_name)],
             format: "erofs".to_string(),
             extra_cmdline: None,
         },
         initramfs_live: ArtifactTransform {
             logical_name: "artifact.initramfs.live".to_string(),
-            input_products: vec![
+            dependencies: vec![
                 "product.payload.boot.live".to_string(),
                 "product.kernel.staging".to_string(),
             ],
@@ -147,7 +151,7 @@ fn transform_contract_from_legacy(
         initramfs_installed: artifacts.initramfs_installed_output.as_ref().map(|output| {
             ArtifactTransform {
                 logical_name: "artifact.initramfs.installed".to_string(),
-                input_products: vec![
+                dependencies: vec![
                     "product.payload.boot.installed".to_string(),
                     "product.kernel.staging".to_string(),
                 ],
@@ -158,7 +162,7 @@ fn transform_contract_from_legacy(
         }),
         live_uki: ArtifactTransform {
             logical_name: "artifact.uki.live".to_string(),
-            input_products: vec![
+            dependencies: vec![
                 "product.payload.boot.live".to_string(),
                 "product.kernel.staging".to_string(),
             ],
@@ -170,9 +174,19 @@ fn transform_contract_from_legacy(
             format: "uki".to_string(),
             extra_cmdline: Some(stage_00.iso_assembly.live_cmdline.clone()),
         },
+        installed_uki: (!artifacts.installed_uki_outputs.is_empty()).then_some(ArtifactTransform {
+            logical_name: "artifact.uki.installed".to_string(),
+            dependencies: vec![
+                "product.payload.boot.installed".to_string(),
+                "product.kernel.staging".to_string(),
+            ],
+            output_names: artifacts.installed_uki_outputs.clone(),
+            format: "uki".to_string(),
+            extra_cmdline: None,
+        }),
         iso: ArtifactTransform {
             logical_name: "artifact.iso".to_string(),
-            input_products: vec![
+            dependencies: vec![
                 "artifact.rootfs.erofs".to_string(),
                 "artifact.overlay.erofs".to_string(),
                 "artifact.initramfs.live".to_string(),
@@ -182,25 +196,75 @@ fn transform_contract_from_legacy(
             format: "iso".to_string(),
             extra_cmdline: None,
         },
+        disk_image: artifacts
+            .disk_image_output
+            .as_ref()
+            .map(|output| ArtifactTransform {
+                logical_name: "artifact.disk".to_string(),
+                dependencies: vec![
+                    "product.rootfs.base".to_string(),
+                    "product.kernel.staging".to_string(),
+                ],
+                output_names: vec![output.clone()],
+                format: "img".to_string(),
+                extra_cmdline: None,
+            }),
     }
 }
 
 fn scenario_contract_from_legacy(stages: &StageContract) -> ScenarioContract {
     ScenarioContract {
-        live_boot: stages.stage_01_live_boot.clone(),
-        live_tools: stages.stage_02_live_tools.clone(),
-        install: stages.stage_03_install.clone(),
-        installed_boot: stages.stage_04_installed_boot.clone(),
-        automated_login: stages.stage_05_automated_login.clone(),
-        installed_tools: stages.stage_06_installed_tools.clone(),
-        runtime_policy: stages.stage_07_runtime_policy.clone(),
+        live_boot: Some(stages.stage_01_live_boot.clone()),
+        live_tools: Some(stages.stage_02_live_tools.clone()),
+        install: Some(stages.stage_03_install.clone()),
+        installed_boot: Some(stages.stage_04_installed_boot.clone()),
+        automated_login: Some(stages.stage_05_automated_login.clone()),
+        installed_tools: Some(stages.stage_06_installed_tools.clone()),
+        runtime_policy: Some(stages.stage_07_runtime_policy.clone()),
     }
 }
 
-fn release_contract_from_legacy(stage_08: &ReleaseStage) -> ReleaseContract {
+fn release_contract_from_legacy(
+    artifacts: &ArtifactIdentity,
+    stage_08: &ReleaseStage,
+) -> ReleaseContract {
+    let mut primary_outputs = Vec::new();
+    let mut supporting_artifacts = Vec::new();
+    for artifact in &stage_08.required_artifacts {
+        if artifact == &artifacts.iso_filename
+            || artifacts
+                .disk_image_output
+                .as_ref()
+                .map(|disk| artifact == disk)
+                .unwrap_or(false)
+        {
+            primary_outputs.push(artifact.clone());
+        } else {
+            supporting_artifacts.push(artifact.clone());
+        }
+    }
+
+    let mut metadata_outputs = Vec::new();
+    let mut metadata_facts = Vec::new();
+    for entry in &stage_08.required_metadata {
+        if entry.starts_with("artifact.") || entry.starts_with("kernel_source.") {
+            metadata_facts.push(entry.clone());
+        } else if entry.ends_with(".sha512")
+            || entry.ends_with(".sha256")
+            || entry.ends_with(".sig")
+            || entry.ends_with(".json")
+        {
+            metadata_outputs.push(entry.clone());
+        } else {
+            metadata_facts.push(entry.clone());
+        }
+    }
+
     ReleaseContract {
-        primary_outputs: stage_08.required_artifacts.clone(),
-        required_metadata: stage_08.required_metadata.clone(),
+        primary_outputs,
+        supporting_artifacts,
+        metadata_outputs,
+        metadata_facts,
     }
 }
 
@@ -213,7 +277,7 @@ fn compat_contract(
     let products = product_contract_from_legacy(&artifacts);
     let transforms = transform_contract_from_legacy(&artifacts, &stages.stage_00_build);
     let scenarios = scenario_contract_from_legacy(&stages);
-    let release = release_contract_from_legacy(&stages.stage_08_release);
+    let release = release_contract_from_legacy(&artifacts, &stages.stage_08_release);
 
     ConformanceContract {
         schema_version: CONTRACT_SCHEMA_VERSION,
@@ -243,6 +307,11 @@ fn levitate_contract() -> ConformanceContract {
         initramfs_live_output: levitate::INITRAMFS_LIVE_OUTPUT.to_string(),
         iso_filename: levitate::ISO_FILENAME.to_string(),
         initramfs_installed_output: Some(levitate::INITRAMFS_INSTALLED_OUTPUT.to_string()),
+        installed_uki_outputs: vec![
+            levitate::UKI_INSTALLED_FILENAME.to_string(),
+            levitate::UKI_INSTALLED_RECOVERY_FILENAME.to_string(),
+        ],
+        disk_image_output: None,
     };
     let stages = StageContract {
         stage_00_build: BuildCapabilityStage {
@@ -269,7 +338,7 @@ fn levitate_contract() -> ConformanceContract {
                 live_cmdline: "video=1920x1080".to_string(),
             },
             evidence: ScriptEvidence {
-                script_path: "stage-00-build-capability.sh".to_string(),
+                script_path: "00Build-build-capability.sh".to_string(),
                 pass_marker: "STAGE 00 PASSED".to_string(),
             },
         },
@@ -397,6 +466,8 @@ fn ralph_contract() -> ConformanceContract {
         initramfs_live_output: ralph::INITRAMFS_LIVE_OUTPUT.to_string(),
         iso_filename: ralph::ISO_FILENAME.to_string(),
         initramfs_installed_output: None,
+        installed_uki_outputs: vec![],
+        disk_image_output: None,
     };
 
     stages.stage_00_build.kernel_version = ralph::KERNEL_SOURCE.version.to_string();
@@ -447,6 +518,11 @@ fn acorn_contract() -> ConformanceContract {
         initramfs_live_output: acorn::INITRAMFS_LIVE_OUTPUT.to_string(),
         iso_filename: acorn::ISO_FILENAME.to_string(),
         initramfs_installed_output: None,
+        installed_uki_outputs: vec![
+            acorn::UKI_INSTALLED_FILENAME.to_string(),
+            acorn::UKI_INSTALLED_RECOVERY_FILENAME.to_string(),
+        ],
+        disk_image_output: None,
     };
     let stages = StageContract {
         stage_00_build: BuildCapabilityStage {
@@ -473,7 +549,7 @@ fn acorn_contract() -> ConformanceContract {
                 live_cmdline: "video=1920x1080".to_string(),
             },
             evidence: ScriptEvidence {
-                script_path: "stage-00-build-capability.sh".to_string(),
+                script_path: "00Build-build-capability.sh".to_string(),
                 pass_marker: "STAGE 00 PASSED".to_string(),
             },
         },
@@ -607,6 +683,11 @@ fn iuppiter_contract() -> ConformanceContract {
         initramfs_live_output: iuppiter::INITRAMFS_LIVE_OUTPUT.to_string(),
         iso_filename: iuppiter::ISO_FILENAME.to_string(),
         initramfs_installed_output: None,
+        installed_uki_outputs: vec![
+            iuppiter::UKI_INSTALLED_FILENAME.to_string(),
+            iuppiter::UKI_INSTALLED_RECOVERY_FILENAME.to_string(),
+        ],
+        disk_image_output: Some(iuppiter::DISK_IMAGE_FILENAME.to_string()),
     };
     let stages = StageContract {
         stage_00_build: BuildCapabilityStage {
@@ -633,7 +714,7 @@ fn iuppiter_contract() -> ConformanceContract {
                 live_cmdline: String::new(),
             },
             evidence: ScriptEvidence {
-                script_path: "stage-00-build-capability.sh".to_string(),
+                script_path: "00Build-build-capability.sh".to_string(),
                 pass_marker: "STAGE 00 PASSED".to_string(),
             },
         },
@@ -806,5 +887,69 @@ mod tests {
         let tools = baseline_stage_00_build_tools();
         assert!(tools.iter().any(|t| t == "recuki"));
         assert!(tools.iter().any(|t| t == "ukify"));
+    }
+
+    #[test]
+    fn legacy_release_bridge_splits_primary_outputs_and_metadata_facts() {
+        let levitate = contract_for_distro("levitate").expect("levitate contract");
+        assert_eq!(
+            levitate.release.primary_outputs,
+            vec![crate::levitate::ISO_FILENAME.to_string()]
+        );
+        assert_eq!(
+            levitate.release.supporting_artifacts,
+            vec![
+                crate::levitate::ROOTFS_NAME.to_string(),
+                crate::levitate::INITRAMFS_LIVE_OUTPUT.to_string(),
+                crate::levitate::INITRAMFS_INSTALLED_OUTPUT.to_string(),
+            ]
+        );
+        assert!(
+            levitate.release.metadata_outputs.is_empty(),
+            "{:?}",
+            levitate.release.metadata_outputs
+        );
+        assert_eq!(
+            levitate.release.metadata_facts,
+            vec![
+                "kernel_source.version".to_string(),
+                "kernel_source.sha256".to_string(),
+                "kernel_source.localversion".to_string(),
+                "artifact.rootfs_name".to_string(),
+                "artifact.iso_filename".to_string(),
+            ]
+        );
+
+        let iuppiter = contract_for_distro("iuppiter").expect("iuppiter contract");
+        assert_eq!(
+            iuppiter.release.primary_outputs,
+            vec![
+                crate::iuppiter::ISO_FILENAME.to_string(),
+                crate::iuppiter::DISK_IMAGE_FILENAME.to_string(),
+            ]
+        );
+        assert_eq!(
+            iuppiter.release.supporting_artifacts,
+            vec![
+                crate::iuppiter::ROOTFS_NAME.to_string(),
+                crate::iuppiter::INITRAMFS_LIVE_OUTPUT.to_string(),
+            ]
+        );
+        assert!(
+            iuppiter.release.metadata_outputs.is_empty(),
+            "{:?}",
+            iuppiter.release.metadata_outputs
+        );
+        assert_eq!(
+            iuppiter.release.metadata_facts,
+            vec![
+                "kernel_source.version".to_string(),
+                "kernel_source.sha256".to_string(),
+                "kernel_source.localversion".to_string(),
+                "artifact.rootfs_name".to_string(),
+                "artifact.iso_filename".to_string(),
+                "artifact.disk_image_filename".to_string(),
+            ]
+        );
     }
 }
