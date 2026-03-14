@@ -2,7 +2,7 @@
 //!
 //! # Deprecation Notice
 //!
-//! Runtime Stage 00 conformance authority has moved to `distro-variants/*/00Build.toml`
+//! Runtime build-host conformance authority has moved to `distro-variants/*/build-host.toml`
 //! and is loaded by `distro-contract`.
 //!
 //! This module remains as a compatibility bridge while remaining variants are
@@ -348,7 +348,7 @@ fn levitate_contract() -> ConformanceContract {
                 live_cmdline: "video=1920x1080".to_string(),
             },
             evidence: ScriptEvidence {
-                script_path: "00Build-build-capability.sh".to_string(),
+                script_path: "build-capability.sh".to_string(),
                 pass_marker: "STAGE 00 PASSED".to_string(),
             },
         },
@@ -366,7 +366,7 @@ fn levitate_contract() -> ConformanceContract {
             required_kernel_cmdline: str_vec(&["audit=1", "inst.sshd=0"]),
             required_live_services: vec!["sshd".to_string()],
             evidence: ScriptEvidence {
-                script_path: "stage-01-live-boot.sh".to_string(),
+                script_path: "live-boot.sh".to_string(),
                 pass_marker: "STAGE 01 PASSED".to_string(),
             },
         },
@@ -389,7 +389,7 @@ fn levitate_contract() -> ConformanceContract {
                 "find",
             ]),
             evidence: ScriptEvidence {
-                script_path: "stage-02-live-tools.sh".to_string(),
+                script_path: "live-tools.sh".to_string(),
                 pass_marker: "STAGE 02 PASSED".to_string(),
             },
         },
@@ -404,7 +404,7 @@ fn levitate_contract() -> ConformanceContract {
             ]),
             required_services: str_vec(&["NetworkManager", "chronyd"]),
             evidence: ScriptEvidence {
-                script_path: "stage-03-installation.sh".to_string(),
+                script_path: "install.sh".to_string(),
                 pass_marker: "STAGE 03 PASSED".to_string(),
             },
         },
@@ -420,7 +420,7 @@ fn levitate_contract() -> ConformanceContract {
             required_kernel_cmdline: str_vec(&["audit=1", "inst.sshd=0"]),
             required_live_services: vec![],
             evidence: ScriptEvidence {
-                script_path: "stage-04-installed-boot.sh".to_string(),
+                script_path: "installed-boot.sh".to_string(),
                 pass_marker: "STAGE 04 PASSED".to_string(),
             },
         },
@@ -430,14 +430,14 @@ fn levitate_contract() -> ConformanceContract {
             default_password: Some("levitate".to_string()),
             login_prompt_pattern: "levitateos login:".to_string(),
             evidence: ScriptEvidence {
-                script_path: "stage-05-automated-login.sh".to_string(),
+                script_path: "automated-login.sh".to_string(),
                 pass_marker: "STAGE 05 PASSED".to_string(),
             },
         },
         stage_06_installed_tools: ToolsStage {
             required_tools: str_vec(&["sudo", "ip", "ssh", "mount", "umount", "dmesg"]),
             evidence: ScriptEvidence {
-                script_path: "stage-06-daily-driver.sh".to_string(),
+                script_path: "installed-tools.sh".to_string(),
                 pass_marker: "STAGE 06 PASSED".to_string(),
             },
         },
@@ -559,7 +559,7 @@ fn acorn_contract() -> ConformanceContract {
                 live_cmdline: "video=1920x1080".to_string(),
             },
             evidence: ScriptEvidence {
-                script_path: "00Build-build-capability.sh".to_string(),
+                script_path: "build-capability.sh".to_string(),
                 pass_marker: "STAGE 00 PASSED".to_string(),
             },
         },
@@ -577,7 +577,7 @@ fn acorn_contract() -> ConformanceContract {
             required_kernel_cmdline: str_vec(&["audit=1", "inst.sshd=0"]),
             required_live_services: vec!["sshd".to_string()],
             evidence: ScriptEvidence {
-                script_path: "stage-01-live-boot.sh".to_string(),
+                script_path: "live-boot.sh".to_string(),
                 pass_marker: "STAGE 01 PASSED".to_string(),
             },
         },
@@ -603,7 +603,7 @@ fn acorn_contract() -> ConformanceContract {
                 "find",
             ]),
             evidence: ScriptEvidence {
-                script_path: "stage-02-live-tools.sh".to_string(),
+                script_path: "live-tools.sh".to_string(),
                 pass_marker: "STAGE 02 PASSED".to_string(),
             },
         },
@@ -618,7 +618,7 @@ fn acorn_contract() -> ConformanceContract {
             ]),
             required_services: str_vec(&["networking", "chronyd"]),
             evidence: ScriptEvidence {
-                script_path: "stage-03-installation.sh".to_string(),
+                script_path: "install.sh".to_string(),
                 pass_marker: "STAGE 03 PASSED".to_string(),
             },
         },
@@ -634,7 +634,7 @@ fn acorn_contract() -> ConformanceContract {
             required_kernel_cmdline: str_vec(&["audit=1", "inst.sshd=0"]),
             required_live_services: vec![],
             evidence: ScriptEvidence {
-                script_path: "stage-04-installed-boot.sh".to_string(),
+                script_path: "installed-boot.sh".to_string(),
                 pass_marker: "STAGE 04 PASSED".to_string(),
             },
         },
@@ -644,7 +644,7 @@ fn acorn_contract() -> ConformanceContract {
             default_password: Some("acorn".to_string()),
             login_prompt_pattern: "acornos login:".to_string(),
             evidence: ScriptEvidence {
-                script_path: "stage-05-automated-login.sh".to_string(),
+                script_path: "automated-login.sh".to_string(),
                 pass_marker: "STAGE 05 PASSED".to_string(),
             },
         },
@@ -653,7 +653,7 @@ fn acorn_contract() -> ConformanceContract {
                 "sudo", "ip", "ssh", "ash", "mount", "umount", "dmesg", "ps", "ls", "cat",
             ]),
             evidence: ScriptEvidence {
-                script_path: "stage-06-daily-driver.sh".to_string(),
+                script_path: "installed-tools.sh".to_string(),
                 pass_marker: "STAGE 06 PASSED".to_string(),
             },
         },
@@ -724,7 +724,7 @@ fn iuppiter_contract() -> ConformanceContract {
                 live_cmdline: String::new(),
             },
             evidence: ScriptEvidence {
-                script_path: "00Build-build-capability.sh".to_string(),
+                script_path: "build-capability.sh".to_string(),
                 pass_marker: "STAGE 00 PASSED".to_string(),
             },
         },
@@ -742,7 +742,7 @@ fn iuppiter_contract() -> ConformanceContract {
             required_kernel_cmdline: str_vec(&["audit=1", "inst.sshd=0"]),
             required_live_services: vec!["sshd".to_string()],
             evidence: ScriptEvidence {
-                script_path: "stage-01-live-boot.sh".to_string(),
+                script_path: "live-boot.sh".to_string(),
                 pass_marker: "STAGE 01 PASSED".to_string(),
             },
         },
@@ -766,7 +766,7 @@ fn iuppiter_contract() -> ConformanceContract {
                 "find",
             ]),
             evidence: ScriptEvidence {
-                script_path: "stage-02-live-tools.sh".to_string(),
+                script_path: "live-tools.sh".to_string(),
                 pass_marker: "STAGE 02 PASSED".to_string(),
             },
         },
@@ -788,7 +788,7 @@ fn iuppiter_contract() -> ConformanceContract {
                 "iuppiter_kiosk",
             ]),
             evidence: ScriptEvidence {
-                script_path: "stage-03-installation.sh".to_string(),
+                script_path: "install.sh".to_string(),
                 pass_marker: "STAGE 03 PASSED".to_string(),
             },
         },
@@ -804,7 +804,7 @@ fn iuppiter_contract() -> ConformanceContract {
             required_kernel_cmdline: vec![],
             required_live_services: vec![],
             evidence: ScriptEvidence {
-                script_path: "stage-04-installed-boot.sh".to_string(),
+                script_path: "installed-boot.sh".to_string(),
                 pass_marker: "STAGE 04 PASSED".to_string(),
             },
         },
@@ -814,7 +814,7 @@ fn iuppiter_contract() -> ConformanceContract {
             default_password: Some("iuppiter".to_string()),
             login_prompt_pattern: "iuppiter login:".to_string(),
             evidence: ScriptEvidence {
-                script_path: "stage-05-automated-login.sh".to_string(),
+                script_path: "automated-login.sh".to_string(),
                 pass_marker: "STAGE 05 PASSED".to_string(),
             },
         },
@@ -834,7 +834,7 @@ fn iuppiter_contract() -> ConformanceContract {
                 "dmesg",
             ]),
             evidence: ScriptEvidence {
-                script_path: "stage-06-daily-driver.sh".to_string(),
+                script_path: "installed-tools.sh".to_string(),
                 pass_marker: "STAGE 06 PASSED".to_string(),
             },
         },
@@ -860,7 +860,7 @@ fn iuppiter_contract() -> ConformanceContract {
 /// Get the legacy canonical conformance contract for a distro id.
 ///
 /// Deprecated runtime source of truth: Stage 00 now loads from
-/// `distro-variants/*/00Build.toml`.
+/// `distro-variants/*/build-host.toml`.
 pub fn contract_for_distro(distro_id: &str) -> Option<ConformanceContract> {
     match distro_id {
         "levitate" | "levitateos" => Some(levitate_contract()),
