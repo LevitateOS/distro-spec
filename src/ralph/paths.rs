@@ -12,7 +12,7 @@ pub use crate::shared::{ROOTFS_NAME, ROOTFS_TYPE};
 pub const ISO_LABEL: &str = "RALPHOS";
 
 /// ISO output filename (x86_64 architecture).
-pub const ISO_FILENAME: &str = "ralphos-x86_64-s00_build.iso";
+pub const ISO_FILENAME: &str = "ralphos-x86_64.iso";
 
 /// Module installation path (UsrMerge compliant).
 ///

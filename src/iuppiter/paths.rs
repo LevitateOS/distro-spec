@@ -157,7 +157,7 @@ pub const OPERATOR_GROUPS: &[&str] = &["wheel", "disk", "video", "input", "seat"
 // =============================================================================
 
 /// ISO output filename.
-pub const ISO_FILENAME: &str = "iuppiter-x86_64-s00_build.iso";
+pub const ISO_FILENAME: &str = "iuppiter-x86_64.iso";
 
 // =============================================================================
 // Disk Image Constants
