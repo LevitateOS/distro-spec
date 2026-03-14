@@ -119,7 +119,7 @@ fn product_contract_from_legacy(artifacts: &ArtifactIdentity) -> ProductContract
         .then_some(ProductDecl {
             logical_name: "product.payload.boot.installed".to_string(),
             description: "Installed-system boot payload inputs".to_string(),
-            extends: None,
+            extends: Some("product.rootfs.base".to_string()),
         }),
         kernel_staging: ProductDecl {
             logical_name: "product.kernel.staging".to_string(),
