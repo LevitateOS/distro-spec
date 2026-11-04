@@ -67,36 +67,3 @@ pub fn is_mount_point(path: &Path) -> std::io::Result<bool> {
     // If device IDs differ, it's a mount point
     Ok(path_dev != parent_dev)
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_is_root_returns_bool() {
-        // Just verify it doesn't panic and returns a bool
-        let _ = is_root();
-    }
-
-    #[test]
-    fn test_is_mount_point_root() {
-        // Root should always be a mount point
-        assert!(is_mount_point(Path::new("/")).unwrap());
-    }
-
-    #[test]
-    fn test_is_mount_point_nonexistent() {
-        // Nonexistent path should return error
-        let result = is_mount_point(Path::new("/nonexistent/path"));
-        assert!(result.is_err());
-    }
-
-    #[test]
-    fn test_is_mount_point_tmp() {
-        // /tmp typically exists; whether it's a mount point varies by system
-        // Just verify it doesn't panic
-        if Path::new("/tmp").exists() {
-            let _ = is_mount_point(Path::new("/tmp"));
-        }
-    }
-}

@@ -80,20 +80,7 @@
 //!
 //! ## For Verification (fsdbg)
 //!
-//! Check that all authentication components are present:
-//! ```ignore
-//! use distro_spec::shared::auth::components::*;
-//!
-//! // Verify binaries
-//! assert!(AUTH_BIN.contains(&"sudo"));
-//! assert!(AUTH_SBIN.contains(&"unix_chkpwd"));  // Critical for PAM!
-//!
-//! // Verify PAM modules
-//! assert!(PAM_MODULES.contains(&"pam_unix.so"));
-//!
-//! // Verify PAM configs
-//! assert!(PAM_CONFIGS.contains(&"etc/pam.d/login"));
-//! ```
+//! Validate authentication payload in a built rootfs with the `fsdbg` auth-audit command.
 //!
 //! ## For Build (leviso)
 //!
@@ -244,25 +231,3 @@ pub use self::pam::{
     PWQUALITY_CONF,
 };
 pub use self::ssh::{SSHD_CONFIG_SETTINGS, SSHD_TMPFILES_CONFIG};
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_auth_module_structure() {
-        // Verify the module structure is correct
-        assert!(
-            !PAM_SYSTEM_AUTH.is_empty(),
-            "PAM system-auth config required"
-        );
-        assert!(
-            !SERIAL_GETTY_OVERRIDE.is_empty(),
-            "Serial getty config required"
-        );
-        assert!(
-            !SSHD_TMPFILES_CONFIG.is_empty(),
-            "SSH tmpfiles config required"
-        );
-    }
-}

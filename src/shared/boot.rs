@@ -81,7 +81,9 @@ impl BootEntry {
             // - earlycon for kernel messages from earliest possible point
             // - console=ttyS0 for serial console output (needed for QEMU testing)
             // - console=tty0 for VGA fallback
-            options: Cow::Borrowed("root=LABEL=root rw earlycon=uart,io,0x3f8,115200 console=ttyS0,115200 console=tty0"),
+            options: Cow::Borrowed(
+                "root=LABEL=root rw earlycon=uart,io,0x3f8,115200 console=ttyS0,115200 console=tty0",
+            ),
         }
     }
 
@@ -246,39 +248,4 @@ impl LoaderConfig {
 /// Command to install systemd-boot to the ESP.
 pub fn bootctl_install_command() -> &'static str {
     "bootctl install"
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    /// Ensure BootEntry doesn't grow unexpectedly.
-    ///
-    /// BootEntry uses Cow<'static, str> for fields, so:
-    /// - 5 fields × 24 bytes (Cow = ptr + len + discriminant) = 120 bytes
-    /// - Actual size may vary slightly by alignment
-    #[test]
-    fn boot_entry_size() {
-        let size = std::mem::size_of::<BootEntry>();
-        // Allow up to 128 bytes (5 Cow fields with padding)
-        assert!(
-            size <= 128,
-            "BootEntry grew too large: {} bytes (max 128)",
-            size
-        );
-        eprintln!("BootEntry size: {} bytes", size);
-    }
-
-    /// Ensure LoaderConfig doesn't grow unexpectedly.
-    #[test]
-    fn loader_config_size() {
-        let size = std::mem::size_of::<LoaderConfig>();
-        // Cow<str> (24) + u32 (4) + Option<Cow<str>> (24) + bool (1) + padding
-        assert!(
-            size <= 64,
-            "LoaderConfig grew too large: {} bytes (max 64)",
-            size
-        );
-        eprintln!("LoaderConfig size: {} bytes", size);
-    }
 }

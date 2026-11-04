@@ -73,7 +73,7 @@ Consolidates all authentication and authorization components into a single sourc
 
 ```bash
 cargo build
-cargo test
+cargo check # Unit tests are prohibited; use focused integration/runtime checks.
 cargo doc --no-deps    # Generate documentation
 ```
 

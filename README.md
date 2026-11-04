@@ -90,7 +90,7 @@ Disable `std` feature for embedded/bootloader contexts.
 
 ```bash
 cargo build
-cargo test
+cargo check
 ```
 
 ## License

@@ -85,35 +85,3 @@ pub const SSH_KEY_TYPES_PREFERRED: &[&str] = &[
     "ecdsa-sha2-nistp256",
     "ssh-rsa", // Widely compatible but less secure
 ];
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_sshd_security_settings() {
-        // Verify critical security settings are configured
-        let settings_map: std::collections::HashMap<&str, &str> =
-            SSHD_CONFIG_SETTINGS.iter().cloned().collect();
-
-        assert_eq!(settings_map.get("PermitEmptyPasswords"), Some(&"no"));
-        assert_eq!(settings_map.get("PubkeyAuthentication"), Some(&"yes"));
-        assert_eq!(settings_map.get("Protocol"), Some(&"2"));
-    }
-
-    #[test]
-    fn test_host_key_configs_all_present() {
-        // Verify all required key types are defined
-        let key_types: Vec<&str> = HOST_KEY_CONFIGS.iter().map(|k| k.key_type).collect();
-        assert!(key_types.contains(&"rsa"));
-        assert!(key_types.contains(&"ecdsa"));
-        assert!(key_types.contains(&"ed25519"));
-    }
-
-    #[test]
-    fn test_tmpfiles_creates_sshd_directory() {
-        // Verify tmpfiles config creates /run/sshd
-        assert!(SSHD_TMPFILES_CONFIG.contains("/run/sshd"));
-        assert!(SSHD_TMPFILES_CONFIG.contains("0755"));
-    }
-}

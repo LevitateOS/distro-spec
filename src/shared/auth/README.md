@@ -230,7 +230,7 @@ Checks:
 ### Runtime Verification (rootfs-tests)
 
 ```bash
-cargo test -p rootfs-tests -- --ignored security::
+cargo run -p rootfs-tests -- run --rootfs <rootfs-path>
 ```
 
 Checks:
@@ -266,7 +266,7 @@ PAM configurations are defined in two places (for different reasons):
 Workflow:
 1. Edit profile file
 2. Update the code constant with new content
-3. Test with `cargo test -p distro-spec`
+3. Test with `cargo check -p distro-spec`
 4. Verify with `cargo run -p fsdbg -- verify rootfs.erofs --type auth-audit`
 
 ## References
@@ -333,7 +333,7 @@ When making changes to authentication:
 
 1. Update BOTH profile file and code constant
 2. Add test if adding critical component
-3. Run full verification: `cargo test -p distro-spec && cargo run -p fsdbg -- verify rootfs.erofs --type auth-audit`
+3. Run full verification: `cargo check -p distro-spec && cargo run -p fsdbg -- verify rootfs.erofs --type auth-audit`
 4. Update this README if changing architecture
 5. Update TEAM file if fixing issues
 

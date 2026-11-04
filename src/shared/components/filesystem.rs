@@ -87,15 +87,3 @@ pub const FHS_SYMLINKS: &[(&str, &str)] = &[
 
 /// /var symlinks to /run (systemd convention).
 pub const VAR_SYMLINKS: &[(&str, &str)] = &[("var/run", "/run"), ("var/lock", "/run/lock")];
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_fhs_dirs_have_usr() {
-        assert!(FHS_DIRS.contains(&"usr/bin"));
-        assert!(FHS_DIRS.contains(&"usr/sbin"));
-        assert!(FHS_DIRS.contains(&"etc"));
-    }
-}

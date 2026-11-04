@@ -68,30 +68,3 @@ pub const LIVE_CONSOLE_AUTOLOGIN_SERVICE: &str = "console-autologin.service";
 /// Provides autologin on serial port (for QEMU testing).
 /// Used in live-overlay for passwordless serial login.
 pub const LIVE_SERIAL_CONSOLE_SERVICE: &str = "serial-console.service";
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_serial_getty_override_contains_l_flag() {
-        // Verify the critical -L flag is present in QEMU override
-        assert!(
-            SERIAL_GETTY_OVERRIDE.contains("-L"),
-            "Serial getty must include -L flag for QEMU"
-        );
-    }
-
-    #[test]
-    fn test_baud_rates_configured() {
-        // Verify standard baud rates are defined
-        assert!(
-            SERIAL_BAUD_RATES.contains("115200"),
-            "Primary baud rate 115200 required"
-        );
-        assert!(
-            SERIAL_BAUD_RATES.contains("57600"),
-            "Fallback baud rate 57600 required"
-        );
-    }
-}

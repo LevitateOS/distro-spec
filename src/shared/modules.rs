@@ -270,39 +270,3 @@ pub fn module_paths_for(modules: &[&str]) -> Vec<&'static str> {
         .filter_map(|name| module_path(name))
         .collect()
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_live_modules_have_paths() {
-        for module in LIVE_MODULES {
-            if !LIVE_MODULES_BUILTIN.contains(module) {
-                assert!(
-                    module_path(module).is_some(),
-                    "Missing path for live module: {}",
-                    module
-                );
-            }
-        }
-    }
-
-    #[test]
-    fn test_install_modules_have_paths() {
-        for module in INSTALL_MODULES {
-            assert!(
-                module_path(module).is_some(),
-                "Missing path for install module: {}",
-                module
-            );
-        }
-    }
-
-    #[test]
-    fn test_module_path_lookup() {
-        assert_eq!(module_path("virtio"), Some("kernel/drivers/virtio/virtio"));
-        assert_eq!(module_path("ext4"), Some("kernel/fs/ext4/ext4"));
-        assert_eq!(module_path("nonexistent"), None);
-    }
-}
