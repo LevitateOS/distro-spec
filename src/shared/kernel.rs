@@ -13,7 +13,7 @@ pub struct KernelSource {
     pub version: &'static str,
     /// SHA256 hash of the .tar.xz tarball for verification
     pub sha256: &'static str,
-    /// Localversion suffix (e.g., "-acorn", "-iuppiter", "-levitate")
+    /// Localversion suffix (e.g., "-acorn", "-levitate")
     pub localversion: &'static str,
 }
 
@@ -47,26 +47,9 @@ pub const ACORN_KERNEL: KernelSource = KernelSource {
     localversion: "-acorn",
 };
 
-/// IuppiterOS kernel: longterm (LTS) 6.12.71
-pub const IUPPITER_KERNEL: KernelSource = KernelSource {
-    version: "6.12.71",
-    sha256: "143e8bc76cc41f831b51aa5e75819bed55bed41f299d35922820f1d2d2b02600",
-    localversion: "-iuppiter",
-};
-
 /// LevitateOS kernel: longterm (LTS) 6.12.71
 pub const LEVITATE_KERNEL: KernelSource = KernelSource {
     version: "6.12.71",
     sha256: "143e8bc76cc41f831b51aa5e75819bed55bed41f299d35922820f1d2d2b02600",
     localversion: "-levitate",
-};
-
-/// RalphOS kernel: longterm (LTS) 6.12.71
-///
-/// RalphOS is based on the LevitateOS (glibc/Rocky) base but uses its own kconfig
-/// tailored for a headless sandbox host.
-pub const RALPH_KERNEL: KernelSource = KernelSource {
-    version: "6.12.71",
-    sha256: "143e8bc76cc41f831b51aa5e75819bed55bed41f299d35922820f1d2d2b02600",
-    localversion: "-ralph",
 };

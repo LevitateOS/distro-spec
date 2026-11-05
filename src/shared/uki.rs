@@ -5,7 +5,7 @@
 
 /// A UKI boot entry definition.
 ///
-/// Used by all distros (AcornOS, IuppiterOS, LevitateOS) to define
+/// Used by all distros (AcornOS, LevitateOS) to define
 /// boot menu entries for both live ISO and installed systems.
 #[derive(Debug, Clone)]
 pub struct UkiEntry {

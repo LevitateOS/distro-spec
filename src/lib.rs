@@ -3,13 +3,13 @@
 //! # Deprecation Notice
 //!
 //! This crate is deprecated as the long-term home for distro declarations.
-//! - `src/{levitate,acorn,iuppiter,ralph}` is migrating to `distro-variants/*`
+//! - `src/{levitate,acorn}` is migrating to `distro-variants/*`
 //! - shared policy is migrating to `distro-builder`
 //! - test/checklist concerns are migrating to `testing/*`
 //! - Stage 00 conformance contracts are now authored in `distro-variants/*/stage-00.toml`
 //!
 //! Single source of truth for installation constants, paths, and configuration.
-//! Supports multiple distro variants: LevitateOS, AcornOS, IuppiterOS, and RalphOS.
+//! Supports multiple distro variants: LevitateOS and AcornOS.
 //!
 //! # STOP. READ. THEN ACT.
 //!
@@ -39,8 +39,6 @@
 //!
 //! - `levitate` - LevitateOS: Rocky Linux, systemd, glibc, GNU coreutils
 //! - `acorn` - AcornOS: Alpine Linux, OpenRC, musl, busybox
-//! - `iuppiter` - IuppiterOS: Alpine Linux, OpenRC, musl, busybox (headless refurbishment server)
-//! - `ralph` - RalphOS: LevitateOS base (Rocky Linux, systemd, glibc), headless sandbox host
 //!
 //! # Philosophy
 //!
@@ -53,9 +51,7 @@
 
 pub mod acorn;
 pub mod conformance;
-pub mod iuppiter;
 pub mod levitate;
-pub mod ralph;
 pub mod shared;
 
 // Re-export shared items at crate root for convenience

@@ -5,7 +5,7 @@
 This crate is **deprecated** as the long-term source of distro declarations.
 
 Migration direction:
-- `distro-spec/src/{levitate,acorn,iuppiter,ralph}` -> `distro-variants/*`
+- `distro-spec/src/{levitate,acorn}` -> `distro-variants/*`
 - Shared runtime/build policy -> `distro-builder`
 - Test-only assertions/checklists -> `testing/*`
 

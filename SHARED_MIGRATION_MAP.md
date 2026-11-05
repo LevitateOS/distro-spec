@@ -30,7 +30,7 @@ Target architecture:
 
 ## Immediate Migration Rules
 
-1. New declarations must not be added to `distro-spec/src/{levitate,acorn,iuppiter,ralph}`.
+1. New declarations must not be added to `distro-spec/src/{levitate,acorn}`.
 2. New shared build policy must be added to `distro-builder`.
 3. New test oracles must be added under `testing/*` and read from variant declarations.
 4. `distro-spec` remains transitional until all consumers are rewired.
