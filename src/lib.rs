@@ -6,7 +6,7 @@
 //! - `src/{levitate,acorn}` is migrating to `distro-variants/*`
 //! - shared policy is migrating to `distro-builder`
 //! - test/checklist concerns are migrating to `testing/*`
-//! - Stage 00 conformance contracts are now authored in `distro-variants/*/stage-00.toml`
+//! - Conformance contracts load directly from `distro-variants/*` ring manifests
 //!
 //! Single source of truth for installation constants, paths, and configuration.
 //! Supports multiple distro variants: LevitateOS and AcornOS.
@@ -50,7 +50,6 @@
 //! Any mismatch between these three is a bug.
 
 pub mod acorn;
-pub mod conformance;
 pub mod levitate;
 pub mod shared;
 

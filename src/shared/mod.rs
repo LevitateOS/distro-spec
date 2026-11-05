@@ -145,9 +145,7 @@ pub use qemu::{
     QCOW2_IMAGE_FILENAME, QEMU_CPU_MODE, QEMU_DISK_FILENAME, QEMU_DISK_GB, QEMU_MEMORY_GB,
     QEMU_SERIAL_LOG, RAW_DISK_FILENAME,
 };
-pub use requirements::{
-    SystemRequirements, ACORN_REQUIREMENTS, LEVITATE_REQUIREMENTS,
-};
+pub use requirements::{SystemRequirements, ACORN_REQUIREMENTS, LEVITATE_REQUIREMENTS};
 pub use rootfs::{
     // EROFS (primary)
     EROFS_CDROM_PATH,
