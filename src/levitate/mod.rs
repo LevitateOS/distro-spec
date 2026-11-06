@@ -27,8 +27,6 @@ pub use paths::{
     // File names
     BOOT_ENTRY_FILENAME,
     // Initramfs Build
-    BUSYBOX_URL,
-    BUSYBOX_URL_ENV,
     DEFAULT_HOSTNAME,
     // User defaults
     DEFAULT_SHELL,

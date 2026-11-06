@@ -103,13 +103,6 @@ pub const ISO_FILENAME: &str = "levitateos-x86_64.iso";
 // Initramfs Build
 // =============================================================================
 
-/// Busybox binary URL (default, can be overridden via BUSYBOX_URL env)
-pub const BUSYBOX_URL: &str =
-    "https://busybox.net/downloads/binaries/1.35.0-x86_64-linux-musl/busybox";
-
-/// Environment variable name for busybox URL override
-pub const BUSYBOX_URL_ENV: &str = "BUSYBOX_URL";
-
 /// Installed initramfs output filename (full - boots the daily driver OS)
 pub const INITRAMFS_INSTALLED_OUTPUT: &str = "initramfs-installed.img";
 

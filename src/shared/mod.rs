@@ -5,7 +5,6 @@
 pub mod auth;
 pub mod boot;
 pub mod boot_modules;
-pub mod busybox;
 pub mod components;
 pub mod devices;
 pub mod firmware;
@@ -67,7 +66,6 @@ pub use boot::{
     ESP_MOUNT_POINT, LOADER_CONF_PATH,
 };
 pub use boot_modules::{CORE_BOOT_MODULES, INSTALL_BOOT_MODULES, USB_BOOT_MODULES};
-pub use busybox::{COMMON_APPLETS, SBIN_APPLETS};
 pub use components::{
     all_systemd_units,
     // Binaries - /usr/bin
