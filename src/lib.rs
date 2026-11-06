@@ -32,7 +32,7 @@
 //! println!("Shell: {}", acorn::DEFAULT_SHELL);
 //!
 //! // Use shared types
-//! use distro_spec::shared::{PartitionLayout, UserSpec};
+//! use distro_spec::shared::UserSpec;
 //! ```
 //!
 //! # Variants
@@ -59,7 +59,6 @@ pub use shared::{
         bootctl_install_command, BootEntry, LoaderConfig, DEFAULT_TIMEOUT, ENTRIES_DIR,
         ESP_MOUNT_POINT, LOADER_CONF_PATH,
     },
-    partitions::{PartitionLayout, PartitionSpec, EFI_PARTITION_SIZE_MB},
     services::ServiceManager,
     users::{UserSpec, MIN_GID, MIN_UID, SUDOERS_WHEEL_LINE},
 };

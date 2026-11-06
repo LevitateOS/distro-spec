@@ -7,7 +7,6 @@
 ## What Belongs Here
 
 - Boot configuration types (`BootEntry`, `LoaderConfig`)
-- Partition specifications (`PartitionLayout`, `PartitionSpec`)
 - User specifications (`UserSpec`)
 - Chroot bind mounts (`CHROOT_BIND_MOUNTS`)
 - Service management traits and implementations
@@ -35,7 +34,6 @@ src/
 │   │   ├── getty.rs    # Getty/console login configuration
 │   │   └── ssh.rs      # SSH configuration
 │   ├── boot.rs         # BootEntry, LoaderConfig
-│   ├── partitions.rs   # PartitionLayout, PartitionSpec
 │   ├── users.rs        # UserSpec
 │   ├── chroot.rs       # BindMount, CHROOT_BIND_MOUNTS
 │   └── services.rs     # ServiceManager trait
@@ -99,7 +97,7 @@ fn enable_service(svc: &impl ServiceManager) -> String {
 | Crate | Uses |
 |-------|------|
 | leviso | Paths, boot modules |
-| testing/install-tests | BootEntry, LoaderConfig, partitions |
+| testing/install-tests | live-boot protocol, console settings |
 | tools/recstrap | Squashfs search paths |
 
 ## Key Rule

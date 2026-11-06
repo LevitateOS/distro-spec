@@ -13,7 +13,6 @@ pub mod live_boot;
 pub mod kernel;
 pub mod modules;
 pub mod overlayfs;
-pub mod partitions;
 pub mod paths;
 pub mod qemu;
 pub mod requirements;
@@ -126,7 +125,6 @@ pub use overlayfs::{
     OVERLAYFS_CHUNK_SIZE, OVERLAYFS_COMPRESSION, OVERLAYFS_COMPRESSION_LEVEL,
     OVERLAYFS_ISO_PATH, OVERLAYFS_NAME, OVERLAYFS_TYPE,
 };
-pub use partitions::{PartitionLayout, PartitionSpec, EFI_PARTITION_SIZE_MB};
 pub use paths::{
     is_protected_path, AMD_UCODE_FILENAME, DEFAULT_USER_GROUPS, INITRAMFS_BUILD_DIR,
     INITRAMFS_FILENAME, INITRAMFS_LIVE_OUTPUT, INTEL_UCODE_FILENAME, KERNEL_FILENAME, LIBRARY_DIRS,
