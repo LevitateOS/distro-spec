@@ -148,19 +148,14 @@ pub use rootfs::{
     EROFS_CHUNK_SIZE,
     EROFS_COMPRESSION,
     EROFS_COMPRESSION_LEVEL,
-    EROFS_MAGIC,
-    EROFS_MAGIC_OFFSET,
     EROFS_NAME,
-    // Installer constants
-    ESSENTIAL_DIRS,
-    MIN_REQUIRED_BYTES,
     ROOTFS_CDROM_PATH,
     ROOTFS_NAME,
     ROOTFS_SEARCH_PATHS,
     ROOTFS_TYPE,
 };
 pub use services::ServiceManager;
-pub use system::{is_mount_point, is_root};
+pub use system::is_root;
 pub use udev::{
     UDEV_DIRS_SERVICE, UDEV_HELPERS as UDEV_HELPER_BINARIES, UDEV_TMPFILES_CONF,
     UDEV_TMPFILES_ENTRIES, UDEV_UNITS_TO_PATCH,

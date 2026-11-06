@@ -13,8 +13,6 @@
 //!
 //! This module also contains constants used by recstrap and other installer tools:
 //! - `ROOTFS_SEARCH_PATHS` - where to look for rootfs during installation
-//! - `ESSENTIAL_DIRS` - directories that must exist after extraction
-//! - `MIN_REQUIRED_BYTES` - minimum disk space for installation
 //! - Magic byte constants for format detection
 
 // =============================================================================
@@ -82,30 +80,3 @@ pub const ROOTFS_SEARCH_PATHS: &[&str] = &[
     "/mnt/cdrom/live/filesystem.erofs",
     "/media/cdrom/live/filesystem.erofs",
 ];
-
-/// Essential directories that must exist after rootfs extraction.
-///
-/// Used by recstrap to verify that extraction completed successfully.
-/// A missing directory indicates a corrupt or incomplete rootfs.
-pub const ESSENTIAL_DIRS: &[&str] = &["bin", "etc", "lib", "sbin", "usr", "var"];
-
-/// Minimum required disk space in bytes for rootfs extraction.
-///
-/// 2GB is typical - a compressed rootfs expands to roughly this size.
-/// recstrap checks available space before extraction to fail fast.
-pub const MIN_REQUIRED_BYTES: u64 = 2 * 1024 * 1024 * 1024;
-
-// =============================================================================
-// Format Detection (Magic Bytes)
-// =============================================================================
-
-/// EROFS magic number (little-endian at offset 1024).
-///
-/// Used to validate that a file is actually an EROFS image before mounting.
-/// ```text
-/// Offset 1024: 0xe2 0xe1 0xf5 0xe0 (little-endian: 0xe0f5e1e2)
-/// ```
-pub const EROFS_MAGIC: u32 = 0xe0f5e1e2;
-
-/// EROFS magic byte offset from start of file.
-pub const EROFS_MAGIC_OFFSET: u64 = 1024;
