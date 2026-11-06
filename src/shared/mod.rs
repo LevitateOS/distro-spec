@@ -79,7 +79,6 @@ pub use components::{
     // Filesystem hierarchy
     FHS_DIRS,
     FHS_SYMLINKS,
-    LEVITATE_CARGO_TOOLS,
     // LevitateOS installation tools
     LEVITATE_TOOLS,
     NM_BIN,

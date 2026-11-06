@@ -38,11 +38,3 @@ pub const LEVITATE_TOOLS: &[&str] = &[
     "levitate-docs",
 ];
 
-/// Cargo-based installation tools that are built together.
-///
-/// These are Rust crates in tools/ that share the same build command:
-/// `cargo build --release -p recstrap -p recfstab -p recchroot`
-///
-/// Note: `recipe` is also a cargo crate but has a different package name
-/// (`levitate-recipe`) so it's built separately.
-pub const LEVITATE_CARGO_TOOLS: &[&str] = &["recstrap", "recfstab", "recchroot"];
