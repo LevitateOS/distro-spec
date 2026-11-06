@@ -16,7 +16,7 @@ pub const ISO_EFI_DIR: &str = "EFI/BOOT";
 /// Path to rootfs image inside ISO (relative to ISO root)
 ///
 /// This is the EROFS filesystem image that contains the complete system.
-pub const ROOTFS_ISO_PATH: &str = "live/filesystem.erofs";
+pub const ROOTFS_ISO_PATH: &str = super::live_boot::rootfs_iso_path!();
 
 /// Path to kernel inside ISO (relative to ISO root)
 pub const KERNEL_ISO_PATH: &str = "boot/vmlinuz";

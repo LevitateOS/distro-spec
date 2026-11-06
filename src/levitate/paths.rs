@@ -11,7 +11,6 @@ pub use crate::shared::{
     AMD_UCODE_FILENAME,
     DEFAULT_USER_GROUPS,
     // Rootfs (EROFS)
-    EROFS_CDROM_PATH,
     EROFS_CHUNK_SIZE,
     EROFS_COMPRESSION,
     EROFS_COMPRESSION_LEVEL,
@@ -26,7 +25,6 @@ pub use crate::shared::{
     // QEMU
     QEMU_DISK_GB,
     QEMU_MEMORY_GB,
-    ROOTFS_CDROM_PATH,
     ROOTFS_NAME,
     ROOTFS_TYPE,
 };

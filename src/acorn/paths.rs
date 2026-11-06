@@ -32,9 +32,6 @@ pub const ROOTFS_TYPE: &str = "erofs";
 /// Name of the EROFS rootfs image file.
 pub const EROFS_NAME: &str = "filesystem.erofs";
 
-/// Path to EROFS rootfs on mounted CDROM at runtime.
-pub const EROFS_CDROM_PATH: &str = "/run/live-rootfs.erofs";
-
 /// Compression algorithm for mkfs.erofs.
 ///
 /// AcornOS uses zstd for best compression ratio.
@@ -50,9 +47,6 @@ pub const EROFS_CHUNK_SIZE: u32 = 1048576;
 
 /// Unified rootfs name (currently EROFS).
 pub const ROOTFS_NAME: &str = EROFS_NAME;
-
-/// Unified rootfs CDROM path (currently EROFS).
-pub const ROOTFS_CDROM_PATH: &str = EROFS_CDROM_PATH;
 
 // NOTE: No squashfs constants exported. AcornOS stage artifacts use EROFS only.
 

@@ -34,7 +34,6 @@ pub use paths::{
     DEFAULT_SHELL,
     DEFAULT_USER_GROUPS,
     // Rootfs constants (EROFS)
-    EROFS_CDROM_PATH,
     EROFS_CHUNK_SIZE,
     EROFS_COMPRESSION,
     EROFS_COMPRESSION_LEVEL,
@@ -61,7 +60,6 @@ pub use paths::{
     // QEMU Testing Defaults
     QEMU_DISK_GB,
     QEMU_MEMORY_GB,
-    ROOTFS_CDROM_PATH,
     ROOTFS_NAME,
     ROOTFS_TYPE,
     ROOT_SHELL,

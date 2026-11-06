@@ -11,6 +11,7 @@ pub mod devices;
 pub mod firmware;
 pub mod initramfs;
 pub mod iso;
+pub mod live_boot;
 pub mod kernel;
 pub mod modules;
 pub mod overlayfs;
@@ -128,7 +129,7 @@ pub use modules::{
     MODULE_METADATA_FILES, MODULE_PATHS,
 };
 pub use overlayfs::{
-    OVERLAYFS_CDROM_PATH, OVERLAYFS_CHUNK_SIZE, OVERLAYFS_COMPRESSION, OVERLAYFS_COMPRESSION_LEVEL,
+    OVERLAYFS_CHUNK_SIZE, OVERLAYFS_COMPRESSION, OVERLAYFS_COMPRESSION_LEVEL,
     OVERLAYFS_ISO_PATH, OVERLAYFS_NAME, OVERLAYFS_TYPE,
 };
 pub use partitions::{PartitionLayout, PartitionSpec, EFI_PARTITION_SIZE_MB};
@@ -144,14 +145,11 @@ pub use qemu::{
 pub use requirements::{SystemRequirements, ACORN_REQUIREMENTS, LEVITATE_REQUIREMENTS};
 pub use rootfs::{
     // EROFS (primary)
-    EROFS_CDROM_PATH,
     EROFS_CHUNK_SIZE,
     EROFS_COMPRESSION,
     EROFS_COMPRESSION_LEVEL,
     EROFS_NAME,
-    ROOTFS_CDROM_PATH,
     ROOTFS_NAME,
-    ROOTFS_SEARCH_PATHS,
     ROOTFS_TYPE,
 };
 pub use services::ServiceManager;

@@ -18,9 +18,6 @@ pub const OVERLAYFS_NAME: &str = "overlayfs.erofs";
 /// Overlay payload path inside the ISO (relative to ISO root).
 pub const OVERLAYFS_ISO_PATH: &str = "live/overlayfs.erofs";
 
-/// Overlay payload path on mounted CDROM in live runtime.
-pub const OVERLAYFS_CDROM_PATH: &str = "/run/live-overlay.erofs";
-
 /// Compression algorithm for overlay payload image creation.
 pub const OVERLAYFS_COMPRESSION: &str = EROFS_COMPRESSION;
 
