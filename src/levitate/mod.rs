@@ -14,7 +14,6 @@
 pub mod boot;
 pub mod paths;
 pub mod services;
-pub mod uki;
 
 pub use boot::{
     boot_entry_with_label, boot_entry_with_partuuid, boot_entry_with_root, bootctl_install_command,
@@ -68,7 +67,6 @@ pub use paths::{
     UKI_INSTALLED_RECOVERY_ISO_PATH,
 };
 pub use services::{optional_services, required_services, ServiceSpec, ENABLED_SERVICES};
-pub use uki::{UkiEntry, UKI_ENTRIES, UKI_INSTALLED_ENTRIES};
 
 // Kernel source specification
 pub use crate::shared::LEVITATE_KERNEL as KERNEL_SOURCE;
@@ -95,7 +93,6 @@ pub use crate::shared::{
     QEMU_DISK_FILENAME,
     QEMU_SERIAL_LOG,
     ROOTFS_ISO_PATH,
-    SELINUX_DISABLE,
     SERIAL_BAUD_RATE,
     SERIAL_CONSOLE,
     SHA512_SEPARATOR,

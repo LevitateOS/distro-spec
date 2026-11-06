@@ -16,7 +16,6 @@ pub mod boot;
 pub mod packages;
 pub mod paths;
 pub mod services;
-pub mod uki;
 pub mod verification;
 
 pub use boot::{
@@ -84,7 +83,6 @@ pub use paths::{
     UKI_LIVE_FILENAME,
 };
 pub use services::{optional_services, required_services, ServiceSpec, ENABLED_SERVICES};
-pub use uki::{UkiEntry, UKI_ENTRIES, UKI_INSTALLED_ENTRIES};
 
 // Kernel source specification
 pub use crate::shared::ACORN_KERNEL as KERNEL_SOURCE;
@@ -94,6 +92,6 @@ pub use crate::shared::{
     BOOT_DEVICE_PROBE_ORDER, EFIBOOT_FILENAME, EFIBOOT_SIZE_MB, EFI_BOOTLOADER,
     EFI_GRUB, INITRAMFS_LIVE_ISO_PATH, ISO_BOOT_DIR, ISO_CHECKSUM_SUFFIX,
     ISO_EFI_DIR, ISO_LIVE_DIR, KERNEL_ISO_PATH, LIVE_OVERLAYFS_ISO_PATH, LIVE_OVERLAY_ISO_PATH, QEMU_CPU_MODE, QEMU_DISK_FILENAME,
-    QEMU_SERIAL_LOG, ROOTFS_ISO_PATH, SELINUX_DISABLE, SERIAL_BAUD_RATE, SERIAL_CONSOLE,
+    QEMU_SERIAL_LOG, ROOTFS_ISO_PATH, SERIAL_BAUD_RATE, SERIAL_CONSOLE,
     SHA512_SEPARATOR, VGA_CONSOLE, XORRISO_FS_FLAGS, XORRISO_PARTITION_OFFSET,
 };
