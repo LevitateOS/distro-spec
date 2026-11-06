@@ -76,13 +76,11 @@ pub use crate::shared::LEVITATE_KERNEL as KERNEL_SOURCE;
 // Re-export shared constants
 pub use crate::shared::{
     BOOT_DEVICE_PROBE_ORDER,
-    CPIO_GZIP_LEVEL,
     EFIBOOT_FILENAME,
     EFIBOOT_SIZE_MB,
     EFI_BOOTLOADER,
     EFI_DEBUG,
     EFI_GRUB,
-    INITRAMFS_DIRS,
     INITRAMFS_LIVE_ISO_PATH,
     ISO_BOOT_DIR,
     ISO_CHECKSUM_SUFFIX,
@@ -93,10 +91,6 @@ pub use crate::shared::{
     LIVE_OVERLAY_ISO_PATH,
     // UKI constants
     LOADER_ENTRIES_DIR,
-    MOUNT_LIVE_OVERLAY,
-    MOUNT_NEWROOT,
-    MOUNT_OVERLAY,
-    MOUNT_ROOTFS,
     QEMU_CPU_MODE,
     QEMU_DISK_FILENAME,
     QEMU_SERIAL_LOG,
