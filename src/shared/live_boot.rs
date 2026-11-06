@@ -13,7 +13,11 @@ macro_rules! live_media_dir {
 }
 macro_rules! rootfs_iso_path {
     () => {
-        concat!(super::iso::iso_live_dir!(), "/filesystem.erofs")
+        concat!(
+            $crate::shared::iso::iso_live_dir!(),
+            "/",
+            $crate::shared::rootfs::erofs_name!()
+        )
     };
 }
 pub(crate) use rootfs_iso_path;
@@ -54,8 +58,13 @@ pub const BOOT_INJECTION_FILE: &str = "boot-injection.env";
 pub const BOOT_INJECTION_ISO_LABEL: &str = "LEVITATE_INJECT";
 /// Test channel: where the live init leaves the imported payload (KEY=VALUE
 /// lines) and, in `source`, where it came from.
-pub const BOOT_INJECTION_DIR: &str = "/run/boot-injection";
-pub const BOOT_INJECTION_ENV: &str = "/run/boot-injection/payload.env";
+macro_rules! boot_injection_dir {
+    () => {
+        "/run/boot-injection"
+    };
+}
+pub const BOOT_INJECTION_DIR: &str = boot_injection_dir!();
+pub const BOOT_INJECTION_ENV: &str = concat!(boot_injection_dir!(), "/payload.env");
 /// Test channel: devices probed for that secondary ISO, after the boot medium.
 pub const BOOT_INJECTION_DEVICES: &[&str] = &["/dev/sr1", "/dev/sr2", "/dev/sdb", "/dev/vdb"];
 

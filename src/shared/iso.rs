@@ -42,7 +42,8 @@ pub const INITRAMFS_LIVE_ISO_PATH: &str = concat!(iso_boot_dir!(), "/initramfs.i
 ///
 /// The payload is a read-only EROFS image mounted as the higher read-only
 /// lowerdir for live overlayfs composition.
-pub const LIVE_OVERLAYFS_ISO_PATH: &str = concat!(iso_live_dir!(), "/overlayfs.erofs");
+pub const LIVE_OVERLAYFS_ISO_PATH: &str =
+    concat!(iso_live_dir!(), "/", crate::shared::overlayfs::overlayfs_name!());
 
 // =============================================================================
 // EFI Boot Files

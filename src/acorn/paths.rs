@@ -10,6 +10,7 @@ pub use crate::shared::{
     // Paths
     AMD_UCODE_FILENAME,
     DEFAULT_USER_GROUPS,
+    EROFS_NAME,
     INITRAMFS_BUILD_DIR,
     INITRAMFS_FILENAME,
     INITRAMFS_LIVE_OUTPUT,
@@ -25,9 +26,6 @@ pub use crate::shared::{
 
 /// Filesystem type for the rootfs image.
 pub const ROOTFS_TYPE: &str = "erofs";
-
-/// Name of the EROFS rootfs image file.
-pub const EROFS_NAME: &str = "filesystem.erofs";
 
 /// Compression algorithm for mkfs.erofs.
 ///

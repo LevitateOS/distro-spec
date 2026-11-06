@@ -40,8 +40,15 @@ pub const EROFS_COMPRESSION_LEVEL: u8 = 6;
 /// Larger chunks = better compression, slightly more memory.
 pub const EROFS_CHUNK_SIZE: u32 = 1048576;
 
+macro_rules! erofs_name {
+    () => {
+        "filesystem.erofs"
+    };
+}
+pub(crate) use erofs_name;
+
 /// Name of the EROFS rootfs image file.
-pub const EROFS_NAME: &str = "filesystem.erofs";
+pub const EROFS_NAME: &str = erofs_name!();
 
 // =============================================================================
 // Unified Rootfs Constants (for code that doesn't care about format)

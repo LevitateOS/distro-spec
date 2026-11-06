@@ -12,11 +12,15 @@ use crate::shared::rootfs::{EROFS_CHUNK_SIZE, EROFS_COMPRESSION, EROFS_COMPRESSI
 /// Overlay payload filesystem type.
 pub const OVERLAYFS_TYPE: &str = "erofs";
 
-/// Overlay payload image filename.
-pub const OVERLAYFS_NAME: &str = "overlayfs.erofs";
+macro_rules! overlayfs_name {
+    () => {
+        "overlayfs.erofs"
+    };
+}
+pub(crate) use overlayfs_name;
 
-/// Overlay payload path inside the ISO (relative to ISO root).
-pub const OVERLAYFS_ISO_PATH: &str = "live/overlayfs.erofs";
+/// Overlay payload image filename.
+pub const OVERLAYFS_NAME: &str = overlayfs_name!();
 
 /// Compression algorithm for overlay payload image creation.
 pub const OVERLAYFS_COMPRESSION: &str = EROFS_COMPRESSION;
