@@ -4,11 +4,23 @@
 // ISO Directory Structure
 // =============================================================================
 
+macro_rules! iso_boot_dir {
+    () => {
+        "boot"
+    };
+}
+macro_rules! iso_live_dir {
+    () => {
+        "live"
+    };
+}
+pub(crate) use iso_live_dir;
+
 /// Boot directory on ISO (contains kernel, initramfs)
-pub const ISO_BOOT_DIR: &str = "boot";
+pub const ISO_BOOT_DIR: &str = iso_boot_dir!();
 
 /// Live directory on ISO (contains rootfs + live overlay payload image)
-pub const ISO_LIVE_DIR: &str = "live";
+pub const ISO_LIVE_DIR: &str = iso_live_dir!();
 
 /// EFI boot directory on ISO
 pub const ISO_EFI_DIR: &str = "EFI/BOOT";
@@ -19,21 +31,18 @@ pub const ISO_EFI_DIR: &str = "EFI/BOOT";
 pub const ROOTFS_ISO_PATH: &str = super::live_boot::rootfs_iso_path!();
 
 /// Path to kernel inside ISO (relative to ISO root)
-pub const KERNEL_ISO_PATH: &str = "boot/vmlinuz";
+pub const KERNEL_ISO_PATH: &str = concat!(iso_boot_dir!(), "/vmlinuz");
 
 /// Path to live initramfs inside ISO (relative to ISO root)
 /// This is the tiny initramfs that mounts the EROFS rootfs for the live environment.
 /// Note: reciso copies the initramfs to this fixed path.
-pub const INITRAMFS_LIVE_ISO_PATH: &str = "boot/initramfs.img";
+pub const INITRAMFS_LIVE_ISO_PATH: &str = concat!(iso_boot_dir!(), "/initramfs.img");
 
 /// Path to live overlay payload image inside ISO (relative to ISO root).
 ///
 /// The payload is a read-only EROFS image mounted as the higher read-only
 /// lowerdir for live overlayfs composition.
-pub const LIVE_OVERLAYFS_ISO_PATH: &str = "live/overlayfs.erofs";
-
-/// Legacy compatibility alias for callers not yet migrated.
-pub const LIVE_OVERLAY_ISO_PATH: &str = LIVE_OVERLAYFS_ISO_PATH;
+pub const LIVE_OVERLAYFS_ISO_PATH: &str = concat!(iso_live_dir!(), "/overlayfs.erofs");
 
 // =============================================================================
 // EFI Boot Files

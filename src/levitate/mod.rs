@@ -83,7 +83,6 @@ pub use crate::shared::{
     ISO_LIVE_DIR,
     KERNEL_ISO_PATH,
     LIVE_OVERLAYFS_ISO_PATH,
-    LIVE_OVERLAY_ISO_PATH,
     // UKI constants
     LOADER_ENTRIES_DIR,
     ROOTFS_ISO_PATH,

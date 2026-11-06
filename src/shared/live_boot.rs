@@ -13,7 +13,7 @@ macro_rules! live_media_dir {
 }
 macro_rules! rootfs_iso_path {
     () => {
-        "live/filesystem.erofs"
+        concat!(super::iso::iso_live_dir!(), "/filesystem.erofs")
     };
 }
 pub(crate) use rootfs_iso_path;
