@@ -59,7 +59,6 @@ pub use shared::{
         bootctl_install_command, BootEntry, LoaderConfig, DEFAULT_TIMEOUT, ENTRIES_DIR,
         ESP_MOUNT_POINT, LOADER_CONF_PATH,
     },
-    chroot::{mounts_in_order, mounts_in_unmount_order, BindMount, CHROOT_BIND_MOUNTS},
     partitions::{PartitionLayout, PartitionSpec, EFI_PARTITION_SIZE_MB},
     services::ServiceManager,
     users::{UserSpec, MIN_GID, MIN_UID, SUDOERS_WHEEL_LINE},

@@ -6,7 +6,6 @@ pub mod auth;
 pub mod boot;
 pub mod boot_modules;
 pub mod busybox;
-pub mod chroot;
 pub mod components;
 pub mod devices;
 pub mod firmware;
@@ -68,7 +67,6 @@ pub use boot::{
 };
 pub use boot_modules::{CORE_BOOT_MODULES, INSTALL_BOOT_MODULES, USB_BOOT_MODULES};
 pub use busybox::{COMMON_APPLETS, SBIN_APPLETS};
-pub use chroot::{BindMount, CHROOT_BIND_MOUNTS};
 pub use components::{
     all_systemd_units,
     // Binaries - /usr/bin
