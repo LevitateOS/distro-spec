@@ -116,7 +116,7 @@ pub use iso::{
 };
 pub use kernel::{KernelSource, ACORN_KERNEL, LEVITATE_KERNEL};
 pub use modules::{
-    INSTALL_MODULES, INSTALL_MODULES_BUILTIN, LIVE_MODULES, LIVE_MODULES_BUILTIN,
+    INSTALL_MODULES, LIVE_MODULES,
     MODULE_METADATA_FILES,
 };
 pub use overlayfs::{

@@ -40,33 +40,6 @@ pub const LIVE_MODULES: &[&str] = &[
     "overlay",
 ];
 
-/// Modules typically built-in to LevitateOS kernel (won't exist as .ko files).
-///
-/// LevitateOS uses a custom kernel config that builds essential boot
-/// modules into the kernel for faster boot times.
-pub const LIVE_MODULES_BUILTIN: &[&str] = &[
-    "erofs",   // CONFIG_EROFS_FS=y
-    "loop",    // CONFIG_BLK_DEV_LOOP=y
-    "overlay", // CONFIG_OVERLAY_FS=y
-    // Virtio core (QEMU support)
-    "virtio",
-    "virtio_ring",
-    "virtio_pci",
-    "virtio_scsi",
-    "virtio_blk",
-    // SCSI core
-    "scsi_mod",
-    "sd_mod",
-    // CDROM
-    "cdrom",
-    "sr_mod",
-    "isofs",
-    // SATA/AHCI
-    "libata",
-    "libahci",
-    "ahci",
-];
-
 // =============================================================================
 // INSTALL INITRAMFS MODULES
 // =============================================================================
@@ -76,55 +49,6 @@ pub const LIVE_MODULES_BUILTIN: &[&str] = &[
 /// Superset of storage drivers plus filesystem support for booting
 /// from any hardware configuration (NVMe, SATA, USB, etc.).
 pub const INSTALL_MODULES: &[&str] = &[
-    // === Virtio core (QEMU support) ===
-    "virtio",
-    "virtio_ring",
-    "virtio_pci",
-    "virtio_scsi",
-    "virtio_blk",
-    // === SCSI core ===
-    "scsi_mod",
-    "sd_mod",
-    // === NVMe (modern SSDs) ===
-    "nvme-core",
-    "nvme",
-    // === SATA/AHCI (traditional drives) ===
-    "libata",
-    "libahci",
-    "ahci",
-    "ata_piix",
-    // === USB Storage ===
-    "usb-common",
-    "usbcore",
-    "xhci-hcd",
-    "xhci-pci",
-    "ehci-hcd",
-    "ehci-pci",
-    "usb-storage",
-    // === HID (keyboards for LUKS prompts) ===
-    "hid",
-    "hid-generic",
-    "usbhid",
-    // === Filesystems ===
-    "ext4",
-    "xfs",
-    "btrfs",
-    "fat",
-    "vfat",
-    "nls_cp437",
-    "nls_iso8859-1",
-    "nls_utf8",
-    // === Device Mapper (LUKS/LVM) ===
-    "dm-mod",
-    "dm-crypt",
-];
-
-/// Modules typically built-in to LevitateOS kernel (won't exist as .ko files).
-///
-/// LevitateOS uses a custom kernel config that builds essential boot
-/// modules into the kernel for faster boot times. These modules are
-/// =y (built-in) instead of =m (module) in the kernel config.
-pub const INSTALL_MODULES_BUILTIN: &[&str] = &[
     // === Virtio core (QEMU support) ===
     "virtio",
     "virtio_ring",
