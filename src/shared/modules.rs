@@ -1,72 +1,62 @@
-//! Kernel module definitions for initramfs.
+//! Which kernel modules each initramfs type needs, by name.
 //!
-//! SINGLE SOURCE OF TRUTH for which kernel modules are needed in each initramfs type.
-//!
-//! Consumers:
-//! - `recinit` - builds initramfs, constructs full paths from these names
-//! - `fsdbg` - verifies initramfs contents against these lists
-
-// =============================================================================
-// LIVE INITRAMFS MODULES
-// =============================================================================
+//! `recinit` builds from these lists (resolving files and dependencies through
+//! the kernel's `modules.dep`) and `fsdbg` checks built initramfs contents
+//! against them.
 
 /// Kernel modules for live ISO boot (busybox initramfs).
 ///
 /// These modules enable booting from CD/USB and mounting the EROFS rootfs.
-/// Order matters for dependencies when using insmod.
+/// Order does not matter: recinit loads dependencies first.
 ///
-/// NOTE: EROFS is built-in to kernel (CONFIG_EROFS_FS=y), no module needed.
+/// EROFS is built into the kernel (CONFIG_EROFS_FS=y), so it is not listed.
 pub const LIVE_MODULES: &[&str] = &[
-    // === Virtio core (QEMU support - must load first) ===
+    // Virtio core (QEMU)
     "virtio",
     "virtio_ring",
     "virtio_pci",
-    // === SCSI core (dependency for sr_mod, sd_mod, virtio_scsi) ===
+    // SCSI core (dependency for sr_mod, sd_mod, virtio_scsi)
     "scsi_mod",
-    // === CDROM/SCSI for ISO mount ===
+    // CDROM/SCSI for ISO mount
     "cdrom",
     "sr_mod",
     "sd_mod",
     "virtio_scsi",
     "isofs",
-    // === SATA/AHCI (traditional drives) ===
+    // SATA/AHCI (traditional drives)
     "libata",
     "libahci",
     "ahci",
-    // === Virtio block (QEMU virtual disks) ===
+    // Virtio block (QEMU virtual disks)
     "virtio_blk",
-    // === Loop device and overlay (for EROFS + overlay boot) ===
+    // Loop device and overlay (for EROFS + overlay boot)
     "loop",
     "overlay",
 ];
 
-// =============================================================================
-// INSTALL INITRAMFS MODULES
-// =============================================================================
-
 /// Kernel modules for installed system boot (systemd initramfs).
 ///
-/// Superset of storage drivers plus filesystem support for booting
+/// Storage drivers plus filesystem support for booting
 /// from any hardware configuration (NVMe, SATA, USB, etc.).
 pub const INSTALL_MODULES: &[&str] = &[
-    // === Virtio core (QEMU support) ===
+    // Virtio core (QEMU support)
     "virtio",
     "virtio_ring",
     "virtio_pci",
     "virtio_scsi",
     "virtio_blk",
-    // === SCSI core ===
+    // SCSI core
     "scsi_mod",
     "sd_mod",
-    // === NVMe (modern SSDs) ===
+    // NVMe (modern SSDs)
     "nvme-core",
     "nvme",
-    // === SATA/AHCI (traditional drives) ===
+    // SATA/AHCI (traditional drives)
     "libata",
     "libahci",
     "ahci",
     "ata_piix",
-    // === USB Storage ===
+    // USB Storage
     "usb-common",
     "usbcore",
     "xhci-hcd",
@@ -74,11 +64,11 @@ pub const INSTALL_MODULES: &[&str] = &[
     "ehci-hcd",
     "ehci-pci",
     "usb-storage",
-    // === HID (keyboards for LUKS prompts) ===
+    // HID (keyboards for LUKS prompts)
     "hid",
     "hid-generic",
     "usbhid",
-    // === Filesystems ===
+    // Filesystems
     "ext4",
     "xfs",
     "btrfs",
@@ -87,18 +77,10 @@ pub const INSTALL_MODULES: &[&str] = &[
     "nls_cp437",
     "nls_iso8859-1",
     "nls_utf8",
-    // === Device Mapper (LUKS/LVM) ===
+    // Device Mapper (LUKS/LVM)
     "dm-mod",
     "dm-crypt",
 ];
-
-// =============================================================================
-// MODULE PATH CONSTRUCTION
-// =============================================================================
-
-// =============================================================================
-// MODULE METADATA
-// =============================================================================
 
 /// Module metadata files needed by modprobe.
 ///

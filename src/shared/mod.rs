@@ -18,7 +18,6 @@ pub mod requirements;
 pub mod rootfs;
 pub mod services;
 pub mod system;
-pub mod udev;
 pub mod uki;
 pub mod users;
 
@@ -95,7 +94,7 @@ pub use components::{
     SYSTEM_GROUPS,
     // Users/groups
     SYSTEM_USERS,
-    // Udev (UDEV_HELPERS kept here for backwards compatibility, canonical source in udev.rs)
+    // Udev
     UDEV_HELPERS,
     UDISKS_SBIN,
     UDISKS_UNITS,
