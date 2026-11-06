@@ -50,6 +50,12 @@ pub const BOOT_MARKER: &str = "/live-boot-marker";
 pub const BOOT_INJECTION_FW_CFG: &str = "opt/levitate/boot-injection";
 /// Test channel: payload file name on a secondary ISO.
 pub const BOOT_INJECTION_FILE: &str = "boot-injection.env";
+/// Test channel: volume label of that secondary ISO.
+pub const BOOT_INJECTION_ISO_LABEL: &str = "LEVITATE_INJECT";
+/// Test channel: where the live init leaves the imported payload (KEY=VALUE
+/// lines) and, in `source`, where it came from.
+pub const BOOT_INJECTION_DIR: &str = "/run/boot-injection";
+pub const BOOT_INJECTION_ENV: &str = "/run/boot-injection/payload.env";
 /// Test channel: devices probed for that secondary ISO, after the boot medium.
 pub const BOOT_INJECTION_DEVICES: &[&str] = &["/dev/sr1", "/dev/sr2", "/dev/sdb", "/dev/vdb"];
 
@@ -73,6 +79,30 @@ pub fn init_template_vars() -> Vec<(&'static str, String)> {
         ("BOOT_INJECTION_FW_CFG", BOOT_INJECTION_FW_CFG.to_string()),
         ("BOOT_INJECTION_FILE", BOOT_INJECTION_FILE.to_string()),
         ("BOOT_INJECTION_DEVICES", BOOT_INJECTION_DEVICES.join(" ")),
+        ("BOOT_INJECTION_DIR", BOOT_INJECTION_DIR.to_string()),
+        ("BOOT_INJECTION_ENV", BOOT_INJECTION_ENV.to_string()),
         ("ROOTFS_MISSING_MESSAGE", ROOTFS_MISSING_MESSAGE.to_string()),
     ]
+}
+
+/// POSIX shell that exports the imported boot-injection payload's KEY=VALUE
+/// lines (as data: nothing in it is executed). Live shell scripts embed it.
+pub fn boot_injection_import_sh() -> String {
+    format!(
+        r#"if [ -r {env} ]; then
+    while IFS= read -r line; do
+        case "$line" in
+            ""|\#*) continue ;;
+            *=*)
+                key="${{line%%=*}}"
+                value="${{line#*=}}"
+                case "$key" in
+                    [A-Za-z_][A-Za-z0-9_]*) export "$key=$value" ;;
+                esac
+                ;;
+        esac
+    done < {env}
+fi"#,
+        env = BOOT_INJECTION_ENV
+    )
 }
