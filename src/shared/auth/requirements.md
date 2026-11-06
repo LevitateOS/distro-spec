@@ -723,7 +723,7 @@ root_unlock_time = 60  # Unlock root faster
 
 All authentication constants and documentation live in:
 ```
-distro-spec/src/shared/auth/
+distro/spec/src/shared/auth/
 ├── mod.rs              # Public API
 ├── components.rs       # Component lists (binaries, modules, configs)
 ├── requirements.md     # This document

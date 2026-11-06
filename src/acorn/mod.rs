@@ -2,7 +2,7 @@
 //!
 //! # Deprecation Notice
 //!
-//! This module is deprecated and will move to `distro-variants/acorn`.
+//! This module is deprecated and will move to `distro/variants/acorn`.
 //!
 //! AcornOS is built on:
 //! - Alpine Linux (lightweight base)

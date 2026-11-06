@@ -3,10 +3,10 @@
 //! # Deprecation Notice
 //!
 //! This crate is deprecated as the long-term home for distro declarations.
-//! - `src/{levitate,acorn}` is migrating to `distro-variants/*`
+//! - `src/{levitate,acorn}` is migrating to `distro/variants/*`
 //! - shared policy is migrating to `distro-builder`
 //! - test/checklist concerns are migrating to `testing/*`
-//! - Conformance contracts load directly from `distro-variants/*` ring manifests
+//! - Conformance contracts load directly from `distro/variants/*` ring manifests
 //!
 //! Single source of truth for installation constants, paths, and configuration.
 //! Supports multiple distro variants: LevitateOS and AcornOS.

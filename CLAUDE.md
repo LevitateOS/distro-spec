@@ -16,7 +16,7 @@
 
 | Don't put here | Put it in |
 |----------------|-----------|
-| Build logic | `distro-builder/` |
+| Build logic | `distro/builder/` |
 | CLI tools | `tools/` |
 | Tests that boot VMs | `testing/` |
 

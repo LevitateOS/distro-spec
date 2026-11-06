@@ -13,9 +13,9 @@
 
 ## Part 1: Add Constants to distro-spec
 
-### 1.1 Create `distro-spec/src/shared/iso.rs` (new file)
+### 1.1 Create `distro/spec/src/shared/iso.rs` (new file)
 
-- [x] Create new file `distro-spec/src/shared/iso.rs`
+- [x] Create new file `distro/spec/src/shared/iso.rs`
 - [x] Add ISO directory structure constants:
 
 ```rust
@@ -107,9 +107,9 @@ pub const XORRISO_FS_FLAGS: &[&str] = &[
 ];
 ```
 
-### 1.2 Create `distro-spec/src/shared/initramfs.rs` (new file)
+### 1.2 Create `distro/spec/src/shared/initramfs.rs` (new file)
 
-- [x] Create new file `distro-spec/src/shared/initramfs.rs`
+- [x] Create new file `distro/spec/src/shared/initramfs.rs`
 - [x] Add initramfs constants:
 
 ```rust
@@ -157,9 +157,9 @@ pub const MOUNT_LIVE_OVERLAY: &str = "/live-overlay";
 pub const CPIO_GZIP_LEVEL: u32 = 9;
 ```
 
-### 1.3 Create `distro-spec/src/shared/devices.rs` (new file)
+### 1.3 Create `distro/spec/src/shared/devices.rs` (new file)
 
-- [x] Create new file `distro-spec/src/shared/devices.rs`
+- [x] Create new file `distro/spec/src/shared/devices.rs`
 - [x] Add device detection constants:
 
 ```rust
@@ -175,9 +175,9 @@ pub const BOOT_DEVICE_PROBE_ORDER: &[&str] = &[
 ];
 ```
 
-### 1.4 Create `distro-spec/src/shared/qemu.rs` (new file)
+### 1.4 Create `distro/spec/src/shared/qemu.rs` (new file)
 
-- [x] Create new file `distro-spec/src/shared/qemu.rs`
+- [x] Create new file `distro/spec/src/shared/qemu.rs`
 - [x] Add QEMU testing constants:
 
 ```rust
@@ -193,7 +193,7 @@ pub const QEMU_SERIAL_LOG: &str = "/tmp/levitateos-serial.log";
 pub const QEMU_CPU_MODE: &str = "max";
 ```
 
-### 1.5 Update `distro-spec/src/shared/mod.rs`
+### 1.5 Update `distro/spec/src/shared/mod.rs`
 
 - [x] Add new module declarations:
 
@@ -206,7 +206,7 @@ pub mod qemu;
 
 - [x] Add re-exports for all new constants
 
-### 1.6 Update `distro-spec/src/levitate/paths.rs`
+### 1.6 Update `distro/spec/src/levitate/paths.rs`
 
 - [x] Add these LevitateOS-specific constants:
 
@@ -252,12 +252,12 @@ pub const INITRAMFS_OUTPUT: &str = "initramfs-tiny.cpio.gz";
 pub const LIVE_ISSUE_MESSAGE: &str = "\nLevitateOS Live - \\l\n\n";
 ```
 
-### 1.7 Update `distro-spec/src/levitate/mod.rs`
+### 1.7 Update `distro/spec/src/levitate/mod.rs`
 
 - [x] Add re-exports from all new shared modules
 - [x] Add re-exports for new paths.rs constants
 
-### 1.8 Update `distro-spec/src/acorn/paths.rs`
+### 1.8 Update `distro/spec/src/acorn/paths.rs`
 
 - [x] Add AcornOS-specific constants (mirror of levitate):
 
@@ -287,7 +287,7 @@ pub const INITRAMFS_OUTPUT: &str = "initramfs-tiny.cpio.gz";
 pub const LIVE_ISSUE_MESSAGE: &str = "\nAcornOS Live - \\l\n\n";
 ```
 
-### 1.9 Update `distro-spec/src/acorn/mod.rs`
+### 1.9 Update `distro/spec/src/acorn/mod.rs`
 
 - [x] Add re-exports from all new shared modules
 - [x] Add re-exports for new paths.rs constants

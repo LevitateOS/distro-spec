@@ -240,7 +240,7 @@ pub const BIN_UTILS: &[&str] = &[
 ];
 
 // Authentication and SSH binaries have been moved to the auth subsystem.
-// See: distro-spec/src/shared/auth/components.rs
+// See: distro/spec/src/shared/auth/components.rs
 // Import directly from there when needed.
 
 /// NetworkManager binaries for /usr/bin.
@@ -373,7 +373,7 @@ pub const SBIN_UTILS: &[&str] = &[
 ];
 
 // Authentication and shadow-utils binaries have been moved to the auth subsystem.
-// See: distro-spec/src/shared/auth/components.rs
+// See: distro/spec/src/shared/auth/components.rs
 
 /// NetworkManager binaries for /usr/sbin.
 pub const NM_SBIN: &[&str] = &["NetworkManager"];
@@ -382,7 +382,7 @@ pub const NM_SBIN: &[&str] = &["NetworkManager"];
 pub const WPA_SBIN: &[&str] = &["wpa_supplicant", "wpa_cli", "wpa_passphrase"];
 
 // SSH server binaries have been moved to the auth subsystem.
-// See: distro-spec/src/shared/auth/components.rs
+// See: distro/spec/src/shared/auth/components.rs
 
 /// Bluetooth binaries for /usr/sbin (from bluez).
 /// Note: bluetoothd is in /usr/libexec/bluetooth/, not /usr/sbin - handled via CopyTree

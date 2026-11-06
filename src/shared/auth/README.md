@@ -12,7 +12,7 @@ The authentication subsystem consolidates all LevitateOS authentication and auth
 ## Architecture
 
 ```
-distro-spec/src/shared/auth/
+distro/spec/src/shared/auth/
 ├── mod.rs              # Public API and architecture documentation
 ├── requirements.md     # Complete 11-category requirements specification
 ├── components.rs       # Binary, module, config lists (SINGLE SOURCE OF TRUTH)
@@ -25,7 +25,7 @@ distro-spec/src/shared/auth/
 
 All authentication-related constants are defined once in this module and imported by consumers:
 
-- **distro-spec/src/shared/components.rs** - ❌ OLD (DO NOT USE) - AUTH_* constants moved here
+- **distro/spec/src/shared/components.rs** - ❌ OLD (DO NOT USE) - AUTH_* constants moved here
 - **leviso** - Uses imports from auth subsystem (PAM configs, SSH configs)
 - **testing/fsdbg** - Uses imports for verification checklists
 - **testing/rootfs-tests** - Uses imports for boot-time auth tests
@@ -244,14 +244,14 @@ Checks:
 
 ### Adding a New PAM Module
 
-1. Edit `distro-spec/src/shared/auth/components.rs` - Add to PAM_MODULES
+1. Edit `distro/spec/src/shared/auth/components.rs` - Add to PAM_MODULES
 2. Create `/path/to/profile/etc/pam.d/...` - Add PAM config using it
-3. Edit `distro-spec/src/shared/auth/pam.rs` - Add const for config content
+3. Edit `distro/spec/src/shared/auth/pam.rs` - Add const for config content
 4. Run verification: `cargo run -p fsdbg -- verify rootfs.erofs --type auth-audit`
 
 ### Adding a New Binaries/Tool
 
-1. Edit `distro-spec/src/shared/auth/components.rs` - Add to appropriate list
+1. Edit `distro/spec/src/shared/auth/components.rs` - Add to appropriate list
 2. Edit `leviso/profile/etc/...` - Add any config files needed
 3. Update tests if adding critical component
 4. Run verification
@@ -261,7 +261,7 @@ Checks:
 PAM configurations are defined in two places (for different reasons):
 
 1. **Profile files** (`leviso/profile/etc/pam.d/...`) - Source of truth, human readable
-2. **Code constants** (`distro-spec/src/shared/auth/pam.rs`) - Compiled into binaries
+2. **Code constants** (`distro/spec/src/shared/auth/pam.rs`) - Compiled into binaries
 
 Workflow:
 1. Edit profile file
@@ -296,7 +296,7 @@ exit
 
 ### Issue: /etc/shadow permissions incorrect after extraction
 
-**Prevention**: distro-spec/src/shared/auth/components.rs includes tests to verify 0600.
+**Prevention**: distro/spec/src/shared/auth/components.rs includes tests to verify 0600.
 
 ## Architecture Decisions
 
