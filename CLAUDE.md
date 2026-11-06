@@ -16,7 +16,7 @@
 
 | Don't put here | Put it in |
 |----------------|-----------|
-| Build logic | `leviso/` or `distro-builder/` |
+| Build logic | `distro-builder/` |
 | CLI tools | `tools/` |
 | Tests that boot VMs | `testing/` |
 
@@ -61,11 +61,10 @@ Consolidates all authentication and authorization components into a single sourc
 - OverlayFS three-layer architecture for live ISO (EROFS + live-overlay + tmpfs)
 - Critical dependencies: unix_chkpwd, /usr/bin/login symlink, serial getty -L flag
 - Root password locked on installed systems (feature, not bug) - users prompted to create account
-- Single point of truth prevents duplication across leviso, fsdbg, rootfs-tests
+- Single point of truth prevents duplication across fsdbg, rootfs-tests
 
 **Read before modifying**:
 - `src/shared/auth/README.md` - Full architecture and design decisions
-- `.teams/TEAM_146_auth-subsystem.md` - Requirements and consolidation history
 
 ## Commands
 
@@ -96,7 +95,6 @@ fn enable_service(svc: &impl ServiceManager) -> String {
 
 | Crate | Uses |
 |-------|------|
-| leviso | Paths, boot modules |
 | testing/install-tests | live-boot protocol, console settings |
 | tools/recstrap | Squashfs search paths |
 
