@@ -184,8 +184,6 @@
 //! - TEAM_108 - Review of login architecture
 //! - TEAM_143 - Udev subsystem consolidation (model for this work)
 //! - init_tiny.template - OverlayFS mount code
-//! - leviso/src/component/custom/pam.rs - PAM file creation logic
-//! - leviso/src/component/custom/live.rs - Live overlay creation
 
 pub mod components;
 pub mod getty;

@@ -25,7 +25,7 @@
 ///
 /// # Implementation
 ///
-/// In `leviso/src/component/definitions.rs`, when defining `serial-getty` component:
+/// When a builder defines the `serial-getty` component:
 /// 1. Import standard serial-getty from systemd
 /// 2. Create override directory
 /// 3. Replace the `-` placeholder with `-L` in the baud rate string
