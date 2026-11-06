@@ -9,7 +9,6 @@ pub mod busybox;
 pub mod chroot;
 pub mod components;
 pub mod devices;
-pub mod error;
 pub mod firmware;
 pub mod initramfs;
 pub mod iso;
@@ -114,7 +113,6 @@ pub use components::{
     WPA_UNITS,
 };
 pub use devices::BOOT_DEVICE_PROBE_ORDER;
-pub use error::{ToolError, ToolErrorCode};
 pub use firmware::WIFI_FIRMWARE_DIRS;
 pub use initramfs::{
     CPIO_GZIP_LEVEL, INITRAMFS_DIRS, MOUNT_LIVE_OVERLAY, MOUNT_NEWROOT, MOUNT_OVERLAY, MOUNT_ROOTFS,
