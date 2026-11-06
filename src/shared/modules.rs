@@ -172,61 +172,6 @@ pub const INSTALL_MODULES_BUILTIN: &[&str] = &[
 // MODULE PATH CONSTRUCTION
 // =============================================================================
 
-/// Known kernel source paths for modules.
-///
-/// Maps module name to kernel source tree path (without .ko extension).
-/// Used by recinit to construct full paths for copying.
-pub const MODULE_PATHS: &[(&str, &str)] = &[
-    // Virtio
-    ("virtio", "kernel/drivers/virtio/virtio"),
-    ("virtio_ring", "kernel/drivers/virtio/virtio_ring"),
-    ("virtio_pci", "kernel/drivers/virtio/virtio_pci"),
-    ("virtio_scsi", "kernel/drivers/scsi/virtio_scsi"),
-    ("virtio_blk", "kernel/drivers/block/virtio_blk"),
-    // SCSI
-    ("scsi_mod", "kernel/drivers/scsi/scsi_mod"),
-    ("sd_mod", "kernel/drivers/scsi/sd_mod"),
-    ("sr_mod", "kernel/drivers/scsi/sr_mod"),
-    // CDROM
-    ("cdrom", "kernel/drivers/cdrom/cdrom"),
-    ("isofs", "kernel/fs/isofs/isofs"),
-    // NVMe
-    ("nvme-core", "kernel/drivers/nvme/host/nvme-core"),
-    ("nvme", "kernel/drivers/nvme/host/nvme"),
-    // SATA/AHCI
-    ("libata", "kernel/drivers/ata/libata"),
-    ("libahci", "kernel/drivers/ata/libahci"),
-    ("ahci", "kernel/drivers/ata/ahci"),
-    ("ata_piix", "kernel/drivers/ata/ata_piix"),
-    // Loop/Overlay
-    ("loop", "kernel/drivers/block/loop"),
-    ("overlay", "kernel/fs/overlayfs/overlay"),
-    // USB
-    ("usb-common", "kernel/drivers/usb/common/usb-common"),
-    ("usbcore", "kernel/drivers/usb/core/usbcore"),
-    ("xhci-hcd", "kernel/drivers/usb/host/xhci-hcd"),
-    ("xhci-pci", "kernel/drivers/usb/host/xhci-pci"),
-    ("ehci-hcd", "kernel/drivers/usb/host/ehci-hcd"),
-    ("ehci-pci", "kernel/drivers/usb/host/ehci-pci"),
-    ("usb-storage", "kernel/drivers/usb/storage/usb-storage"),
-    // HID
-    ("hid", "kernel/drivers/hid/hid"),
-    ("hid-generic", "kernel/drivers/hid/hid-generic"),
-    ("usbhid", "kernel/drivers/hid/usbhid/usbhid"),
-    // Filesystems
-    ("ext4", "kernel/fs/ext4/ext4"),
-    ("xfs", "kernel/fs/xfs/xfs"),
-    ("btrfs", "kernel/fs/btrfs/btrfs"),
-    ("fat", "kernel/fs/fat/fat"),
-    ("vfat", "kernel/fs/vfat/vfat"),
-    ("nls_cp437", "kernel/fs/nls/nls_cp437"),
-    ("nls_iso8859-1", "kernel/fs/nls/nls_iso8859-1"),
-    ("nls_utf8", "kernel/fs/nls/nls_utf8"),
-    // Device Mapper
-    ("dm-mod", "kernel/drivers/md/dm-mod"),
-    ("dm-crypt", "kernel/drivers/md/dm-crypt"),
-];
-
 // =============================================================================
 // MODULE METADATA
 // =============================================================================
@@ -248,25 +193,3 @@ pub const MODULE_METADATA_FILES: &[&str] = &[
     "modules.builtin.modinfo",
     "modules.order",
 ];
-
-/// Get the kernel path for a module name.
-///
-/// Returns the path relative to `/lib/modules/<version>/` without extension.
-pub fn module_path(name: &str) -> Option<&'static str> {
-    MODULE_PATHS
-        .iter()
-        .find(|(n, _)| *n == name)
-        .map(|(_, p)| *p)
-}
-
-/// Get full paths for a list of module names.
-///
-/// Returns paths suitable for copying from kernel modules directory.
-/// Modules not in MODULE_PATHS are skipped with a warning.
-#[cfg(feature = "std")]
-pub fn module_paths_for(modules: &[&str]) -> Vec<&'static str> {
-    modules
-        .iter()
-        .filter_map(|name| module_path(name))
-        .collect()
-}
