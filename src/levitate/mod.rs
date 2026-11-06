@@ -54,9 +54,6 @@ pub use paths::{
     OS_ID,
     OS_NAME,
     OS_VERSION,
-    // QEMU Testing Defaults
-    QEMU_DISK_GB,
-    QEMU_MEMORY_GB,
     ROOTFS_NAME,
     ROOTFS_TYPE,
     ROOT_SHELL,
@@ -89,9 +86,6 @@ pub use crate::shared::{
     LIVE_OVERLAY_ISO_PATH,
     // UKI constants
     LOADER_ENTRIES_DIR,
-    QEMU_CPU_MODE,
-    QEMU_DISK_FILENAME,
-    QEMU_SERIAL_LOG,
     ROOTFS_ISO_PATH,
     SERIAL_BAUD_RATE,
     SERIAL_CONSOLE,

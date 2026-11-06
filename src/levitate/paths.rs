@@ -22,9 +22,6 @@ pub use crate::shared::{
     KERNEL_FILENAME,
     LOADER_CONF_FILENAME,
     OS_VERSION,
-    // QEMU
-    QEMU_DISK_GB,
-    QEMU_MEMORY_GB,
     ROOTFS_NAME,
     ROOTFS_TYPE,
 };

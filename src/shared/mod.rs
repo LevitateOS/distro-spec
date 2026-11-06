@@ -14,7 +14,6 @@ pub mod kernel;
 pub mod modules;
 pub mod overlayfs;
 pub mod paths;
-pub mod qemu;
 pub mod requirements;
 pub mod rootfs;
 pub mod services;
@@ -129,10 +128,6 @@ pub use paths::{
     is_protected_path, AMD_UCODE_FILENAME, DEFAULT_USER_GROUPS, INITRAMFS_BUILD_DIR,
     INITRAMFS_FILENAME, INITRAMFS_LIVE_OUTPUT, INTEL_UCODE_FILENAME, KERNEL_FILENAME, LIBRARY_DIRS,
     LOADER_CONF_FILENAME, OS_VERSION, PROTECTED_PATHS,
-};
-pub use qemu::{
-    QCOW2_IMAGE_FILENAME, QEMU_CPU_MODE, QEMU_DISK_FILENAME, QEMU_DISK_GB, QEMU_MEMORY_GB,
-    QEMU_SERIAL_LOG, RAW_DISK_FILENAME,
 };
 pub use requirements::{SystemRequirements, ACORN_REQUIREMENTS, LEVITATE_REQUIREMENTS};
 pub use rootfs::{
